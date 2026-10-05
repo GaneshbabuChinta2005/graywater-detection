@@ -1,0 +1,5 @@
+category,sample_count,percentage_of_total,operational_implication
+A. Sewer Bypass Classified as Normal,127,28.22,Expected & Safe: Supervised XGBoost already handles standard rule-based sewer routing; Isolation Forest is not required to flag every routine sewer case as an anomaly.
+B. Non-Sewer Classified as Anomaly,0,0.0,"Statistical fringe observations (e.g., unusual temperature/salinity ratios) that are non-toxic. Triggers ANOMALY_REVIEW without disruptive sewer bypass diversion."
+C. Anomalies with High Contamination Indicators,7,1.56,High-risk compound events: statistical isolation confirmed by independent physical hazard cutoffs. Triggers SEWER_BYPASS_OVERRIDE / HIGH_RISK_REVIEW.
+D. Normal Samples with Severe Contamination,98,21.78,Samples that fall within general density clusters but trigger specific physical cutoffs. Physical rule screening intercepts these directly.

@@ -1,0 +1,16 @@
+{
+    "python.pythonPath": "C:\\Users\\Lenovo\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe",
+    "python.analysis.extraPaths": [
+        "c:\\Users\\Lenovo\\OneDrive\\Documents\\main project",
+        "C:\\Users\\Lenovo\\AppData\\Roaming\\Python\\Python314\\site-packages",
+        "C:\\Users\\Lenovo\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages"
+    ],
+    "python.analysis.pythonPath": "C:\\Users\\Lenovo\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe",
+    "pylance.defaultInterpreterPath": "C:\\Users\\Lenovo\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe",
+    "python.terminal.activateEnvironment": true,
+    "python.analysis.autoImportCompletions": true,
+    "python.analysis.typeCheckingMode": "off",
+    "python.linting.enabled": false,
+    "jupyter.kernels.filter": [],
+    "jupyter.pythonExportMethod": "nbconvert"
+}

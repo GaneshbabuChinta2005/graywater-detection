@@ -1,0 +1,7 @@
+check_description,overlap_count,status,details
+Sample_ID Overlap: Train vs Validation,0,PASS,Zero shared Sample_ID keys between training and validation sets
+Sample_ID Overlap: Train vs Test,0,PASS,Zero shared Sample_ID keys between training and test sets
+Sample_ID Overlap: Validation vs Test,0,PASS,Zero shared Sample_ID keys between validation and test sets
+Identical Feature Vector Overlap: Train vs Validation,0,PASS,Zero identical predictor rows between training and validation sets
+Identical Feature Vector Overlap: Train vs Test,0,PASS,Zero identical predictor rows between training and test sets
+Identical Feature Vector Overlap: Validation vs Test,0,PASS,Zero identical predictor rows between validation and test sets

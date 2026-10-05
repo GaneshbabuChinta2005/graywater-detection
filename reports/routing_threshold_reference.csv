@@ -1,0 +1,40 @@
+parameter,lower_limit,upper_limit,unit,severity_level,routing_relevance,source,source_type,notes
+pH,6.0,9.0,pH scale,Critical / Safety,Sewer Bypass (Class 0),US EPA 2012 Guidelines for Water Reuse / WHO 2006,Standard,Extreme acidity/alkalinity damaging to plumbing biology and plant tissue
+pH,6.5,8.4,pH scale,Optimal,Restricted Irrigation (Class 2) / Indoor Reuse (Class 3),ISO 16075-1 / FAO Irrigation Paper 29,Standard,Optimal agronomic and plumbing pH equilibrium
+BOD_mg_L,400.0,,mg/L,Severe,Sewer Bypass (Class 0),NSF/ANSI 350 / Metcalf & Eddy Wastewater Engineering,Standard & Literature,Severe organic overload exceeding package treatment limits; rapid anaerobic septicity
+BOD_mg_L,120.0,400.0,mg/L,High,Bio-filtration (Class 1),WHO 2006 Vol 4 / US EPA 2012,Guideline,Elevated organic load requiring multi-stage bio-filtration or constructed wetlands
+BOD_mg_L,45.0,120.0,mg/L,Moderate,Restricted Irrigation (Class 2),ISO 16075-2 Category B / US EPA 2012,Standard,Moderate biological oxygen demand acceptable for restricted sub-surface/drip irrigation
+BOD_mg_L,,45.0,mg/L,Low,Indoor Reuse (Class 3),NSF/ANSI 350 Class R Influent Standard,Standard,Raw influent acceptable for indoor non-potable treatment train
+COD_mg_L,800.0,,mg/L,Severe,Sewer Bypass (Class 0),NSF/ANSI 350 / Wastewater Engineering,Standard & Literature,Severe chemical oxygen demand; triggers bio-membrane fouling and toxic shock
+COD_mg_L,300.0,800.0,mg/L,High,Bio-filtration (Class 1),US EPA 2012 Water Reuse Guidelines,Guideline,High chemical oxidants and surfactants requiring biological polishing
+COD_mg_L,125.0,300.0,mg/L,Moderate,Restricted Irrigation (Class 2),ISO 16075-2 / WHO 2006,Standard,Acceptable chemical oxygen demand for non-food crop landscape irrigation
+COD_mg_L,,125.0,mg/L,Low,Indoor Reuse (Class 3),US EPA 2012 / NSF/ANSI 350,Standard,Low chemical load suitable for indoor toilet flushing treatment train
+TSS_mg_L,250.0,,mg/L,Severe,Sewer Bypass (Class 0),NSF/ANSI 350 Table 5.1 Design Influent Limits,Standard,Extreme particulate solids causing rapid filter clogging and sludge settling
+TSS_mg_L,90.0,250.0,mg/L,High,Bio-filtration (Class 1),WHO 2006 / US EPA 2012,Guideline,Particulates requiring sand bed or wetland physical settling
+TSS_mg_L,45.0,90.0,mg/L,Moderate,Restricted Irrigation (Class 2),ISO 16075-2 Category B,Standard,Particulates safe for irrigation emitters with basic disc filtration
+TSS_mg_L,,45.0,mg/L,Low,Indoor Reuse (Class 3),NSF/ANSI 350 Residential Influent Criteria,Standard,Low solids suitable for indoor package microfiltration
+TUR_NTU,140.0,,NTU,Severe,Sewer Bypass (Class 0),NSF/ANSI 350 / US EPA 2012,Standard,Severe optical scattering shields pathogens from UV disinfection
+TUR_NTU,60.0,140.0,NTU,High,Bio-filtration (Class 1),US EPA 2012 / WHO 2006,Guideline,High turbidity requiring media filtration
+TUR_NTU,25.0,60.0,NTU,Moderate,Restricted Irrigation (Class 2),ISO 16075-2,Standard,Acceptable turbidity for restricted irrigation
+TUR_NTU,,25.0,NTU,Low,Indoor Reuse (Class 3),NSF/ANSI 350 / US EPA 2012,Standard,Low turbidity permitting reliable UV and chlorine disinfection
+E_coli_CFU_100mL,500000.0,,CFU/100mL,Severe,Sewer Bypass (Class 0),WHO 2006 Excreta and Greywater Guidelines,Guideline,Severe biological pathogen hazard exceeding domestic treatment barrier capacity
+E_coli_CFU_100mL,75000.0,500000.0,CFU/100mL,High,Bio-filtration (Class 1),WHO 2006 Vol 4 Health Protection Measures,Guideline,High pathogen density requiring constructed wetland bio-attenuation
+E_coli_CFU_100mL,20000.0,75000.0,CFU/100mL,Moderate,Restricted Irrigation (Class 2),WHO 2006 / ISO 16075-2 (with drip irrigation credit),Standard,Permissible for localized landscape irrigation with exposure barrier credits
+E_coli_CFU_100mL,,20000.0,CFU/100mL,Low,Indoor Reuse (Class 3),US EPA 2012 / NSF 350 Package Influent Guidance,Standard,Manageable bacterial load for multi-barrier indoor disinfection package
+TDS_mg_L,800.0,,mg/L,Severe,Sewer Bypass (Class 0),ISO 16075-1 / FAO Irrigation Paper 29,Standard,High salinity causing irreversible soil salinization and pipe encrustation
+TDS_mg_L,500.0,800.0,mg/L,Moderate,Bio-filtration (Class 1),ISO 16075-1 Category B,Standard,Requires dilution or salt-tolerant wetland vegetative uptake
+TDS_mg_L,,500.0,mg/L,Acceptable,Restricted Irrigation (Class 2),ISO 16075-1 Category A (No restriction),Standard,Non-saline water safe for general landscape vegetation
+TDS_mg_L,,300.0,mg/L,Low,Indoor Reuse (Class 3),US EPA 2012 / Plumbing Code Non-Potable Guidelines,Guideline,Low mineral content preventing indoor plumbing scaling
+SAL_ppt,0.60,,ppt,Severe,Sewer Bypass (Class 0),FAO Irrigation and Drainage Paper 29,Standard,Severe salt content causing osmotic shock and soil degradation
+SAL_ppt,,0.45,ppt,Moderate,Restricted Irrigation (Class 2),FAO Irrigation Paper 29,Standard,Tolerable salinity for hardy landscape and turf grasses
+SAL_ppt,,0.28,ppt,Low,Indoor Reuse (Class 3),National Reclaimed Water Plumbing Specs,Standard,Minimal salinity preventing corrosive damage
+DO_mg_L,,1.0,mg/L,Severe,Sewer Bypass (Class 0),Metcalf & Eddy Wastewater Engineering (4th Ed),Textbook,Anoxic/anaerobic state with high organic load triggers septic odor and H2S
+DO_mg_L,1.0,2.0,mg/L,Depleted,Bio-filtration (Class 1),US EPA 2012 / WHO 2006,Guideline,Oxygen depleted; requires aeration and bio-oxidation
+DO_mg_L,2.0,3.5,mg/L,Moderate,Restricted Irrigation (Class 2),US EPA 2012 Guidelines for Water Reuse,Guideline,Adequate aerobic state suitable for irrigation storage and distribution
+DO_mg_L,3.5,,mg/L,Optimal,Indoor Reuse (Class 3),NSF/ANSI 350 Storage Aeration Specs,Standard,Well-oxygenated influent preventing stagnation and bio-film sloughing
+TEMP_C,15.0,40.0,deg C,Supporting,Contextual Envelope,Standard Methods for Examination of Water and Wastewater,Standard,Normal domestic thermal range; governs microbial decay kinetics
+DS_mg_L,,,mg/L,Supporting,Collinear Corroborator,Collinear with TDS (Pearson r = 0.994),Analytical,Excluded as independent threshold to prevent redundant collinear filtering
+COND_uS_cm,200.0,1500.0,uS/cm,Supporting,Secondary Check,ISO 16075-1,Standard,Corroborates dissolved solids; TDS used as primary ionic parameter
+NH4F_mg_L,,,mg/L,Contextual,Nutrient Indicator,No standalone regulatory limit in greywater reuse standards,Analytical,Left blank: compound indicator with no standardized reuse limit
+NO3_mg_L,,,mg/L,Contextual,Agronomic Nutrient,WHO 2006 / FAO 29 Agronomic Guidelines,Guideline,Left blank: valuable plant nutrient in irrigation; not a hazard at observed levels
+K_mg_L,,,mg/L,Contextual,Agronomic Nutrient,FAO Irrigation Paper 29,Standard,Left blank: beneficial macro-nutrient; non-toxic across domestic ranges

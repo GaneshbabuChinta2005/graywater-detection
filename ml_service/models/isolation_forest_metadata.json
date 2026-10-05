@@ -1,0 +1,40 @@
+{
+  "model_type": "IsolationForest",
+  "contamination": 0.02,
+  "n_estimators": 200,
+  "random_state": 42,
+  "feature_names": [
+    "Greywater_Source_Bathroom",
+    "Greywater_Source_Kitchen",
+    "Greywater_Source_Laundry",
+    "Greywater_Source_Mixed",
+    "pH",
+    "TEMP_C",
+    "SAL_ppt",
+    "TUR_NTU",
+    "DS_mg_L",
+    "TDS_mg_L",
+    "TSS_mg_L",
+    "COND_uS_cm",
+    "DO_mg_L",
+    "BOD_mg_L",
+    "COD_mg_L",
+    "NH4F_mg_L",
+    "NO3_mg_L",
+    "K_mg_L",
+    "E_coli_CFU_100mL"
+  ],
+  "severe_thresholds": {
+    "pH_low": 6.2,
+    "pH_high": 8.2,
+    "TUR_NTU": 140.0,
+    "TDS_mg_L": 750.0,
+    "TSS_mg_L": 300.0,
+    "BOD_mg_L": 500.0,
+    "COD_mg_L": 800.0,
+    "E_coli_CFU_100mL": 300000.0,
+    "SAL_ppt": 0.65
+  },
+  "training_samples": 1050,
+  "training_anomalies_count": 21
+}

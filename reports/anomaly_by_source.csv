@@ -1,0 +1,5 @@
+source,total_samples,normal_samples,anomaly_samples,anomaly_pct
+Bathroom,134,134,0,0.0
+Kitchen,69,62,7,10.14
+Laundry,138,138,0,0.0
+Mixed,109,109,0,0.0

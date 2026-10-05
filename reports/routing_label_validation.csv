@@ -1,0 +1,6 @@
+Check_Description,Total_Evaluated,Failures_Found,Status,Notes
+Missing Routing Labels,1500,0,PASS,"All 1500 samples assigned a valid routing integer [0, 3]"
+Invalid Class Codes,1500,0,PASS,All class codes strictly conform to range 0..3
+Indoor Reuse with Exceeded Thresholds,6,0,PASS,Zero samples in Indoor Reuse violate strict indoor envelope criteria
+Sewer Bypass Lacking Severe Trigger,446,0,PASS,All Sewer Bypass decisions have documented severe parameter causes
+Acceptable TDS Masking High Organics/Pathogens into Reuse,1500,0,PASS,Priority hierarchy correctly routes high organics/pathogens to treatment/bypass regardless of low TDS

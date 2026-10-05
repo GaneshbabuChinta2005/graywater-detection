@@ -1,0 +1,67 @@
+{
+  "sample_id": 1,
+  "source": "Mixed",
+  "ml_prediction": {
+    "predicted_class": 2,
+    "predicted_route": "Restricted Irrigation",
+    "confidence": 0.8992
+  },
+  "anomaly_status": "NORMAL",
+  "anomaly_score": 0.096,
+  "safety_status": "SAFE_FOR_MODEL_REVIEW",
+  "safety_flags": [
+    "WQ_ACCEPTABLE"
+  ],
+  "weather_status": "FAVORABLE",
+  "storage_status": "NORMAL",
+  "storage_deterioration_index": 0.0,
+  "final_route": "Restricted Irrigation",
+  "final_action": "ALLOW_ROUTE",
+  "override_applied": false,
+  "reason_codes": [
+    "WQ_ACCEPTABLE",
+    "ANOMALY_CLEAN",
+    "MODEL_HIGH_CONFIDENCE",
+    "ROUTE_IRRIGATION",
+    "STORAGE_NORMAL",
+    "WEATHER_FAVORABLE"
+  ],
+  "shap_top_contributors": [
+    {
+      "feature": "TSS_mg_L",
+      "value": 82.86,
+      "shap_value": 1.017,
+      "direction": "POSITIVE",
+      "importance_rank": 1
+    },
+    {
+      "feature": "COD_mg_L",
+      "value": 114.4,
+      "shap_value": 0.9558,
+      "direction": "POSITIVE",
+      "importance_rank": 2
+    },
+    {
+      "feature": "E_coli_CFU_100mL",
+      "value": 57843.0,
+      "shap_value": 0.6944,
+      "direction": "POSITIVE",
+      "importance_rank": 3
+    },
+    {
+      "feature": "TUR_NTU",
+      "value": 45.58,
+      "shap_value": 0.6489,
+      "direction": "POSITIVE",
+      "importance_rank": 4
+    },
+    {
+      "feature": "Greywater_Source_Bathroom",
+      "value": 0.0,
+      "shap_value": -0.5387,
+      "direction": "NEGATIVE",
+      "importance_rank": 5
+    }
+  ],
+  "final_explanation": "MODEL DECISION: Restricted Irrigation (Confidence: 89.9%). MODEL EXPLANATION: SHAP indicates the primary model contributors were TSS_mg_L, COD_mg_L, E_coli_CFU_100mL. FINAL DECISION: Restricted Irrigation was approved with action 'ALLOW_ROUTE'. No safety, anomaly, meteorological, or storage overrides were triggered."
+}

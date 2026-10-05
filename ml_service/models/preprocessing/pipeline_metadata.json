@@ -1,0 +1,43 @@
+{
+  "random_state": 42,
+  "train_samples": 1050,
+  "validation_samples": 225,
+  "test_samples": 225,
+  "raw_features_count": 16,
+  "processed_features_count": 19,
+  "categorical_columns": [
+    "Greywater_Source"
+  ],
+  "categorical_encoded_features": [
+    "Greywater_Source_Bathroom",
+    "Greywater_Source_Kitchen",
+    "Greywater_Source_Laundry",
+    "Greywater_Source_Mixed"
+  ],
+  "numerical_columns": [
+    "pH",
+    "TEMP_C",
+    "SAL_ppt",
+    "TUR_NTU",
+    "DS_mg_L",
+    "TDS_mg_L",
+    "TSS_mg_L",
+    "COND_uS_cm",
+    "DO_mg_L",
+    "BOD_mg_L",
+    "COD_mg_L",
+    "NH4F_mg_L",
+    "NO3_mg_L",
+    "K_mg_L",
+    "E_coli_CFU_100mL"
+  ],
+  "scaling_applied": "None (Original physical units preserved for tree-based models)",
+  "imputation_applied": "None (0 missing values in dataset)",
+  "target_column": "Routing_Class",
+  "target_classes": {
+    "0": "Sewer Bypass",
+    "1": "Bio-filtration",
+    "2": "Restricted Irrigation",
+    "3": "Indoor Reuse"
+  }
+}

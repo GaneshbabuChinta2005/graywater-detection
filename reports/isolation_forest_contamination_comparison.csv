@@ -1,0 +1,5 @@
+contamination_rate,anomalies_detected,anomaly_pct,severe_condition_overlap,severe_overlap_pct,kitchen_anomalies,interpretation
+0.01,11,1.05,11,100.0,11,Highly conservative; flags only extreme multi-parameter statistical outliers
+0.02,21,2.0,21,100.0,20,Recommended balance; captures ~2% tail anomalies matching Phase 2 extreme distribution tail
+0.05,53,5.05,52,98.11,51,Moderate sensitivity; flags broader distribution fringe
+0.1,105,10.0,97,92.38,89,Aggressive; over-flags benign distribution tails as anomalous

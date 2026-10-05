@@ -1,0 +1,20 @@
+feature,data_type,original_column,feature_role,encoding,included_in_model,reason
+Greywater_Source_Bathroom,float64,Greywater_Source,Categorical One-Hot Feature,One-Hot Encoded (Binary 0/1),Yes,One-hot indicator for source category: Bathroom
+Greywater_Source_Kitchen,float64,Greywater_Source,Categorical One-Hot Feature,One-Hot Encoded (Binary 0/1),Yes,One-hot indicator for source category: Kitchen
+Greywater_Source_Laundry,float64,Greywater_Source,Categorical One-Hot Feature,One-Hot Encoded (Binary 0/1),Yes,One-hot indicator for source category: Laundry
+Greywater_Source_Mixed,float64,Greywater_Source,Categorical One-Hot Feature,One-Hot Encoded (Binary 0/1),Yes,One-hot indicator for source category: Mixed
+pH,float64,pH,Continuous Physical Predictor,Passthrough (Raw Units Preserved),Yes,Continuous sensor telemetry parameter: pH
+TEMP_C,float64,TEMP_C,Continuous Physical Predictor,Passthrough (Raw Units Preserved),Yes,Continuous sensor telemetry parameter: TEMP_C
+SAL_ppt,float64,SAL_ppt,Continuous Physical Predictor,Passthrough (Raw Units Preserved),Yes,Continuous sensor telemetry parameter: SAL_ppt
+TUR_NTU,float64,TUR_NTU,Continuous Physical Predictor,Passthrough (Raw Units Preserved),Yes,Continuous sensor telemetry parameter: TUR_NTU
+DS_mg_L,float64,DS_mg_L,Continuous Physical Predictor,Passthrough (Raw Units Preserved),Yes,Continuous sensor telemetry parameter: DS_mg_L
+TDS_mg_L,float64,TDS_mg_L,Continuous Physical Predictor,Passthrough (Raw Units Preserved),Yes,Continuous sensor telemetry parameter: TDS_mg_L
+TSS_mg_L,float64,TSS_mg_L,Continuous Physical Predictor,Passthrough (Raw Units Preserved),Yes,Continuous sensor telemetry parameter: TSS_mg_L
+COND_uS_cm,float64,COND_uS_cm,Continuous Physical Predictor,Passthrough (Raw Units Preserved),Yes,Continuous sensor telemetry parameter: COND_uS_cm
+DO_mg_L,float64,DO_mg_L,Continuous Physical Predictor,Passthrough (Raw Units Preserved),Yes,Continuous sensor telemetry parameter: DO_mg_L
+BOD_mg_L,float64,BOD_mg_L,Continuous Physical Predictor,Passthrough (Raw Units Preserved),Yes,Continuous sensor telemetry parameter: BOD_mg_L
+COD_mg_L,float64,COD_mg_L,Continuous Physical Predictor,Passthrough (Raw Units Preserved),Yes,Continuous sensor telemetry parameter: COD_mg_L
+NH4F_mg_L,float64,NH4F_mg_L,Continuous Physical Predictor,Passthrough (Raw Units Preserved),Yes,Continuous sensor telemetry parameter: NH4F_mg_L
+NO3_mg_L,float64,NO3_mg_L,Continuous Physical Predictor,Passthrough (Raw Units Preserved),Yes,Continuous sensor telemetry parameter: NO3_mg_L
+K_mg_L,float64,K_mg_L,Continuous Physical Predictor,Passthrough (Raw Units Preserved),Yes,Continuous sensor telemetry parameter: K_mg_L
+E_coli_CFU_100mL,float64,E_coli_CFU_100mL,Continuous Physical Predictor,Passthrough (Raw Units Preserved),Yes,Continuous sensor telemetry parameter: E_coli_CFU_100mL

@@ -1,0 +1,49 @@
+# Python virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# Node.js dependencies & builds
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+.npm/
+
+# Python cache & bytecode
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*$py.class
+
+# Test & coverage caches
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Environment variables & secrets (NEVER COMMIT SECRETS)
+.env
+.env.*
+!.env.example
+*.env
+**/.env
+**/.env.*
+!**/.env.example
+.streamlit/secrets.toml
+
+# Operating System files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE & Editor configurations
+.idea/
+
+# Distribution & Build
+build/
+*.egg-info/
+
+# Scratch & temporary logs
+scratch/
+*.log
