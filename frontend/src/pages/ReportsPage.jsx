@@ -130,7 +130,7 @@ export const ReportsPage = () => {
                 key={rep._id || idx}
                 style={{
                   padding: '16px 20px',
-                  backgroundColor: '#F8FAFC',
+                  backgroundColor: 'var(--bg-surface-subtle)',
                   borderRadius: 'var(--radius-md)',
                   border: '1px solid var(--border-color)',
                   display: 'flex',

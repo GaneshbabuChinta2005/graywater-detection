@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { SystemProvider } from './context/SystemContext';
+import { ThemeProvider } from './context/ThemeContext';
 import DashboardLayout from './layouts/DashboardLayout';
 
 // Pages
@@ -19,6 +20,7 @@ import SystemHealthPage from './pages/SystemHealthPage';
 
 export function App() {
   return (
+    <ThemeProvider>
     <AuthProvider>
       <SystemProvider>
         <BrowserRouter>
@@ -42,6 +44,7 @@ export function App() {
         </BrowserRouter>
       </SystemProvider>
     </AuthProvider>
+    </ThemeProvider>
   );
 }
 

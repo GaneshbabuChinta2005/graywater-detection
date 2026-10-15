@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useSystem } from '../context/SystemContext';
+import { useChartTheme } from '../hooks/useChartTheme';
 import MetricCard from '../components/MetricCard';
 import StatusBadge from '../components/StatusBadge';
 import { Activity, ShieldCheck, HelpCircle } from 'lucide-react';
@@ -39,6 +40,7 @@ const PARAM_GROUPS = {
 
 export const WaterQualityPage = () => {
   const { latestTelemetry, telemetryTrends } = useSystem();
+  const ct = useChartTheme();
   const [selectedParam, setSelectedParam] = useState('TUR_NTU');
 
   const getStatus = (key, val) => {
@@ -93,7 +95,7 @@ export const WaterQualityPage = () => {
                   subtitle={`Limit: ${p.safeRange}`}
                   badge={<StatusBadge label={status} />}
                   onClick={() => setSelectedParam(p.key)}
-                  accentColor={isSelected ? 'var(--primary)' : '#94A3B8'}
+                  accentColor={isSelected ? 'var(--primary)' : 'var(--text-muted)'}
                 />
               </div>
             );
@@ -131,7 +133,7 @@ export const WaterQualityPage = () => {
                   subtitle={`Limit: ${p.safeRange}`}
                   badge={<StatusBadge label={status} />}
                   onClick={() => setSelectedParam(p.key)}
-                  accentColor={isSelected ? 'var(--info)' : '#94A3B8'}
+                  accentColor={isSelected ? 'var(--info)' : 'var(--text-muted)'}
                 />
               </div>
             );
@@ -169,7 +171,7 @@ export const WaterQualityPage = () => {
                   subtitle={`Threshold: ${p.safeRange}`}
                   badge={<StatusBadge label={status} />}
                   onClick={() => setSelectedParam(p.key)}
-                  accentColor={isSelected ? 'var(--danger)' : '#94A3B8'}
+                  accentColor={isSelected ? 'var(--danger)' : 'var(--text-muted)'}
                 />
               </div>
             );
@@ -194,24 +196,24 @@ export const WaterQualityPage = () => {
         <div style={{ width: '100%', height: 280 }}>
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={telemetryTrends} margin={{ top: 10, right: 30, left: 0, bottom: 5 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" vertical={false} />
+              <CartesianGrid strokeDasharray="3 3" stroke={ct.gridStroke} vertical={false} />
               <XAxis
                 dataKey="timestamp"
-                stroke="#94A3B8"
+                stroke={ct.axisStroke}
                 tickFormatter={(t) => (t ? t.split(' ')[1] || t.slice(11, 16) : '')}
-                tick={{ fontSize: 11, fill: '#64748B' }}
+                tick={{ fontSize: 11, fill: ct.tickFill }}
               />
-              <YAxis stroke="#94A3B8" tick={{ fontSize: 11, fill: '#64748B' }} />
+              <YAxis stroke={ct.axisStroke} tick={{ fontSize: 11, fill: ct.tickFill }} />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: '#FFFFFF',
-                  border: '1px solid #E2E8F0',
+                  backgroundColor: ct.tooltipBg,
+                  border: '1px solid ' + ct.tooltipBorder,
                   borderRadius: 8,
                   boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.07)',
                   fontSize: 12
                 }}
               />
-              <Line type="monotone" dataKey={selectedParam} stroke="#0F766E" strokeWidth={2.5} dot={{ r: 3, fill: '#0F766E' }} name={selectedParam} />
+              <Line type="monotone" dataKey={selectedParam} stroke={ct.colorPrimary} strokeWidth={2.5} dot={{ r: 3, fill: ct.colorPrimary }} name={selectedParam} />
             </LineChart>
           </ResponsiveContainer>
         </div>

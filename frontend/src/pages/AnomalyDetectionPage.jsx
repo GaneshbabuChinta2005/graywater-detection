@@ -4,9 +4,11 @@ import MetricCard from '../components/MetricCard';
 import StatusBadge from '../components/StatusBadge';
 import { AlertTriangle, ShieldCheck, Activity, Info, AlertOctagon } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, ReferenceLine } from 'recharts';
+import { useChartTheme } from '../hooks/useChartTheme';
 
 export const AnomalyDetectionPage = () => {
   const { summary, latestAnalysis, telemetryTrends } = useSystem();
+  const ct = useChartTheme();
 
   const anomaly = latestAnalysis?.anomaly || {
     is_anomaly: summary?.anomalyStatus !== 'NORMAL',
@@ -112,25 +114,25 @@ export const AnomalyDetectionPage = () => {
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={anomalyTrendData} margin={{ top: 10, right: 30, left: 0, bottom: 5 }}>
               <defs>
-                <linearGradient id="scoreFillLight" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#B91C1C" stopOpacity={0.25} />
-                  <stop offset="95%" stopColor="#B91C1C" stopOpacity={0.0} />
+                <linearGradient id="scoreGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor={ct.colorDanger} stopOpacity={ct.gradientOpacity} />
+                  <stop offset="95%" stopColor={ct.colorDanger} stopOpacity={0} />
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" vertical={false} />
-              <XAxis dataKey="timestamp" stroke="#94A3B8" tick={{ fontSize: 11, fill: '#64748B' }} />
-              <YAxis domain={[0, 1]} stroke="#94A3B8" tick={{ fontSize: 11, fill: '#64748B' }} />
+              <CartesianGrid strokeDasharray="3 3" stroke={ct.gridStroke} vertical={false} />
+              <XAxis dataKey="timestamp" stroke={ct.axisStroke} tick={{ fontSize: 11, fill: ct.tickFill }} />
+              <YAxis domain={[0, 1]} stroke={ct.axisStroke} tick={{ fontSize: 11, fill: ct.tickFill }} />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: '#FFFFFF',
-                  border: '1px solid #E2E8F0',
+                  backgroundColor: ct.tooltipBg,
+                  border: '1px solid ' + ct.tooltipBorder,
                   borderRadius: 8,
                   boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.07)',
                   fontSize: 12
                 }}
               />
-              <ReferenceLine y={0.50} stroke="#B45309" strokeDasharray="4 4" label={{ value: 'Anomaly Cutoff (0.50)', fill: '#B45309', fontSize: 11, position: 'top' }} />
-              <Area type="monotone" dataKey="score" stroke="#B91C1C" strokeWidth={2} fillOpacity={1} fill="url(#scoreFillLight)" name="Anomaly Score" />
+              <ReferenceLine y={0.50} stroke={ct.refLineStroke} strokeDasharray="4 4" label={{ value: 'Anomaly Cutoff (0.50)', fill: ct.refLabelFill, fontSize: 11, position: 'top' }} />
+              <Area type="monotone" dataKey="score" stroke={ct.colorDanger} strokeWidth={2} fillOpacity={1} fill="url(#scoreGrad)" name="Anomaly Score" />
             </AreaChart>
           </ResponsiveContainer>
         </div>

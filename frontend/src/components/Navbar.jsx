@@ -1,12 +1,14 @@
 import React from 'react';
-import { RefreshCw, UserCheck, Menu, Server, Cpu, CheckCircle } from 'lucide-react';
+import { RefreshCw, UserCheck, Menu, Server, Cpu, CheckCircle, Sun, Moon } from 'lucide-react';
 import { useSystem } from '../context/SystemContext';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 import StatusBadge from './StatusBadge';
 
 export const Navbar = ({ onToggleSidebar }) => {
   const { systemHealth, refreshDashboard, loading } = useSystem();
   const { user } = useAuth();
+  const { theme, toggleTheme, isDark } = useTheme();
 
   return (
     <header
@@ -86,6 +88,18 @@ export const Navbar = ({ onToggleSidebar }) => {
           <span>Models:</span>
           <StatusBadge label={systemHealth.modelsLoaded ? 'LOADED' : 'UNLOADED'} />
         </div>
+
+        {/* Theme Toggle */}
+        <button
+          onClick={toggleTheme}
+          className="btn-secondary theme-toggle-btn"
+          style={{ padding: '6px 10px', height: 32, fontSize: '0.78rem' }}
+          title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+          aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+        >
+          {isDark ? <Sun size={14} /> : <Moon size={14} />}
+          <span className="navbar-btn-text">{isDark ? 'Light' : 'Dark'}</span>
+        </button>
 
         {/* Refresh Button */}
         <button

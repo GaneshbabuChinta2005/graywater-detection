@@ -1,8 +1,10 @@
 import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, ReferenceLine, Cell } from 'recharts';
+import { useChartTheme } from '../hooks/useChartTheme';
 import { Info } from 'lucide-react';
 
 export const ShapWaterfallChart = ({ shapData, predictedRoute, confidence }) => {
+  const ct = useChartTheme();
   if (!shapData || !shapData.predicted_class_contributions) {
     return (
       <div className="card" style={{ padding: '32px 24px', textAlign: 'center', color: 'var(--text-secondary)' }}>
@@ -22,7 +24,7 @@ export const ShapWaterfallChart = ({ shapData, predictedRoute, confidence }) => 
     value: item.value,
     shapValue: parseFloat(item.shap_value.toFixed(4)),
     direction: item.shap_value >= 0 ? 'Pushes Toward Predicted Class' : 'Pushes Away From Predicted Class',
-    color: item.shap_value >= 0 ? '#15803D' : '#B91C1C'
+    color: item.shap_value >= 0 ? ct.colorSuccess : ct.colorDanger
   }));
 
   return (
@@ -55,15 +57,15 @@ export const ShapWaterfallChart = ({ shapData, predictedRoute, confidence }) => 
           >
             <XAxis
               type="number"
-              stroke="#94A3B8"
-              tick={{ fontSize: 11, fill: '#64748B' }}
+              stroke={ct.axisStroke}
+              tick={{ fontSize: 11, fill: ct.tickFill }}
               tickFormatter={(v) => v.toFixed(2)}
             />
             <YAxis
               type="category"
               dataKey="feature"
-              stroke="#94A3B8"
-              tick={{ fontSize: 11, fill: '#17212F', fontWeight: 500 }}
+              stroke={ct.axisStroke}
+              tick={{ fontSize: 11, fill: ct.tickFillPrimary, fontWeight: 500 }}
             />
             <Tooltip
               content={({ active, payload }) => {
@@ -72,7 +74,7 @@ export const ShapWaterfallChart = ({ shapData, predictedRoute, confidence }) => 
                   return (
                     <div
                       style={{
-                        backgroundColor: '#FFFFFF',
+                        backgroundColor: 'var(--bg-surface)',
                         border: '1px solid var(--border-color)',
                         padding: '10px 14px',
                         borderRadius: 'var(--radius-md)',
@@ -86,7 +88,7 @@ export const ShapWaterfallChart = ({ shapData, predictedRoute, confidence }) => 
                       <div style={{ color: 'var(--text-secondary)', marginBottom: 2 }}>
                         Sensor Measurement: <strong style={{ color: 'var(--text-primary)' }}>{data.value}</strong>
                       </div>
-                      <div style={{ color: data.color, fontWeight: 700 }}>
+                      <div style={{ color: data.shapValue >= 0 ? ct.colorSuccess : ct.colorDanger, fontWeight: 700 }}>
                         SHAP Value: {data.shapValue > 0 ? `+${data.shapValue}` : data.shapValue}
                       </div>
                       <div style={{ fontSize: '0.72rem', color: 'var(--text-secondary)', marginTop: 4 }}>
@@ -98,7 +100,7 @@ export const ShapWaterfallChart = ({ shapData, predictedRoute, confidence }) => 
                 return null;
               }}
             />
-            <ReferenceLine x={0} stroke="#94A3B8" strokeDasharray="3 3" />
+            <ReferenceLine x={0} stroke={ct.gridStroke} strokeDasharray="3 3" />
             <Bar dataKey="shapValue" radius={[4, 4, 4, 4]}>
               {chartData.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={entry.color} />
@@ -117,7 +119,7 @@ export const ShapWaterfallChart = ({ shapData, predictedRoute, confidence }) => 
           border: '1px solid var(--purple-border)',
           borderRadius: 'var(--radius-md)',
           fontSize: '0.75rem',
-          color: '#4C1D95',
+          color: 'var(--purple)',
           lineHeight: 1.4,
           display: 'flex',
           gap: 8,

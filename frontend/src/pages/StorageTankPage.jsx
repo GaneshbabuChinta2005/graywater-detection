@@ -91,11 +91,11 @@ export const StorageTankPage = () => {
             style={{
               width: 160,
               height: 240,
-              border: '2px solid #CBD5E1',
+              border: '2px solid var(--border-color)',
               borderRadius: 'var(--radius-lg)',
               position: 'relative',
               overflow: 'hidden',
-              backgroundColor: '#F8FAFC',
+              backgroundColor: 'var(--bg-surface-subtle)',
               display: 'flex',
               flexDirection: 'column-reverse',
               boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.06)'
@@ -118,7 +118,7 @@ export const StorageTankPage = () => {
                   paddingRight: 6
                 }}
               >
-                <span style={{ fontSize: '0.65rem', color: '#64748B', backgroundColor: 'rgba(255,255,255,0.7)', padding: '0 2px' }}>
+                <span style={{ fontSize: '0.65rem', color: 'var(--text-secondary)', backgroundColor: 'var(--bg-surface)', padding: '0 2px' }}>
                   {pct}%
                 </span>
               </div>

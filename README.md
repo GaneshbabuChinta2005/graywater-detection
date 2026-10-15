@@ -127,6 +127,46 @@ This project delivers an autonomous, closed-loop decision platform that:
 
 ---
 
+
+## Modern Web Interface Features
+
+The React-based frontend includes a comprehensive operator dashboard with:
+
+### 🎨 **Adaptive Light/Dark Theme**
+- **Dynamic theme toggle** with Sun/Moon icon in navigation bar
+- **Automatic OS preference detection** - respects system dark mode settings
+- **LocalStorage persistence** - theme choice saved across sessions
+- **Fully themed charts** - All Recharts visualizations adapt colors dynamically including:
+  - Grid lines, axis strokes, and tick labels
+  - Tooltip backgrounds and borders
+  - Data series colors optimized for each theme
+  - Status badges and semantic colors (success/warning/danger)
+- **CSS custom properties** - 20+ theme tokens for backgrounds, borders, text, and status colors
+
+### 📊 **11 Specialized Dashboard Pages**
+1. **Executive Dashboard** - Real-time KPIs, trend charts, and SHAP waterfall plots
+2. **Live Monitoring** - Digital twin simulation controls with real-time telemetry visualization
+3. **Water Quality** - 15 physicochemical parameters with interactive trend analysis
+4. **Smart Routing** - ML prediction interface with confidence scoring
+5. **Storage Tank** - Hydraulic kinetics and Arrhenius decay tracking
+6. **Weather Context** - Live meteorological data and irrigation deferral logic
+7. **Anomaly Detection** - Isolation Forest screening with contamination scores
+8. **Manual Analysis** - Single-sample testing and batch CSV upload
+9. **Reports** - Historical analysis logs and audit trails
+10. **Decision Pipeline** - 6-tier routing arbitration flow visualization
+11. **SHAP Explainability** - Global and local feature attribution analysis
+
+### 🎯 **Technical Stack**
+- **React 18** with Vite for fast development and optimized builds
+- **Recharts** for responsive data visualization
+- **Lucide React** icon library
+- **React Router** for client-side navigation
+- **Axios** for API communication with 5-second auto-polling
+- **Context API** for global state management (Auth, System, Theme)
+
+
+---
+
 ## Project Folder Structure (Clean 3-Tier Architecture)
 
 `

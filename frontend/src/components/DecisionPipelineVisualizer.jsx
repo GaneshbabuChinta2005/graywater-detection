@@ -116,7 +116,7 @@ export const DecisionPipelineVisualizer = ({ analysis }) => {
             <div
               key={stage.id}
               style={{
-                backgroundColor: '#F8FAFC',
+                backgroundColor: 'var(--bg-surface-subtle)',
                 border: '1px solid var(--border-color)',
                 borderRadius: 'var(--radius-md)',
                 padding: '14px',

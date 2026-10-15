@@ -4,6 +4,7 @@ import MetricCard from '../components/MetricCard';
 import StatusBadge from '../components/StatusBadge';
 import { GitFork, ShieldCheck, AlertOctagon, CheckCircle2, FileText, ArrowRight, Home, TreePine, Filter, Flame } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
+import { useChartTheme } from '../hooks/useChartTheme';
 
 const ROUTING_CATEGORIES = [
   {
@@ -11,37 +12,38 @@ const ROUTING_CATEGORIES = [
     desc: 'Toilet flushing & non-contact indoor infrastructure. Requires high purity & near-zero pathogen load.',
     icon: Home,
     color: '#2563EB',
-    bgColor: '#EFF6FF',
-    borderColor: '#BFDBFE'
+    bgColor: 'var(--info-bg)',
+    borderColor: 'var(--info-border)'
   },
   {
     name: 'Restricted Irrigation',
     desc: 'Subsurface landscape & drip irrigation. Strict runoff prevention, moderate salinity, weather-gated.',
     icon: TreePine,
     color: '#0F766E',
-    bgColor: '#F0FDFA',
-    borderColor: '#CCFBF1'
+    bgColor: 'var(--primary-subtle)',
+    borderColor: 'var(--primary-border)'
   },
   {
     name: 'Bio-filtration',
     desc: 'Constructed wetlands, reed beds, or sand filtration. Required for surfactant or elevated organic loads.',
     icon: Filter,
     color: '#B45309',
-    bgColor: '#FFFBEB',
-    borderColor: '#FDE68A'
+    bgColor: 'var(--warning-bg)',
+    borderColor: 'var(--warning-border)'
   },
   {
     name: 'Sewer Bypass',
     desc: 'Direct fail-safe discharge to municipal sewer. Triggered by severe contamination, kitchen grease, or anomaly.',
     icon: Flame,
     color: '#B91C1C',
-    bgColor: '#FEF2F2',
-    borderColor: '#FECACA'
+    bgColor: 'var(--danger-bg)',
+    borderColor: 'var(--danger-border)'
   }
 ];
 
 export const SmartRoutingPage = () => {
   const { latestAnalysis, summary } = useSystem();
+  const ct = useChartTheme();
 
   const pred = latestAnalysis?.prediction || {
     class_name: summary?.predictedRoute || 'Restricted Irrigation',
@@ -70,7 +72,7 @@ export const SmartRoutingPage = () => {
   const probChartData = Object.entries(pred.probabilities || {}).map(([name, prob]) => ({
     name,
     probability: parseFloat((prob * 100).toFixed(1)),
-    color: name === routing.final_route ? '#0F766E' : '#94A3B8'
+    color: name === routing.final_route ? ct.colorPrimary : ct.tickFill
   }));
 
   return (
@@ -212,12 +214,12 @@ export const SmartRoutingPage = () => {
           <div style={{ width: '100%', height: 240 }}>
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={probChartData} layout="vertical" margin={{ left: 130, right: 30, top: 10, bottom: 5 }}>
-                <XAxis type="number" domain={[0, 100]} unit="%" stroke="#94A3B8" tick={{ fontSize: 11, fill: '#64748B' }} />
-                <YAxis type="category" dataKey="name" stroke="#94A3B8" tick={{ fontSize: 11, fill: '#17212F', fontWeight: 500 }} />
+                <XAxis type="number" domain={[0, 100]} unit="%" stroke={ct.axisStroke} tick={{ fontSize: 11, fill: ct.tickFill }} />
+                <YAxis type="category" dataKey="name" stroke="var(--border-color)" tick={{ fontSize: 11, fill: ct.tickFillPrimary, fontWeight: 500 }} />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: '#FFFFFF',
-                    border: '1px solid #E2E8F0',
+                    backgroundColor: 'var(--bg-surface)',
+                    border: '1px solid var(--border-color)',
                     borderRadius: 8,
                     boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.07)',
                     fontSize: 12

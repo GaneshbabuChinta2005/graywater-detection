@@ -187,7 +187,7 @@ export const Sidebar = ({ isOpen = false, onClose }) => {
           style={{
             padding: '16px',
             borderTop: '1px solid var(--border-color)',
-            backgroundColor: '#F8FAFC'
+            backgroundColor: 'var(--bg-surface-subtle)'
           }}
         >
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
@@ -258,7 +258,7 @@ export const Sidebar = ({ isOpen = false, onClose }) => {
             alignItems: 'center',
             fontSize: '0.75rem',
             color: 'var(--text-secondary)',
-            backgroundColor: '#FFFFFF'
+            backgroundColor: 'var(--bg-surface)'
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>

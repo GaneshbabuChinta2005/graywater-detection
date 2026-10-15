@@ -15,6 +15,7 @@ import {
   Radio
 } from 'lucide-react';
 import { useSystem } from '../context/SystemContext';
+import { useChartTheme } from '../hooks/useChartTheme';
 import MetricCard from '../components/MetricCard';
 import StatusBadge from '../components/StatusBadge';
 import {
@@ -50,6 +51,7 @@ export const LiveMonitoringPage = () => {
     handleStepSimulation
   } = useSystem();
 
+  const ct = useChartTheme();
   const [selectedSource, setSelectedSource] = useState('Bathroom');
   const [selectedEvent, setSelectedEvent] = useState('normal');
 
@@ -65,8 +67,8 @@ export const LiveMonitoringPage = () => {
       {/* Simulation Banner Notice */}
       <div
         style={{
-          backgroundColor: '#FFFBEB',
-          border: '1px solid #FDE68A',
+          backgroundColor: 'var(--warning-bg)',
+          border: '1px solid var(--warning-border)',
           borderRadius: 'var(--radius-lg)',
           padding: '16px 20px',
           display: 'flex',
@@ -82,8 +84,8 @@ export const LiveMonitoringPage = () => {
               width: 40,
               height: 40,
               borderRadius: 'var(--radius-md)',
-              backgroundColor: '#FEF3C7',
-              color: '#B45309',
+              backgroundColor: 'rgba(251, 191, 36, 0.15)',
+              color: 'var(--warning)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -94,12 +96,12 @@ export const LiveMonitoringPage = () => {
           </div>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <h2 style={{ fontSize: '1.05rem', fontWeight: 800, color: '#92400E' }}>
+              <h2 style={{ fontSize: '1.05rem', fontWeight: 800, color: 'var(--warning)' }}>
                 DIGITAL TWIN SIMULATION ENVIRONMENT
               </h2>
               <StatusBadge label={isSimulating ? 'SIMULATION RUNNING' : 'STEP-BY-STEP READY'} />
             </div>
-            <p style={{ fontSize: '0.8125rem', color: '#78350F', marginTop: 2 }}>
+            <p style={{ fontSize: '0.8125rem', color: 'var(--warning)', marginTop: 2 }}>
               Telemetry streams are synthetic physical/chemical operational data derived from statistical profiles for virtual commissioning.
             </p>
           </div>
@@ -266,35 +268,35 @@ export const LiveMonitoringPage = () => {
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={telemetryTrends} margin={{ top: 10, right: 30, left: 0, bottom: 5 }}>
               <defs>
-                <linearGradient id="tankFillLight" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#7C3AED" stopOpacity={0.25} />
-                  <stop offset="95%" stopColor="#7C3AED" stopOpacity={0.0} />
+                <linearGradient id="tankGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor={ct.colorPurple} stopOpacity={ct.gradientOpacity} />
+                  <stop offset="95%" stopColor={ct.colorPurple} stopOpacity={0} />
                 </linearGradient>
-                <linearGradient id="flowFillLight" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#0F766E" stopOpacity={0.25} />
-                  <stop offset="95%" stopColor="#0F766E" stopOpacity={0.0} />
+                <linearGradient id="flowGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor={ct.colorPrimary} stopOpacity={ct.gradientOpacity} />
+                  <stop offset="95%" stopColor={ct.colorPrimary} stopOpacity={0} />
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" vertical={false} />
+              <CartesianGrid strokeDasharray="3 3" stroke={ct.gridStroke} vertical={false} />
               <XAxis
                 dataKey="timestamp"
-                stroke="#94A3B8"
+                stroke={ct.axisStroke}
                 tickFormatter={(t) => (t ? t.split(' ')[1] || t.slice(11, 16) : '')}
-                tick={{ fontSize: 11, fill: '#64748B' }}
+                tick={{ fontSize: 11, fill: ct.tickFill }}
               />
-              <YAxis stroke="#94A3B8" tick={{ fontSize: 11, fill: '#64748B' }} />
+              <YAxis stroke={ct.axisStroke} tick={{ fontSize: 11, fill: ct.tickFill }} />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: '#FFFFFF',
-                  border: '1px solid #E2E8F0',
+                  backgroundColor: ct.tooltipBg,
+                  border: '1px solid ' + ct.tooltipBorder + ',',
                   borderRadius: 8,
                   boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.07)',
                   fontSize: 12
                 }}
               />
               <Legend wrapperStyle={{ fontSize: 12, paddingTop: 8 }} />
-              <Area type="monotone" dataKey="tank_level_L" stroke="#7C3AED" strokeWidth={2} fillOpacity={1} fill="url(#tankFillLight)" name="Tank Level (L)" />
-              <Area type="monotone" dataKey="flow_rate_L_min" stroke="#0F766E" strokeWidth={2} fillOpacity={1} fill="url(#flowFillLight)" name="Inflow Rate (L/min)" />
+              <Area type="monotone" dataKey="tank_level_L" stroke={ct.colorPurple} strokeWidth={2} fillOpacity={1} fill="url(#tankGrad)" name="Tank Level (L)" />
+              <Area type="monotone" dataKey="flow_rate_L_min" stroke={ct.colorPrimary} strokeWidth={2} fillOpacity={1} fill="url(#flowGrad)" name="Inflow Rate (L/min)" />
             </AreaChart>
           </ResponsiveContainer>
         </div>

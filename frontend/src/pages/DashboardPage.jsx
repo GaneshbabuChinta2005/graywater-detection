@@ -15,6 +15,7 @@ import MetricCard from '../components/MetricCard';
 import StatusBadge from '../components/StatusBadge';
 import DecisionPipelineVisualizer from '../components/DecisionPipelineVisualizer';
 import ShapWaterfallChart from '../components/ShapWaterfallChart';
+import { useChartTheme } from '../hooks/useChartTheme';
 import {
   LineChart,
   Line,
@@ -28,6 +29,7 @@ import {
 
 export const DashboardPage = () => {
   const { summary, latestTelemetry, telemetryTrends, latestAnalysis } = useSystem();
+  const ct = useChartTheme();
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
@@ -131,27 +133,27 @@ export const DashboardPage = () => {
           <div style={{ width: '100%', height: 300 }}>
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={telemetryTrends} margin={{ top: 10, right: 20, left: 0, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" vertical={false} />
+                <CartesianGrid strokeDasharray="3 3" stroke={ct.gridStroke} vertical={false} />
                 <XAxis
                   dataKey="timestamp"
-                  stroke="#94A3B8"
+                  stroke={ct.axisStroke}
                   tickFormatter={(t) => (t ? t.split(' ')[1] || t.slice(11, 16) : '')}
-                  tick={{ fontSize: 11, fill: '#64748B' }}
+                  tick={{ fontSize: 11, fill: ct.tickFill }}
                 />
-                <YAxis stroke="#94A3B8" tick={{ fontSize: 11, fill: '#64748B' }} />
+                <YAxis stroke={ct.axisStroke} tick={{ fontSize: 11, fill: ct.tickFill }} />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: '#FFFFFF',
-                    border: '1px solid #E2E8F0',
+                    backgroundColor: ct.tooltipBg,
+                    border: '1px solid ' + ct.tooltipBorder + ',',
                     borderRadius: 8,
                     boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.07)',
                     fontSize: 12
                   }}
                 />
                 <Legend wrapperStyle={{ fontSize: 12, paddingTop: 8 }} />
-                <Line type="monotone" dataKey="pH" stroke="#0F766E" strokeWidth={2.5} dot={false} name="pH" />
-                <Line type="monotone" dataKey="TUR_NTU" stroke="#B45309" strokeWidth={2} dot={false} name="Turbidity (NTU)" />
-                <Line type="monotone" dataKey="COD_mg_L" stroke="#B91C1C" strokeWidth={2} dot={false} name="COD (mg/L)" />
+                <Line type="monotone" dataKey="pH" stroke={ct.colorPrimary} strokeWidth={2.5} dot={false} name="pH" />
+                <Line type="monotone" dataKey="TUR_NTU" stroke={ct.colorWarning} strokeWidth={2} dot={false} name="Turbidity (NTU)" />
+                <Line type="monotone" dataKey="COD_mg_L" stroke={ct.colorDanger} strokeWidth={2} dot={false} name="COD (mg/L)" />
               </LineChart>
             </ResponsiveContainer>
           </div>
