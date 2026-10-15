@@ -2,8 +2,43 @@ import React from 'react';
 import { useSystem } from '../context/SystemContext';
 import MetricCard from '../components/MetricCard';
 import StatusBadge from '../components/StatusBadge';
-import { GitFork, ShieldCheck, AlertOctagon, CheckCircle2, FileText } from 'lucide-react';
+import { GitFork, ShieldCheck, AlertOctagon, CheckCircle2, FileText, ArrowRight, Home, TreePine, Filter, Flame } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
+
+const ROUTING_CATEGORIES = [
+  {
+    name: 'Indoor Reuse',
+    desc: 'Toilet flushing & non-contact indoor infrastructure. Requires high purity & near-zero pathogen load.',
+    icon: Home,
+    color: '#2563EB',
+    bgColor: '#EFF6FF',
+    borderColor: '#BFDBFE'
+  },
+  {
+    name: 'Restricted Irrigation',
+    desc: 'Subsurface landscape & drip irrigation. Strict runoff prevention, moderate salinity, weather-gated.',
+    icon: TreePine,
+    color: '#0F766E',
+    bgColor: '#F0FDFA',
+    borderColor: '#CCFBF1'
+  },
+  {
+    name: 'Bio-filtration',
+    desc: 'Constructed wetlands, reed beds, or sand filtration. Required for surfactant or elevated organic loads.',
+    icon: Filter,
+    color: '#B45309',
+    bgColor: '#FFFBEB',
+    borderColor: '#FDE68A'
+  },
+  {
+    name: 'Sewer Bypass',
+    desc: 'Direct fail-safe discharge to municipal sewer. Triggered by severe contamination, kitchen grease, or anomaly.',
+    icon: Flame,
+    color: '#B91C1C',
+    bgColor: '#FEF2F2',
+    borderColor: '#FECACA'
+  }
+];
 
 export const SmartRoutingPage = () => {
   const { latestAnalysis, summary } = useSystem();
@@ -19,12 +54,6 @@ export const SmartRoutingPage = () => {
     }
   };
 
-  const probChartData = Object.entries(pred.probabilities || {}).map(([name, prob]) => ({
-    name,
-    probability: parseFloat((prob * 100).toFixed(1)),
-    color: name === pred.class_name ? '#10b981' : '#334155'
-  }));
-
   const routing = latestAnalysis?.routing || {
     final_route: summary?.finalRoute || 'Restricted Irrigation',
     final_action: summary?.finalAction || 'ALLOW_ROUTE',
@@ -38,44 +67,53 @@ export const SmartRoutingPage = () => {
     explanation: 'All water quality parameters comply with regulatory non-potable thresholds.'
   };
 
+  const probChartData = Object.entries(pred.probabilities || {}).map(([name, prob]) => ({
+    name,
+    probability: parseFloat((prob * 100).toFixed(1)),
+    color: name === routing.final_route ? '#0F766E' : '#94A3B8'
+  }));
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
       {/* Header */}
-      <div>
-        <h1 style={{ fontSize: '1.85rem', fontWeight: 800, color: 'var(--text-primary)' }}>
-          Smart Context-Aware Routing & Multi-Criteria Arbitration
-        </h1>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginTop: 4 }}>
-          Arbitrates between XGBoost probability vectors, deterministic EPA/WHO safety cutoffs, and environmental constraints.
-        </p>
+      <div className="page-header">
+        <div>
+          <h1 className="page-title">
+            Smart Context-Aware Routing & Multi-Criteria Arbitration
+          </h1>
+          <p className="page-subtitle">
+            Hierarchical arbitration engine synthesizing supervised XGBoost probability vectors with deterministic EPA/WHO safety cutoffs, weather advisories, and tank decay kinetics.
+          </p>
+        </div>
+        <StatusBadge label={`ACTIVE: ${routing.final_route}`} size="lg" />
       </div>
 
-      {/* Top Cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16 }}>
+      {/* Top 4 Metric Cards */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))', gap: 16 }}>
         <MetricCard
           title="Supervised ML Class"
           value={pred.class_name}
           subtitle={`Confidence: ${(pred.confidence * 100).toFixed(1)}%`}
           icon={GitFork}
-          accentColor="#3b82f6"
+          accentColor="var(--info)"
           badge={<StatusBadge label={pred.class_name} />}
         />
 
         <MetricCard
-          title="Safety Screening"
+          title="Safety Interlock"
           value={safety.status}
-          subtitle={safety.violations?.length ? `${safety.violations.length} breach(es)` : 'Zero threshold violations'}
+          subtitle={safety.violations?.length ? `${safety.violations.length} critical breach(es)` : 'Zero threshold violations'}
           icon={ShieldCheck}
-          accentColor={safety.violations?.length ? '#f87171' : '#10b981'}
+          accentColor={safety.violations?.length ? 'var(--danger)' : 'var(--success)'}
           badge={<StatusBadge label={safety.status} />}
         />
 
         <MetricCard
           title="Arbitration Override"
-          value={routing.override_applied ? 'OVERRIDE ACTIVE' : 'NO OVERRIDE'}
-          subtitle={routing.override_applied ? 'Deterministic rule override' : 'ML model decision approved'}
+          value={routing.override_applied ? 'OVERRIDE TRIGGERED' : 'ML CONFIRMED'}
+          subtitle={routing.override_applied ? 'Deterministic rule override enforced' : 'Model prediction approved'}
           icon={AlertOctagon}
-          accentColor={routing.override_applied ? '#fbbf24' : '#10b981'}
+          accentColor={routing.override_applied ? 'var(--warning)' : 'var(--success)'}
           badge={<StatusBadge label={routing.override_applied ? 'OVERRIDDEN' : 'APPROVED'} />}
         />
 
@@ -84,28 +122,107 @@ export const SmartRoutingPage = () => {
           value={routing.final_route}
           subtitle={`Action: ${routing.final_action}`}
           icon={CheckCircle2}
-          accentColor="#10b981"
+          accentColor="var(--primary)"
           badge={<StatusBadge label={routing.final_action} />}
         />
       </div>
 
-      {/* Probability Distribution & Reason Codes */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
-        {/* 4-Class Softmax Probability Distribution */}
-        <div className="glass-card" style={{ padding: '24px' }}>
-          <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: 6 }}>
-            XGBoost 4-Class Probability Spectrum
-          </h3>
-          <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginBottom: 16 }}>
-            Softmax output probabilities across all valid non-potable greywater destinations.
-          </p>
+      {/* 4 Standard Routing Categories Grid */}
+      <div>
+        <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: 12 }}>
+          Standard Non-Potable Greywater Destinations
+        </h3>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 14 }}>
+          {ROUTING_CATEGORIES.map((cat) => {
+            const Icon = cat.icon;
+            const isCurrentFinal = routing.final_route === cat.name;
+            return (
+              <div
+                key={cat.name}
+                style={{
+                  backgroundColor: isCurrentFinal ? cat.bgColor : 'var(--bg-surface)',
+                  border: isCurrentFinal ? `2px solid ${cat.color}` : '1px solid var(--border-color)',
+                  borderRadius: 'var(--radius-lg)',
+                  padding: '16px',
+                  boxShadow: isCurrentFinal ? 'var(--shadow-md)' : 'var(--shadow-sm)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  transition: 'all var(--transition-fast)'
+                }}
+              >
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+                    <div
+                      style={{
+                        width: 32,
+                        height: 32,
+                        borderRadius: 'var(--radius-md)',
+                        backgroundColor: isCurrentFinal ? '#FFFFFF' : 'var(--bg-surface-subtle)',
+                        color: cat.color,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }}
+                    >
+                      <Icon size={18} />
+                    </div>
+                    {isCurrentFinal && (
+                      <span
+                        style={{
+                          fontSize: '0.6875rem',
+                          fontWeight: 700,
+                          backgroundColor: cat.color,
+                          color: '#FFFFFF',
+                          padding: '2px 8px',
+                          borderRadius: 'var(--radius-full)',
+                          textTransform: 'uppercase'
+                        }}
+                      >
+                        Active Route
+                      </span>
+                    )}
+                  </div>
+                  <h4 style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: 4 }}>
+                    {cat.name}
+                  </h4>
+                  <p style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', lineHeight: 1.4 }}>
+                    {cat.desc}
+                  </p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
 
-          <div style={{ width: '100%', height: 260 }}>
+      {/* Probability Spectrum & Transparent Audit Section */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(380px, 1fr))', gap: 20 }}>
+        {/* Softmax Probability Distribution */}
+        <div className="card" style={{ padding: '24px' }}>
+          <div style={{ marginBottom: 16 }}>
+            <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+              XGBoost 4-Class Probability Distribution
+            </h3>
+            <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', marginTop: 2 }}>
+              Softmax output probabilities across valid greywater destinations.
+            </p>
+          </div>
+
+          <div style={{ width: '100%', height: 240 }}>
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={probChartData} layout="vertical" margin={{ left: 130, right: 30, top: 10, bottom: 5 }}>
-                <XAxis type="number" domain={[0, 100]} unit="%" stroke="#64748b" />
-                <YAxis type="category" dataKey="name" stroke="#94a3b8" tick={{ fontSize: 12, fill: '#cbd5e1' }} />
-                <Tooltip contentStyle={{ backgroundColor: '#0f172a', border: '1px solid rgba(255, 255, 255, 0.1)', borderRadius: 8 }} />
+                <XAxis type="number" domain={[0, 100]} unit="%" stroke="#94A3B8" tick={{ fontSize: 11, fill: '#64748B' }} />
+                <YAxis type="category" dataKey="name" stroke="#94A3B8" tick={{ fontSize: 11, fill: '#17212F', fontWeight: 500 }} />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: '#FFFFFF',
+                    border: '1px solid #E2E8F0',
+                    borderRadius: 8,
+                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.07)',
+                    fontSize: 12
+                  }}
+                />
                 <Bar dataKey="probability" radius={[0, 4, 4, 0]}>
                   {probChartData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={entry.color} />
@@ -116,53 +233,56 @@ export const SmartRoutingPage = () => {
           </div>
         </div>
 
-        {/* Reason Codes & Transparent Audit Rationale */}
-        <div className="glass-card" style={{ padding: '24px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
-            <FileText size={20} color="var(--cyan-400)" />
-            <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--text-primary)' }}>
-              Transparent Decision Trace & Reason Codes
-            </h3>
-          </div>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 16 }}>
-            <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
-              <strong>Active Decision Reason Codes:</strong>
+        {/* Reason Codes & Operational Summary */}
+        <div className="card" style={{ padding: '24px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14 }}>
+              <FileText size={18} style={{ color: 'var(--primary)' }} />
+              <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+                Decision Audit Trace & Reason Codes
+              </h3>
             </div>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-              {(routing.reason_codes || ['RC_ML_CONFIDENT_ALLOW']).map(code => (
-                <span
-                  key={code}
-                  style={{
-                    padding: '4px 10px',
-                    borderRadius: 6,
-                    background: 'rgba(6, 182, 212, 0.12)',
-                    border: '1px solid rgba(6, 182, 212, 0.3)',
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: '0.78rem',
-                    color: '#67e8f9'
-                  }}
-                >
-                  {code}
-                </span>
-              ))}
+
+            <div style={{ marginBottom: 16 }}>
+              <span style={{ fontSize: '0.78rem', fontWeight: 600, color: 'var(--text-secondary)', display: 'block', marginBottom: 8 }}>
+                Machine-Readable Reason Codes:
+              </span>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                {(routing.reason_codes || ['RC_ML_CONFIDENT_ALLOW']).map(code => (
+                  <span
+                    key={code}
+                    style={{
+                      padding: '4px 8px',
+                      borderRadius: 'var(--radius-sm)',
+                      backgroundColor: 'var(--primary-subtle)',
+                      border: '1px solid var(--primary-border)',
+                      fontFamily: 'var(--font-mono)',
+                      fontSize: '0.75rem',
+                      color: 'var(--primary)',
+                      fontWeight: 600
+                    }}
+                  >
+                    {code}
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
 
           <div
             style={{
-              padding: '14px 18px',
-              borderRadius: 10,
-              background: 'rgba(15, 23, 42, 0.8)',
-              border: '1px solid rgba(255, 255, 255, 0.08)',
-              fontSize: '0.86rem',
-              color: '#f1f5f9',
+              padding: '14px',
+              borderRadius: 'var(--radius-md)',
+              backgroundColor: 'var(--bg-surface-subtle)',
+              border: '1px solid var(--border-color)',
+              fontSize: '0.84rem',
+              color: 'var(--text-primary)',
               lineHeight: 1.5
             }}
           >
-            <strong>Operational Summary:</strong>{' '}
+            <strong style={{ color: 'var(--primary)', marginRight: 4 }}>Arbitration Summary:</strong>{' '}
             {latestAnalysis?.explanation?.summary ||
-              'Water telemetry demonstrates low suspended sediment and microbiological loads suitable for landscape irrigation without environmental runoff risk.'}
+              'Water telemetry demonstrates low suspended sediment and microbial counts suitable for landscape irrigation without environmental runoff risk.'}
           </div>
         </div>
       </div>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useSystem } from '../context/SystemContext';
 import MetricCard from '../components/MetricCard';
 import StatusBadge from '../components/StatusBadge';
+import { Activity, ShieldCheck, HelpCircle } from 'lucide-react';
 import {
   LineChart,
   Line,
@@ -14,7 +15,7 @@ import {
 
 const PARAM_GROUPS = {
   physical: [
-    { key: 'pH', label: 'pH (Acidity/Alkalinity)', unit: '', safeRange: '6.5 - 8.5', normal: 7.2 },
+    { key: 'pH', label: 'pH Level', unit: 'pH', safeRange: '6.5 - 8.5', normal: 7.2 },
     { key: 'TEMP_C', label: 'Temperature', unit: '°C', safeRange: '15 - 35', normal: 24.5 },
     { key: 'TUR_NTU', label: 'Turbidity', unit: 'NTU', safeRange: '< 50.0', normal: 28.5 },
     { key: 'DS_mg_L', label: 'Dissolved Solids (DS)', unit: 'mg/L', safeRange: '< 500', normal: 255.0 },
@@ -24,7 +25,7 @@ const PARAM_GROUPS = {
   ],
   chemical: [
     { key: 'DO_mg_L', label: 'Dissolved Oxygen (DO)', unit: 'mg/L', safeRange: '> 2.0', normal: 4.8 },
-    { key: 'BOD_mg_L', label: 'Biochemical Oxygen Demand', unit: 'mg/L', safeRange: '< 50', normal: 28.0 },
+    { key: 'BOD_mg_L', label: 'Biological Oxygen Demand', unit: 'mg/L', safeRange: '< 50', normal: 28.0 },
     { key: 'COD_mg_L', label: 'Chemical Oxygen Demand', unit: 'mg/L', safeRange: '< 150', normal: 82.0 },
     { key: 'NH4F_mg_L', label: 'Ammonium Fluoride', unit: 'mg/L', safeRange: '< 10.0', normal: 4.2 },
     { key: 'NO3_mg_L', label: 'Nitrate (NO3)', unit: 'mg/L', safeRange: '< 10.0', normal: 4.5 },
@@ -52,34 +53,49 @@ export const WaterQualityPage = () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
       {/* Header */}
-      <div>
-        <h1 style={{ fontSize: '1.85rem', fontWeight: 800, color: 'var(--text-primary)' }}>
-          15 Physicochemical & Biological Water Quality Parameters
-        </h1>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginTop: 4 }}>
-          Comprehensive multi-sensor telemetry aligned with EPA & WHO non-potable reuse safety thresholds.
-        </p>
+      <div className="page-header">
+        <div>
+          <h1 className="page-title">
+            15 Physicochemical & Microbial Telemetry Parameters
+          </h1>
+          <p className="page-subtitle">
+            Continuous multi-sensor telemetry benchmarked against EPA & WHO non-potable reuse safety thresholds. Click any metric to visualize historical telemetry.
+          </p>
+        </div>
       </div>
 
       {/* Physical Parameters Group */}
       <div>
-        <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: '#38bdf8', marginBottom: 14 }}>
-          A. Physical Parameters (Sediments, Solids & Electrochemistry)
-        </h3>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 14 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+          <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--primary)' }}>
+            A. Physical Parameters (Sediments, Solids & Electrochemistry)
+          </h3>
+          <span style={{ fontSize: '0.72rem', backgroundColor: 'var(--primary-subtle)', color: 'var(--primary)', padding: '2px 8px', borderRadius: 'var(--radius-sm)', fontWeight: 600 }}>
+            7 Parameters
+          </span>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))', gap: 14 }}>
           {PARAM_GROUPS.physical.map(p => {
             const val = latestTelemetry ? latestTelemetry[p.key] : p.normal;
             const status = getStatus(p.key, val);
+            const isSelected = selectedParam === p.key;
             return (
-              <MetricCard
+              <div
                 key={p.key}
-                title={p.label}
-                value={val !== undefined ? `${val} ${p.unit}` : '--'}
-                subtitle={`Safe Range: ${p.safeRange}`}
-                badge={<StatusBadge label={status} />}
-                onClick={() => setSelectedParam(p.key)}
-                accentColor={selectedParam === p.key ? 'var(--cyan-400)' : 'rgba(255,255,255,0.1)'}
-              />
+                style={{
+                  outline: isSelected ? '2px solid var(--primary)' : 'none',
+                  borderRadius: 'var(--radius-lg)'
+                }}
+              >
+                <MetricCard
+                  title={p.label}
+                  value={val !== undefined ? `${val} ${p.unit}` : '--'}
+                  subtitle={`Limit: ${p.safeRange}`}
+                  badge={<StatusBadge label={status} />}
+                  onClick={() => setSelectedParam(p.key)}
+                  accentColor={isSelected ? 'var(--primary)' : '#94A3B8'}
+                />
+              </div>
             );
           })}
         </div>
@@ -87,23 +103,37 @@ export const WaterQualityPage = () => {
 
       {/* Chemical Parameters Group */}
       <div>
-        <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: '#a78bfa', marginBottom: 14 }}>
-          B. Chemical Parameters (Organics, Nutrients & Salinity)
-        </h3>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 14 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+          <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--info)' }}>
+            B. Chemical Parameters (Organics, Nutrients & Salinity)
+          </h3>
+          <span style={{ fontSize: '0.72rem', backgroundColor: 'var(--info-bg)', color: 'var(--info)', padding: '2px 8px', borderRadius: 'var(--radius-sm)', fontWeight: 600 }}>
+            7 Parameters
+          </span>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))', gap: 14 }}>
           {PARAM_GROUPS.chemical.map(p => {
             const val = latestTelemetry ? latestTelemetry[p.key] : p.normal;
             const status = getStatus(p.key, val);
+            const isSelected = selectedParam === p.key;
             return (
-              <MetricCard
+              <div
                 key={p.key}
-                title={p.label}
-                value={val !== undefined ? `${val} ${p.unit}` : '--'}
-                subtitle={`Safe Range: ${p.safeRange}`}
-                badge={<StatusBadge label={status} />}
-                onClick={() => setSelectedParam(p.key)}
-                accentColor={selectedParam === p.key ? '#a78bfa' : 'rgba(255,255,255,0.1)'}
-              />
+                style={{
+                  outline: isSelected ? '2px solid var(--info)' : 'none',
+                  borderRadius: 'var(--radius-lg)'
+                }}
+              >
+                <MetricCard
+                  key={p.key}
+                  title={p.label}
+                  value={val !== undefined ? `${val} ${p.unit}` : '--'}
+                  subtitle={`Limit: ${p.safeRange}`}
+                  badge={<StatusBadge label={status} />}
+                  onClick={() => setSelectedParam(p.key)}
+                  accentColor={isSelected ? 'var(--info)' : '#94A3B8'}
+                />
+              </div>
             );
           })}
         </div>
@@ -111,50 +141,77 @@ export const WaterQualityPage = () => {
 
       {/* Microbiological Parameters Group */}
       <div>
-        <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: '#f87171', marginBottom: 14 }}>
-          C. Microbiological Parameters (Pathogen Load)
-        </h3>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+          <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--danger)' }}>
+            C. Microbiological Parameters (Pathogen Load)
+          </h3>
+          <span style={{ fontSize: '0.72rem', backgroundColor: 'var(--danger-bg)', color: 'var(--danger)', padding: '2px 8px', borderRadius: 'var(--radius-sm)', fontWeight: 600 }}>
+            1 Parameter
+          </span>
+        </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 14 }}>
           {PARAM_GROUPS.microbiological.map(p => {
             const val = latestTelemetry ? latestTelemetry[p.key] : p.normal;
             const status = getStatus(p.key, val);
+            const isSelected = selectedParam === p.key;
             return (
-              <MetricCard
+              <div
                 key={p.key}
-                title={p.label}
-                value={val !== undefined ? `${Number(val).toLocaleString()} ${p.unit}` : '--'}
-                subtitle={`Threshold: ${p.safeRange}`}
-                badge={<StatusBadge label={status} />}
-                onClick={() => setSelectedParam(p.key)}
-                accentColor={selectedParam === p.key ? '#f87171' : 'rgba(255,255,255,0.1)'}
-              />
+                style={{
+                  outline: isSelected ? '2px solid var(--danger)' : 'none',
+                  borderRadius: 'var(--radius-lg)'
+                }}
+              >
+                <MetricCard
+                  key={p.key}
+                  title={p.label}
+                  value={val !== undefined ? `${Number(val).toLocaleString()} ${p.unit}` : '--'}
+                  subtitle={`Threshold: ${p.safeRange}`}
+                  badge={<StatusBadge label={status} />}
+                  onClick={() => setSelectedParam(p.key)}
+                  accentColor={isSelected ? 'var(--danger)' : '#94A3B8'}
+                />
+              </div>
             );
           })}
         </div>
       </div>
 
       {/* Interactive Trend Chart for Selected Parameter */}
-      <div className="glass-card" style={{ padding: '24px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+      <div className="card" style={{ padding: '24px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12, marginBottom: 16 }}>
           <div>
-            <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--text-primary)' }}>
-              Historical Parameter Trend: <span style={{ color: 'var(--cyan-400)' }}>{selectedParam}</span>
+            <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+              Historical Telemetry Trend: <span style={{ color: 'var(--primary)' }}>{selectedParam}</span>
             </h3>
-            <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>
-              Click any metric card above to plot its temporal progression over the simulation run.
+            <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', marginTop: 2 }}>
+              Temporal progression across active simulation steps. Click any card above to focus.
             </p>
           </div>
-          <StatusBadge label={selectedParam} />
+          <StatusBadge label={`FOCUS: ${selectedParam}`} />
         </div>
 
-        <div style={{ width: '100%', height: 300 }}>
+        <div style={{ width: '100%', height: 280 }}>
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={telemetryTrends} margin={{ top: 10, right: 30, left: 0, bottom: 5 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-              <XAxis dataKey="timestamp" stroke="#64748b" tickFormatter={(t) => (t ? t.split(' ')[1] || t.slice(11, 16) : '')} />
-              <YAxis stroke="#64748b" />
-              <Tooltip contentStyle={{ backgroundColor: '#0f172a', border: '1px solid rgba(255, 255, 255, 0.1)', borderRadius: 8 }} />
-              <Line type="monotone" dataKey={selectedParam} stroke="#06b6d4" strokeWidth={3} dot={{ r: 3 }} name={selectedParam} />
+              <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" vertical={false} />
+              <XAxis
+                dataKey="timestamp"
+                stroke="#94A3B8"
+                tickFormatter={(t) => (t ? t.split(' ')[1] || t.slice(11, 16) : '')}
+                tick={{ fontSize: 11, fill: '#64748B' }}
+              />
+              <YAxis stroke="#94A3B8" tick={{ fontSize: 11, fill: '#64748B' }} />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: '#FFFFFF',
+                  border: '1px solid #E2E8F0',
+                  borderRadius: 8,
+                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.07)',
+                  fontSize: 12
+                }}
+              />
+              <Line type="monotone" dataKey={selectedParam} stroke="#0F766E" strokeWidth={2.5} dot={{ r: 3, fill: '#0F766E' }} name={selectedParam} />
             </LineChart>
           </ResponsiveContainer>
         </div>

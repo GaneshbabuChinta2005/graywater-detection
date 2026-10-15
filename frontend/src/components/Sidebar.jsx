@@ -15,25 +15,42 @@ import {
   Play,
   Pause,
   RotateCcw,
-  StepForward
+  StepForward,
+  X,
+  Radio
 } from 'lucide-react';
 import { useSystem } from '../context/SystemContext';
 
-const NAV_ITEMS = [
-  { path: '/dashboard', label: 'Overview', icon: LayoutDashboard },
-  { path: '/monitoring', label: 'Live Monitoring', icon: Activity },
-  { path: '/analysis', label: 'Manual Analysis', icon: FlaskConical },
-  { path: '/water-quality', label: 'Water Quality', icon: Droplet },
-  { path: '/routing', label: 'Smart Routing', icon: GitFork },
-  { path: '/storage', label: 'Storage Tank', icon: Database },
-  { path: '/weather', label: 'Weather Context', icon: CloudSun },
-  { path: '/anomaly', label: 'Anomaly Screening', icon: ShieldAlert },
-  { path: '/explainability', label: 'SHAP Attribution', icon: Cpu },
-  { path: '/reports', label: 'Audit Reports', icon: FileSpreadsheet },
-  { path: '/system', label: 'System Health', icon: Server }
+const NAV_GROUPS = [
+  {
+    title: 'Operations',
+    items: [
+      { path: '/dashboard', label: 'Overview', icon: LayoutDashboard },
+      { path: '/monitoring', label: 'Live Monitoring', icon: Activity },
+      { path: '/analysis', label: 'Manual Analysis', icon: FlaskConical },
+      { path: '/water-quality', label: 'Water Quality', icon: Droplet },
+    ]
+  },
+  {
+    title: 'AI & Decision Engine',
+    items: [
+      { path: '/routing', label: 'Smart Routing', icon: GitFork },
+      { path: '/storage', label: 'Storage Tank', icon: Database },
+      { path: '/weather', label: 'Weather Context', icon: CloudSun },
+      { path: '/anomaly', label: 'Anomaly Screening', icon: ShieldAlert },
+      { path: '/explainability', label: 'SHAP Attribution', icon: Cpu },
+    ]
+  },
+  {
+    title: 'System & Audit',
+    items: [
+      { path: '/reports', label: 'Audit Reports', icon: FileSpreadsheet },
+      { path: '/system', label: 'System Health', icon: Server }
+    ]
+  }
 ];
 
-export const Sidebar = () => {
+export const Sidebar = ({ isOpen = false, onClose }) => {
   const {
     isSimulating,
     handleStartSimulation,
@@ -44,168 +61,245 @@ export const Sidebar = () => {
   } = useSystem();
 
   return (
-    <aside
-      style={{
-        width: 260,
-        backgroundColor: 'var(--bg-sidebar)',
-        borderRight: '1px solid var(--border-subtle)',
-        display: 'flex',
-        flexDirection: 'column',
-        height: '100vh',
-        position: 'sticky',
-        top: 0,
-        zIndex: 50
-      }}
-    >
-      {/* Brand Header */}
-      <div
+    <>
+      <aside
+        className={`app-sidebar ${isOpen ? 'sidebar-open' : ''}`}
         style={{
-          padding: '24px 20px',
-          borderBottom: '1px solid var(--border-subtle)',
+          width: 260,
+          backgroundColor: 'var(--bg-sidebar)',
+          borderRight: '1px solid var(--border-color)',
           display: 'flex',
-          alignItems: 'center',
-          gap: 12
+          flexDirection: 'column',
+          height: '100vh',
+          position: 'sticky',
+          top: 0,
+          zIndex: 100,
+          transition: 'transform var(--transition-normal)'
         }}
       >
+        {/* Brand Header */}
         <div
           style={{
-            width: 38,
-            height: 38,
-            borderRadius: 10,
-            background: 'linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%)',
+            padding: '18px 20px',
+            borderBottom: '1px solid var(--border-color)',
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: '1.25rem',
-            boxShadow: '0 4px 12px rgba(6, 182, 212, 0.4)'
+            justifyContent: 'space-between'
           }}
         >
-          💧
-        </div>
-        <div>
-          <div style={{ fontSize: '1.05rem', fontWeight: 800, fontFamily: 'var(--font-heading)', color: '#fff', letterSpacing: '-0.02em' }}>
-            HydroSense <span style={{ color: 'var(--cyan-400)' }}>AI</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <div
+              style={{
+                width: 38,
+                height: 38,
+                borderRadius: 10,
+                backgroundColor: 'var(--primary)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#FFFFFF',
+                boxShadow: '0 2px 6px rgba(15, 118, 110, 0.3)'
+              }}
+            >
+              <Droplet size={20} />
+            </div>
+            <div>
+              <div style={{ fontSize: '1.05rem', fontWeight: 800, fontFamily: 'var(--font-heading)', color: 'var(--text-primary)', letterSpacing: '-0.02em', lineHeight: 1.1 }}>
+                HydroSense <span style={{ color: 'var(--primary)' }}>AI</span>
+              </div>
+              <div style={{ fontSize: '0.72rem', color: 'var(--text-secondary)', fontWeight: 500, marginTop: 2 }}>
+                Intelligent Greywater OS
+              </div>
+            </div>
           </div>
-          <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', fontWeight: 500 }}>
-            Smart Greywater Routing
-          </div>
-        </div>
-      </div>
 
-      {/* Navigation Items */}
-      <nav style={{ padding: '16px 12px', flex: 1, overflowY: 'auto' }}>
-        <div style={{ fontSize: '0.68rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', padding: '0 8px 10px' }}>
-          Navigation
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-          {NAV_ITEMS.map((item) => {
-            const Icon = item.icon;
-            return (
-              <NavLink
-                key={item.path}
-                to={item.path}
-                style={({ isActive }) => ({
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 12,
-                  padding: '10px 14px',
-                  borderRadius: '10px',
-                  fontSize: '0.86rem',
-                  fontWeight: isActive ? 600 : 500,
-                  color: isActive ? '#fff' : 'var(--text-secondary)',
-                  textDecoration: 'none',
-                  backgroundColor: isActive ? 'rgba(6, 182, 212, 0.12)' : 'transparent',
-                  border: isActive ? '1px solid rgba(6, 182, 212, 0.25)' : '1px solid transparent',
-                  transition: 'all 0.15s ease'
-                })}
-              >
-                <Icon size={17} style={{ opacity: 0.9 }} />
-                <span>{item.label}</span>
-              </NavLink>
-            );
-          })}
-        </div>
-      </nav>
-
-      {/* Digital Twin Quick Controls Widget */}
-      <div
-        style={{
-          padding: '16px',
-          borderTop: '1px solid var(--border-subtle)',
-          backgroundColor: 'rgba(15, 23, 42, 0.5)'
-        }}
-      >
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-          <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase' }}>
-            Digital Twin
-          </span>
-          <span
+          {/* Close button on mobile */}
+          <button
+            onClick={onClose}
+            className="mobile-close-btn"
             style={{
-              fontSize: '0.7rem',
-              color: isSimulating ? '#34d399' : '#94a3b8',
-              display: 'flex',
-              alignItems: 'center',
-              gap: 4
+              display: 'none',
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              color: 'var(--text-secondary)',
+              padding: 4
             }}
+            aria-label="Close Navigation"
           >
+            <X size={20} />
+          </button>
+        </div>
+
+        {/* Navigation Items (Categorized with Clean Hierarchy) */}
+        <nav style={{ padding: '16px 12px', flex: 1, overflowY: 'auto' }}>
+          {NAV_GROUPS.map((group, gIdx) => (
+            <div key={group.title} style={{ marginBottom: gIdx !== NAV_GROUPS.length - 1 ? 20 : 8 }}>
+              <div
+                style={{
+                  fontSize: '0.6875rem',
+                  fontWeight: 700,
+                  color: 'var(--text-secondary)',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.08em',
+                  padding: '0 12px 8px'
+                }}
+              >
+                {group.title}
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                {group.items.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <NavLink
+                      key={item.path}
+                      to={item.path}
+                      onClick={onClose}
+                      style={({ isActive }) => ({
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 12,
+                        padding: '9px 12px',
+                        borderRadius: 'var(--radius-md)',
+                        fontSize: '0.84rem',
+                        fontWeight: isActive ? 600 : 500,
+                        color: isActive ? 'var(--primary)' : 'var(--text-secondary)',
+                        textDecoration: 'none',
+                        backgroundColor: isActive ? 'var(--primary-subtle)' : 'transparent',
+                        borderLeft: isActive ? '3px solid var(--primary)' : '3px solid transparent',
+                        transition: 'all var(--transition-fast)'
+                      })}
+                    >
+                      <Icon size={17} style={{ flexShrink: 0 }} />
+                      <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        {item.label}
+                      </span>
+                    </NavLink>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+        </nav>
+
+        {/* Digital Twin Quick Controls Widget */}
+        <div
+          style={{
+            padding: '16px',
+            borderTop: '1px solid var(--border-color)',
+            backgroundColor: '#F8FAFC'
+          }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+            <span style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              Digital Twin Sim
+            </span>
             <span
               style={{
-                width: 6,
-                height: 6,
-                borderRadius: '50%',
-                backgroundColor: isSimulating ? '#34d399' : '#64748b'
+                fontSize: '0.7rem',
+                color: isSimulating ? 'var(--success)' : 'var(--text-secondary)',
+                fontWeight: 600,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 5
               }}
-            />
-            {isSimulating ? 'LOOP ACTIVE' : 'IDLE'}
-          </span>
-        </div>
+            >
+              <span
+                style={{
+                  width: 7,
+                  height: 7,
+                  borderRadius: '50%',
+                  backgroundColor: isSimulating ? 'var(--success)' : '#CBD5E1'
+                }}
+                className={isSimulating ? 'pulse-dot' : ''}
+              />
+              {isSimulating ? 'RUNNING' : 'IDLE'}
+            </span>
+          </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6, marginBottom: 8 }}>
-          <button
-            className={isSimulating ? 'btn-secondary' : 'btn-primary'}
-            style={{ padding: '6px 10px', fontSize: '0.75rem', justifyContent: 'center' }}
-            onClick={isSimulating ? handleStopSimulation : handleStartSimulation}
-          >
-            {isSimulating ? <Pause size={14} /> : <Play size={14} />}
-            {isSimulating ? 'Pause' : 'Start'}
-          </button>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6, marginBottom: 8 }}>
+            <button
+              className={isSimulating ? 'btn-secondary' : 'btn-primary'}
+              style={{ padding: '6px 10px', fontSize: '0.75rem', justifyContent: 'center' }}
+              onClick={isSimulating ? handleStopSimulation : handleStartSimulation}
+              aria-label={isSimulating ? 'Pause simulation' : 'Start simulation'}
+            >
+              {isSimulating ? <Pause size={13} /> : <Play size={13} />}
+              {isSimulating ? 'Pause' : 'Start'}
+            </button>
+
+            <button
+              className="btn-secondary"
+              style={{ padding: '6px 10px', fontSize: '0.75rem', justifyContent: 'center' }}
+              onClick={() => handleStepSimulation()}
+              aria-label="Advance one simulation step"
+            >
+              <StepForward size={13} /> Step
+            </button>
+          </div>
 
           <button
             className="btn-secondary"
-            style={{ padding: '6px 10px', fontSize: '0.75rem', justifyContent: 'center' }}
-            onClick={() => handleStepSimulation()}
+            style={{ width: '100%', padding: '6px 10px', fontSize: '0.72rem', justifyContent: 'center', color: 'var(--text-secondary)' }}
+            onClick={handleResetSimulation}
+            aria-label="Reset simulation to step 0"
           >
-            <StepForward size={14} /> Step
+            <RotateCcw size={12} /> Reset to Step 0
           </button>
         </div>
 
-        <button
-          className="btn-secondary"
-          style={{ width: '100%', padding: '6px 10px', fontSize: '0.72rem', justifyContent: 'center', color: '#94a3b8' }}
-          onClick={handleResetSimulation}
+        {/* Live System Indicator */}
+        <div
+          style={{
+            padding: '12px 16px',
+            borderTop: '1px solid var(--border-color)',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            fontSize: '0.75rem',
+            color: 'var(--text-secondary)',
+            backgroundColor: '#FFFFFF'
+          }}
         >
-          <RotateCcw size={12} /> Reset to Step 0
-        </button>
-      </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <Radio size={13} color="var(--primary)" />
+            <span>Python ML:</span>
+          </div>
+          <span
+            style={{
+              color: systemHealth.pythonMl === 'CONNECTED' ? 'var(--success)' : 'var(--danger)',
+              fontWeight: 700,
+              fontSize: '0.7rem',
+              backgroundColor: systemHealth.pythonMl === 'CONNECTED' ? 'var(--success-bg)' : 'var(--danger-bg)',
+              padding: '2px 6px',
+              borderRadius: 'var(--radius-xs)',
+              border: `1px solid ${systemHealth.pythonMl === 'CONNECTED' ? 'var(--success-border)' : 'var(--danger-border)'}`
+            }}
+          >
+            {systemHealth.pythonMl}
+          </span>
+        </div>
+      </aside>
 
-      {/* Live System Indicator */}
-      <div
-        style={{
-          padding: '12px 16px',
-          borderTop: '1px solid var(--border-subtle)',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          fontSize: '0.72rem',
-          color: 'var(--text-muted)'
-        }}
-      >
-        <span>Python ML:</span>
-        <span style={{ color: systemHealth.pythonMl === 'CONNECTED' ? '#34d399' : '#f87171', fontWeight: 600 }}>
-          {systemHealth.pythonMl}
-        </span>
-      </div>
-    </aside>
+      <style>{`
+        @media (max-width: 1024px) {
+          .app-sidebar {
+            position: fixed !important;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            transform: translateX(-100%);
+            box-shadow: var(--shadow-xl);
+          }
+          .app-sidebar.sidebar-open {
+            transform: translateX(0);
+          }
+          .mobile-close-btn {
+            display: block !important;
+          }
+        }
+      `}</style>
+    </>
   );
 };
 

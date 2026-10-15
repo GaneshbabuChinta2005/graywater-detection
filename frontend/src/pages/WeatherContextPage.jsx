@@ -2,7 +2,7 @@ import React from 'react';
 import { useSystem } from '../context/SystemContext';
 import MetricCard from '../components/MetricCard';
 import StatusBadge from '../components/StatusBadge';
-import { CloudRain, CloudSun, Droplet, Thermometer, ShieldAlert } from 'lucide-react';
+import { CloudRain, CloudSun, Droplet, Thermometer, ShieldAlert, CheckCircle2, Clock, AlertTriangle, Info } from 'lucide-react';
 
 export const WeatherContextPage = () => {
   const { summary, latestAnalysis } = useSystem();
@@ -20,23 +20,26 @@ export const WeatherContextPage = () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
       {/* Header */}
-      <div>
-        <h1 style={{ fontSize: '1.85rem', fontWeight: 800, color: 'var(--text-primary)' }}>
-          Meteorological Weather Context & Smart Irrigation Arbitration
-        </h1>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginTop: 4 }}>
-          Prevents dangerous surface runoff and soil waterlogging by deferring outdoor reuse during precipitation events.
-        </p>
+      <div className="page-header">
+        <div>
+          <h1 className="page-title">
+            Meteorological Weather Context & Smart Irrigation Arbitration
+          </h1>
+          <p className="page-subtitle">
+            Dynamic integration with Open-Meteo precipitation models. Automatically suppresses outdoor reuse during rainfall to eliminate hazardous surface runoff and soil waterlogging.
+          </p>
+        </div>
+        <StatusBadge label={`POLICY: ${weather.action}`} size="lg" />
       </div>
 
       {/* Primary KPI Grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))', gap: 16 }}>
         <MetricCard
           title="Weather Condition"
           value={summary?.weatherCondition || 'Clear Skies'}
-          subtitle={`Status: ${weather.status}`}
+          subtitle={`Telemetry Feed: ${weather.status}`}
           icon={CloudSun}
-          accentColor="#f59e0b"
+          accentColor="var(--warning)"
           badge={<StatusBadge label={weather.status} />}
         />
 
@@ -45,63 +48,113 @@ export const WeatherContextPage = () => {
           value={`${weather.rainfall_mm.toFixed(1)} mm`}
           subtitle="Precipitation accumulation"
           icon={CloudRain}
-          accentColor={isRainy ? '#fbbf24' : '#06b6d4'}
-          badge={<StatusBadge label={isRainy ? 'RAIN ACTIVE' : 'DRY'} />}
+          accentColor={isRainy ? 'var(--warning)' : 'var(--primary)'}
+          badge={<StatusBadge label={isRainy ? 'RAIN DETECTED' : 'DRY WEATHER'} />}
         />
 
         <MetricCard
           title="Precipitation Probability"
           value={`${weather.precipitation_probability.toFixed(0)}%`}
-          subtitle="Likelihood of rainfall in next 6h"
+          subtitle="Rain probability in 6h window"
           icon={Droplet}
-          accentColor="#3b82f6"
+          accentColor="var(--info)"
         />
 
         <MetricCard
           title="Irrigation Policy Decision"
           value={weather.action}
-          subtitle={isRainy ? 'Irrigation deferred due to rain' : 'Safe for landscape irrigation'}
+          subtitle={isRainy ? 'Deferred due to runoff risk' : 'Approved for landscape irrigation'}
           icon={ShieldAlert}
-          accentColor={weather.action === 'ALLOW_ROUTE' ? '#10b981' : '#f59e0b'}
+          accentColor={weather.action === 'ALLOW_ROUTE' ? 'var(--success)' : 'var(--warning)'}
           badge={<StatusBadge label={weather.action} size="lg" />}
         />
       </div>
 
       {/* Environmental Runoff Arbitration Details */}
-      <div className="glass-card" style={{ padding: '24px' }}>
-        <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: 12 }}>
-          Regulatory Environmental Runoff Prevention Rules
-        </h3>
-        <p style={{ fontSize: '0.84rem', color: 'var(--text-muted)', marginBottom: 20 }}>
-          Under EPA Guidelines for Water Reuse, reclaimed greywater cannot be sprayed on saturated soil during or immediately following heavy rain.
-        </p>
+      <div className="card" style={{ padding: '24px' }}>
+        <div style={{ marginBottom: 16 }}>
+          <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+            Regulatory Environmental Runoff Prevention Interlocks
+          </h3>
+          <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', marginTop: 2 }}>
+            EPA non-potable reuse guidelines prohibit spraying reclaimed water onto saturated or rain-drenched soils.
+          </p>
+        </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 14 }}>
-          <div style={{ padding: '16px', background: 'rgba(15, 23, 42, 0.6)', borderRadius: 12, border: '1px solid rgba(255,255,255,0.06)' }}>
-            <div style={{ fontSize: '0.82rem', fontWeight: 600, color: '#34d399', marginBottom: 4 }}>
-              ALLOW_ROUTE
+          {/* Outcome 1: ALLOW_ROUTE */}
+          <div
+            style={{
+              padding: '16px',
+              backgroundColor: weather.action === 'ALLOW_ROUTE' ? 'var(--success-bg)' : '#F8FAFC',
+              borderRadius: 'var(--radius-md)',
+              border: weather.action === 'ALLOW_ROUTE' ? '2px solid var(--success-border)' : '1px solid var(--border-color)',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between'
+            }}
+          >
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 8 }}>
+                <CheckCircle2 size={16} style={{ color: 'var(--success)' }} />
+                <span style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--success)' }}>
+                  ALLOW_ROUTE
+                </span>
+              </div>
+              <p style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', lineHeight: 1.4 }}>
+                Rainfall &lt; 5.0 mm. Soil maintains high capillary absorption. Outdoor drip and landscape irrigation are safely enabled.
+              </p>
             </div>
-            <p style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
-              Rainfall &lt; 5.0 mm. Soil has adequate capillary absorption capacity. Proceed with landscape irrigation.
-            </p>
           </div>
 
-          <div style={{ padding: '16px', background: 'rgba(15, 23, 42, 0.6)', borderRadius: 12, border: '1px solid rgba(255,255,255,0.06)' }}>
-            <div style={{ fontSize: '0.82rem', fontWeight: 600, color: '#fbbf24', marginBottom: 4 }}>
-              DEFER_ROUTE / STORE_FOR_LATER
+          {/* Outcome 2: DEFER_ROUTE */}
+          <div
+            style={{
+              padding: '16px',
+              backgroundColor: weather.action.includes('DEFER') || weather.action.includes('STORE') ? 'var(--warning-bg)' : '#F8FAFC',
+              borderRadius: 'var(--radius-md)',
+              border: weather.action.includes('DEFER') || weather.action.includes('STORE') ? '2px solid var(--warning-border)' : '1px solid var(--border-color)',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between'
+            }}
+          >
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 8 }}>
+                <Clock size={16} style={{ color: 'var(--warning)' }} />
+                <span style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--warning)' }}>
+                  DEFER_ROUTE / STORE_FOR_LATER
+                </span>
+              </div>
+              <p style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', lineHeight: 1.4 }}>
+                Rainfall &ge; 5.0 mm. Outdoor distribution is paused; water is buffered in the retention tank until soil infiltration capacity recovers.
+              </p>
             </div>
-            <p style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
-              Rainfall &gt;= 5.0 mm. Outdoor distribution is temporarily diverted into the storage tank until ground dries.
-            </p>
           </div>
 
-          <div style={{ padding: '16px', background: 'rgba(15, 23, 42, 0.6)', borderRadius: 12, border: '1px solid rgba(255,255,255,0.06)' }}>
-            <div style={{ fontSize: '0.82rem', fontWeight: 600, color: '#f87171', marginBottom: 4 }}>
-              REVIEW_REQUIRED
+          {/* Outcome 3: REVIEW_REQUIRED */}
+          <div
+            style={{
+              padding: '16px',
+              backgroundColor: weather.action.includes('REVIEW') ? 'var(--danger-bg)' : '#F8FAFC',
+              borderRadius: 'var(--radius-md)',
+              border: weather.action.includes('REVIEW') ? '2px solid var(--danger-border)' : '1px solid var(--border-color)',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between'
+            }}
+          >
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 8 }}>
+                <AlertTriangle size={16} style={{ color: 'var(--danger)' }} />
+                <span style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--danger)' }}>
+                  REVIEW_REQUIRED
+                </span>
+              </div>
+              <p style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', lineHeight: 1.4 }}>
+                Meteorological service unreachable or conflicting sensor telemetry. Prompts automated supervisor alert.
+              </p>
             </div>
-            <p style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
-              Meteorological service offline or conflicting sensor telemetry. Flags automated supervisory alert.
-            </p>
           </div>
         </div>
 
@@ -109,15 +162,22 @@ export const WeatherContextPage = () => {
           <div
             style={{
               marginTop: 20,
-              padding: '14px 18px',
-              borderRadius: 10,
-              background: 'rgba(6, 182, 212, 0.05)',
-              border: '1px solid rgba(6, 182, 212, 0.2)',
-              fontSize: '0.86rem',
-              color: '#e2e8f0'
+              padding: '14px 16px',
+              borderRadius: 'var(--radius-md)',
+              backgroundColor: 'var(--primary-subtle)',
+              border: '1px solid var(--primary-border)',
+              fontSize: '0.84rem',
+              color: 'var(--text-primary)',
+              lineHeight: 1.5,
+              display: 'flex',
+              gap: 10,
+              alignItems: 'center'
             }}
           >
-            <strong>Context Status:</strong> {weather.explanation}
+            <Info size={18} style={{ color: 'var(--primary)', flexShrink: 0 }} />
+            <div>
+              <strong style={{ color: 'var(--primary)' }}>Weather Context Verification:</strong> {weather.explanation}
+            </div>
           </div>
         )}
       </div>

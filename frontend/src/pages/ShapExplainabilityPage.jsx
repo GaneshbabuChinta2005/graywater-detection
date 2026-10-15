@@ -3,7 +3,7 @@ import { useSystem } from '../context/SystemContext';
 import MetricCard from '../components/MetricCard';
 import StatusBadge from '../components/StatusBadge';
 import ShapWaterfallChart from '../components/ShapWaterfallChart';
-import { Cpu, CheckCircle2, AlertOctagon, HelpCircle } from 'lucide-react';
+import { Cpu, CheckCircle2, AlertOctagon, HelpCircle, Layers, Scale, Sparkles, ShieldCheck } from 'lucide-react';
 
 export const ShapExplainabilityPage = () => {
   const { latestAnalysis, summary } = useSystem();
@@ -35,23 +35,26 @@ export const ShapExplainabilityPage = () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
       {/* Header */}
-      <div>
-        <h1 style={{ fontSize: '1.85rem', fontWeight: 800, color: 'var(--text-primary)' }}>
-          SHAP Feature Attribution & Algorithmic Transparency
-        </h1>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginTop: 4 }}>
-          Exact mathematical contribution of each sensor parameter calculated via SHAP TreeExplainer on XGBoost.
-        </p>
+      <div className="page-header">
+        <div>
+          <h1 className="page-title">
+            SHAP Feature Attribution & Algorithmic Explainability
+          </h1>
+          <p className="page-subtitle">
+            Local feature attribution calculated via SHAP TreeExplainer on XGBoost trees, clarifying how each physical/chemical sensor pushed model log-odds.
+          </p>
+        </div>
+        <StatusBadge label={`EXPLAINING: ${pred.class_name}`} size="lg" />
       </div>
 
-      {/* Top Cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16 }}>
+      {/* Top Metric Cards */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 16 }}>
         <MetricCard
           title="XGBoost Predicted Class"
           value={pred.class_name}
           subtitle={`Confidence: ${(pred.confidence * 100).toFixed(1)}%`}
           icon={Cpu}
-          accentColor="#8b5cf6"
+          accentColor="var(--purple)"
           badge={<StatusBadge label={pred.class_name} />}
         />
 
@@ -60,111 +63,151 @@ export const ShapExplainabilityPage = () => {
           value={routing.final_route}
           subtitle={`Action: ${routing.final_action}`}
           icon={CheckCircle2}
-          accentColor="#10b981"
+          accentColor="var(--primary)"
           badge={<StatusBadge label={routing.override_applied ? 'OVERRIDDEN' : 'APPROVED'} />}
         />
       </div>
 
       {/* Clear Separation Architecture Box */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))', gap: 20 }}>
         {/* Box A: Model Explanation */}
         <div
-          className="glass-card"
+          className="card"
           style={{
             padding: '24px',
-            borderTop: '4px solid #8b5cf6'
+            borderTop: '3px solid var(--purple)'
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
-            <span style={{ fontSize: '1.4rem' }}>🧠</span>
+            <div
+              style={{
+                width: 32,
+                height: 32,
+                borderRadius: 'var(--radius-md)',
+                backgroundColor: 'var(--purple-bg)',
+                color: 'var(--purple)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+            >
+              <Cpu size={18} />
+            </div>
             <div>
-              <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: '#f8fafc' }}>
-                1. Supervised Model Explanation (SHAP Attribution)
+              <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+                1. Supervised Model Explanation (SHAP)
               </h3>
-              <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
-                Mathematical feature attribution from the trained XGBoost decision trees.
+              <p style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
+                Mathematical feature attribution from trained XGBoost decision trees.
               </p>
             </div>
           </div>
 
-          <p style={{ fontSize: '0.84rem', color: '#cbd5e1', lineHeight: 1.5, marginBottom: 16 }}>
-            TreeExplainer quantifies how each normalized water quality sensor increased or decreased
-            the model's prediction score towards <strong>{pred.class_name}</strong>.
+          <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', lineHeight: 1.5, marginBottom: 16 }}>
+            TreeExplainer quantifies how each normalized water quality sensor measurement increased or decreased the model's prediction score towards <strong>{pred.class_name}</strong>.
           </p>
 
-          <table className="data-table">
-            <thead>
-              <tr>
-                <th>Feature</th>
-                <th>Observed Value</th>
-                <th>SHAP Value</th>
-                <th>Direction</th>
-              </tr>
-            </thead>
-            <tbody>
-              {topContributors.map((c, i) => (
-                <tr key={i}>
-                  <td style={{ fontWeight: 600, color: '#fff' }}>{c.feature}</td>
-                  <td>{c.value}</td>
-                  <td style={{ fontWeight: 700, color: c.shap_value >= 0 ? '#34d399' : '#f87171' }}>
-                    {c.shap_value > 0 ? `+${c.shap_value.toFixed(4)}` : c.shap_value.toFixed(4)}
-                  </td>
-                  <td>
-                    <span style={{ fontSize: '0.78rem', color: c.shap_value >= 0 ? '#34d399' : '#f87171' }}>
-                      {c.shap_value >= 0 ? '▲ Pushes Toward' : '▼ Pushes Away'}
-                    </span>
-                  </td>
+          <div className="data-table-container">
+            <table className="data-table">
+              <thead>
+                <tr>
+                  <th>Feature</th>
+                  <th>Value</th>
+                  <th>SHAP</th>
+                  <th>Attribution</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {topContributors.map((c, i) => (
+                  <tr key={i}>
+                    <td style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{c.feature}</td>
+                    <td>{c.value}</td>
+                    <td style={{ fontWeight: 700, color: c.shap_value >= 0 ? 'var(--success)' : 'var(--danger)' }}>
+                      {c.shap_value > 0 ? `+${c.shap_value.toFixed(4)}` : c.shap_value.toFixed(4)}
+                    </td>
+                    <td>
+                      <span
+                        style={{
+                          fontSize: '0.72rem',
+                          fontWeight: 600,
+                          padding: '2px 6px',
+                          borderRadius: 'var(--radius-xs)',
+                          backgroundColor: c.shap_value >= 0 ? 'var(--success-bg)' : 'var(--danger-bg)',
+                          color: c.shap_value >= 0 ? 'var(--success)' : 'var(--danger)',
+                          border: `1px solid ${c.shap_value >= 0 ? 'var(--success-border)' : 'var(--danger-border)'}`
+                        }}
+                      >
+                        {c.shap_value >= 0 ? '▲ Pushes Toward' : '▼ Pushes Away'}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
 
         {/* Box B: Final Decision Explanation */}
         <div
-          className="glass-card"
+          className="card"
           style={{
             padding: '24px',
-            borderTop: '4px solid #10b981'
+            borderTop: '3px solid var(--primary)',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between'
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
-            <span style={{ fontSize: '1.4rem' }}>⚖️</span>
-            <div>
-              <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: '#f8fafc' }}>
-                2. Operational Decision Explanation (Safety Rules & Context)
-              </h3>
-              <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
-                Multi-criteria arbitration fusing ML output with physical and legal constraints.
-              </p>
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
+              <div
+                style={{
+                  width: 32,
+                  height: 32,
+                  borderRadius: 'var(--radius-md)',
+                  backgroundColor: 'var(--primary-subtle)',
+                  color: 'var(--primary)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
+              >
+                <Scale size={18} />
+              </div>
+              <div>
+                <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+                  2. Operational Decision Explanation
+                </h3>
+                <p style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
+                  Multi-criteria arbitration fusing ML output with physical and regulatory constraints.
+                </p>
+              </div>
+            </div>
+
+            <div
+              style={{
+                padding: '14px 16px',
+                borderRadius: 'var(--radius-md)',
+                backgroundColor: 'var(--bg-surface-subtle)',
+                border: '1px solid var(--border-color)',
+                fontSize: '0.84rem',
+                color: 'var(--text-primary)',
+                lineHeight: 1.5,
+                marginBottom: 16
+              }}
+            >
+              <strong style={{ color: 'var(--primary)', display: 'block', marginBottom: 4 }}>Human-Readable Audit Rationale:</strong>
+              {latestAnalysis?.explanation?.summary ||
+                `Model recommendation approved: Sample characteristics satisfy physical, chemical, and biological non-potable reuse criteria.`}
             </div>
           </div>
 
-          <div
-            style={{
-              padding: '16px',
-              borderRadius: '10px',
-              background: 'rgba(15, 23, 42, 0.8)',
-              border: '1px solid rgba(255, 255, 255, 0.08)',
-              fontSize: '0.86rem',
-              color: '#e2e8f0',
-              lineHeight: 1.6,
-              marginBottom: 16
-            }}
-          >
-            <strong>Human-Readable Audit Rationale:</strong>
-            <p style={{ marginTop: 6 }}>
-              {latestAnalysis?.explanation?.summary ||
-                `Model recommendation approved: Sample characteristics satisfy physical, chemical, and biological non-potable reuse criteria.`}
-            </p>
-          </div>
-
-          <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
-            <strong>Operational Constraint Rules:</strong>
+          <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
+            <strong style={{ color: 'var(--text-primary)' }}>Deterministic Override Precedence Rules:</strong>
             <ul style={{ paddingLeft: 18, marginTop: 6, lineHeight: 1.5 }}>
-              <li>Deterministic EPA/WHO cutoffs override machine learning predictions in all critical breaches.</li>
-              <li>Isolation Forest anomaly score flags statistical outliers for engineering review.</li>
-              <li>Environmental rainfall &gt;= 5.0 mm defers irrigation to prevent surface runoff.</li>
+              <li>Deterministic EPA/WHO cutoffs override machine learning in all critical breaches.</li>
+              <li>Isolation Forest score flags statistical anomalies for supervisory review.</li>
+              <li>Precipitation &ge; 5.0 mm defers irrigation to prevent environmental runoff.</li>
             </ul>
           </div>
         </div>

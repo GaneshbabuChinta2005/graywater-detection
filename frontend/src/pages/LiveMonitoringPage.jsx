@@ -10,7 +10,9 @@ import {
   Droplet,
   Layers,
   Thermometer,
-  Gauge
+  Gauge,
+  FlaskConical,
+  Radio
 } from 'lucide-react';
 import { useSystem } from '../context/SystemContext';
 import MetricCard from '../components/MetricCard';
@@ -22,24 +24,24 @@ import {
   YAxis,
   Tooltip,
   ResponsiveContainer,
-  CartesianGrid
+  CartesianGrid,
+  Legend
 } from 'recharts';
 
 const SYNTHETIC_EVENTS = [
-  { id: 'normal', name: 'Nominal Baseline', desc: 'Typical domestic greywater baseline' },
-  { id: 'high_turbidity', name: 'Sediment Shock', desc: 'Turbidity & TSS spike' },
-  { id: 'high_tds', name: 'Saline Dissolved Shock', desc: 'TDS & Salinity surge' },
-  { id: 'high_organic_load', name: 'Kitchen Organic Load', desc: 'Severe COD/BOD food waste load' },
+  { id: 'normal', name: 'Nominal Baseline', desc: 'Typical domestic greywater profile' },
+  { id: 'high_turbidity', name: 'Sediment Shock', desc: 'Turbidity & TSS suspension spike' },
+  { id: 'high_tds', name: 'Saline Shock', desc: 'TDS & Salinity surge' },
+  { id: 'high_organic_load', name: 'Kitchen Food Load', desc: 'Severe COD/BOD organic surge' },
   { id: 'abnormal_ph', name: 'Detergent Surge', desc: 'Extreme alkaline surge (pH 9.8)' },
   { id: 'microbial_spike', name: 'Cross-Contamination', desc: 'E. coli surge (850k CFU)' },
   { id: 'sensor_fault_stuck', name: 'Hardware Stuck Fault', desc: 'Turbidity sensor frozen at 75 NTU' },
-  { id: 'sensor_fault_drift', name: 'Sensor Calibration Drift', desc: 'Progressive electrochemical pH sensor drift' }
+  { id: 'sensor_fault_drift', name: 'Calibration Drift', desc: 'Progressive electrochemical pH sensor drift' }
 ];
 
 export const LiveMonitoringPage = () => {
   const {
     latestTelemetry,
-    latestAnalysis,
     telemetryTrends,
     isSimulating,
     handleStartSimulation,
@@ -63,98 +65,148 @@ export const LiveMonitoringPage = () => {
       {/* Simulation Banner Notice */}
       <div
         style={{
-          background: 'linear-gradient(90deg, rgba(245, 158, 11, 0.12), rgba(6, 182, 212, 0.12))',
-          border: '1px solid rgba(245, 158, 11, 0.3)',
-          borderRadius: 14,
-          padding: '16px 22px',
+          backgroundColor: '#FFFBEB',
+          border: '1px solid #FDE68A',
+          borderRadius: 'var(--radius-lg)',
+          padding: '16px 20px',
           display: 'flex',
           justifyContent: 'space-between',
-          alignItems: 'center'
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: 16
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-          <span style={{ fontSize: '1.6rem' }}>🧪</span>
+          <div
+            style={{
+              width: 40,
+              height: 40,
+              borderRadius: 'var(--radius-md)',
+              backgroundColor: '#FEF3C7',
+              color: '#B45309',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexShrink: 0
+            }}
+          >
+            <FlaskConical size={22} />
+          </div>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <h2 style={{ fontSize: '1.15rem', fontWeight: 700, color: '#fef3c7' }}>
-                DIGITAL TWIN SIMULATION MODE
+              <h2 style={{ fontSize: '1.05rem', fontWeight: 800, color: '#92400E' }}>
+                DIGITAL TWIN SIMULATION ENVIRONMENT
               </h2>
               <StatusBadge label={isSimulating ? 'SIMULATION RUNNING' : 'STEP-BY-STEP READY'} />
             </div>
-            <p style={{ fontSize: '0.8rem', color: '#cbd5e1', marginTop: 2 }}>
-              Telemetry streams are synthetic physical/chemical operational data derived from statistical profiles. Not physical sensor hardware.
+            <p style={{ fontSize: '0.8125rem', color: '#78350F', marginTop: 2 }}>
+              Telemetry streams are synthetic physical/chemical operational data derived from statistical profiles for virtual commissioning.
             </p>
           </div>
         </div>
 
         {/* Live Controller Buttons */}
-        <div style={{ display: 'flex', gap: 8 }}>
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
           <button
             className={isSimulating ? 'btn-secondary' : 'btn-primary'}
             onClick={isSimulating ? handleStopSimulation : handleStartSimulation}
           >
-            {isSimulating ? <Pause size={16} /> : <Play size={16} />}
+            {isSimulating ? <Pause size={15} /> : <Play size={15} />}
             {isSimulating ? 'Pause Loop' : 'Start Auto-Run'}
           </button>
 
           <button className="btn-secondary" onClick={onStepClick}>
-            <StepForward size={16} /> Advance Step (+5m)
+            <StepForward size={15} /> Advance Step (+5m)
           </button>
 
           <button className="btn-secondary" onClick={handleResetSimulation}>
-            <RotateCcw size={16} /> Reset
+            <RotateCcw size={15} /> Reset
           </button>
         </div>
       </div>
 
-      {/* Interactive Controls & Shock Injector */}
-      <div className="glass-card" style={{ padding: '22px' }}>
-        <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: 14 }}>
-          Telemetry Generation Parameters & Controlled Shock Injection
-        </h3>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 20 }}>
+      {/* Interactive Controls & Controlled Shock Injection */}
+      <div className="card" style={{ padding: '24px' }}>
+        <div style={{ marginBottom: 16 }}>
+          <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+            Telemetry Generation Parameters & Controlled Shock Injection
+          </h3>
+          <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
+            Select source profile and trigger synthetic boundary conditions to verify real-time safety interlocks.
+          </p>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
           {/* Source Selector */}
           <div>
-            <label style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-secondary)', display: 'block', marginBottom: 8 }}>
+            <label className="form-label">
               Active Greywater Source:
             </label>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
-              {['Bathroom', 'Kitchen', 'Laundry', 'Mixed'].map(src => (
-                <button
-                  key={src}
-                  className={selectedSource === src ? 'btn-primary' : 'btn-secondary'}
-                  style={{ padding: '8px 12px', fontSize: '0.82rem', justifyContent: 'center' }}
-                  onClick={() => setSelectedSource(src)}
-                >
-                  {src}
-                </button>
-              ))}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 8 }}>
+              {['Bathroom', 'Kitchen', 'Laundry', 'Mixed'].map(src => {
+                const isSelected = selectedSource === src;
+                return (
+                  <button
+                    key={src}
+                    type="button"
+                    style={{
+                      padding: '10px 14px',
+                      borderRadius: 'var(--radius-md)',
+                      fontSize: '0.85rem',
+                      fontWeight: 600,
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: 8,
+                      border: isSelected ? '2px solid var(--primary)' : '1px solid var(--border-color)',
+                      backgroundColor: isSelected ? 'var(--primary-subtle)' : 'var(--bg-surface)',
+                      color: isSelected ? 'var(--primary)' : 'var(--text-primary)',
+                      transition: 'all var(--transition-fast)'
+                    }}
+                    onClick={() => setSelectedSource(src)}
+                  >
+                    <Droplet size={14} style={{ opacity: isSelected ? 1 : 0.6 }} />
+                    {src}
+                  </button>
+                );
+              })}
             </div>
           </div>
 
           {/* Synthetic Event Injector */}
           <div>
-            <label style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-secondary)', display: 'block', marginBottom: 8 }}>
+            <label className="form-label">
               Synthetic Shock Load or Sensor Malfunction:
             </label>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 8 }}>
-              {SYNTHETIC_EVENTS.map(evt => (
-                <button
-                  key={evt.id}
-                  className={selectedEvent === evt.id ? 'btn-primary' : 'btn-secondary'}
-                  style={{
-                    padding: '8px 10px',
-                    fontSize: '0.78rem',
-                    textAlign: 'left',
-                    flexDirection: 'column',
-                    alignItems: 'flex-start'
-                  }}
-                  onClick={() => setSelectedEvent(evt.id)}
-                >
-                  <span style={{ fontWeight: 600 }}>{evt.name}</span>
-                  <span style={{ fontSize: '0.68rem', opacity: 0.8 }}>{evt.desc}</span>
-                </button>
-              ))}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 8 }}>
+              {SYNTHETIC_EVENTS.map(evt => {
+                const isSelected = selectedEvent === evt.id;
+                return (
+                  <button
+                    key={evt.id}
+                    type="button"
+                    style={{
+                      padding: '8px 12px',
+                      borderRadius: 'var(--radius-md)',
+                      textAlign: 'left',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      border: isSelected ? '2px solid var(--primary)' : '1px solid var(--border-color)',
+                      backgroundColor: isSelected ? 'var(--primary-subtle)' : 'var(--bg-surface)',
+                      color: isSelected ? 'var(--primary)' : 'var(--text-primary)',
+                      transition: 'all var(--transition-fast)'
+                    }}
+                    onClick={() => setSelectedEvent(evt.id)}
+                  >
+                    <span style={{ fontSize: '0.8125rem', fontWeight: 700 }}>{evt.name}</span>
+                    <span style={{ fontSize: '0.7rem', color: isSelected ? 'var(--primary)' : 'var(--text-secondary)', marginTop: 2, lineHeight: 1.2 }}>
+                      {evt.desc}
+                    </span>
+                  </button>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -165,9 +217,9 @@ export const LiveMonitoringPage = () => {
         <MetricCard
           title="Simulation Step"
           value={latestTelemetry?.step !== undefined ? `Step #${latestTelemetry.step}` : 'Step #0'}
-          subtitle={`Time: ${latestTelemetry?.timestamp || '2026-10-03 06:00:00'}`}
+          subtitle={`Virtual Time: ${latestTelemetry?.timestamp || '2026-10-03 06:00:00'}`}
           icon={Activity}
-          accentColor="#06b6d4"
+          accentColor="var(--primary)"
         />
 
         <MetricCard
@@ -175,7 +227,7 @@ export const LiveMonitoringPage = () => {
           value={`${latestTelemetry?.flow_rate_L_min || 14.5} L/min`}
           subtitle={`Source: ${latestTelemetry?.greywater_source || 'Bathroom'}`}
           icon={Gauge}
-          accentColor="#3b82f6"
+          accentColor="var(--info)"
         />
 
         <MetricCard
@@ -183,27 +235,27 @@ export const LiveMonitoringPage = () => {
           value={`${latestTelemetry?.tank_level_L || 250.0} L`}
           subtitle={`Capacity: ${latestTelemetry?.tank_capacity_L || 1000} L`}
           icon={Layers}
-          accentColor="#8b5cf6"
+          accentColor="var(--purple)"
         />
 
         <MetricCard
           title="Hardware Sensor Status"
           value={latestTelemetry?.sensor_status || 'OK'}
-          subtitle={`Injected Event: ${latestTelemetry?.event_name || 'normal'}`}
+          subtitle={`Injected Profile: ${latestTelemetry?.event_name || 'normal'}`}
           icon={Zap}
-          accentColor={latestTelemetry?.sensor_status === 'OK' ? '#10b981' : '#ef4444'}
+          accentColor={latestTelemetry?.sensor_status === 'OK' ? 'var(--success)' : 'var(--danger)'}
           badge={<StatusBadge label={latestTelemetry?.sensor_status || 'OK'} />}
         />
       </div>
 
       {/* Continuous Time-Series Simulation Charts */}
-      <div className="glass-card" style={{ padding: '24px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+      <div className="card" style={{ padding: '24px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 12, marginBottom: 16 }}>
           <div>
-            <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+            <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--text-primary)' }}>
               Dynamic Fluid Mass Balance & Inflow Rate Trajectory
             </h3>
-            <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>
+            <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', marginTop: 2 }}>
               Continuous numerical integration of tank storage: V(t) = V(t-1) + (Q_in - Q_out) * dt.
             </p>
           </div>
@@ -214,21 +266,35 @@ export const LiveMonitoringPage = () => {
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={telemetryTrends} margin={{ top: 10, right: 30, left: 0, bottom: 5 }}>
               <defs>
-                <linearGradient id="tankFill" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.4} />
-                  <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0.0} />
+                <linearGradient id="tankFillLight" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#7C3AED" stopOpacity={0.25} />
+                  <stop offset="95%" stopColor="#7C3AED" stopOpacity={0.0} />
                 </linearGradient>
-                <linearGradient id="flowFill" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#06b6d4" stopOpacity={0.4} />
-                  <stop offset="95%" stopColor="#06b6d4" stopOpacity={0.0} />
+                <linearGradient id="flowFillLight" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#0F766E" stopOpacity={0.25} />
+                  <stop offset="95%" stopColor="#0F766E" stopOpacity={0.0} />
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-              <XAxis dataKey="timestamp" stroke="#64748b" tickFormatter={(t) => (t ? t.split(' ')[1] || t.slice(11, 16) : '')} />
-              <YAxis stroke="#64748b" />
-              <Tooltip contentStyle={{ backgroundColor: '#0f172a', border: '1px solid rgba(255, 255, 255, 0.1)', borderRadius: 8 }} />
-              <Area type="monotone" dataKey="tank_level_L" stroke="#8b5cf6" fillOpacity={1} fill="url(#tankFill)" name="Tank Level (L)" />
-              <Area type="monotone" dataKey="flow_rate_L_min" stroke="#06b6d4" fillOpacity={1} fill="url(#flowFill)" name="Inflow Rate (L/min)" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" vertical={false} />
+              <XAxis
+                dataKey="timestamp"
+                stroke="#94A3B8"
+                tickFormatter={(t) => (t ? t.split(' ')[1] || t.slice(11, 16) : '')}
+                tick={{ fontSize: 11, fill: '#64748B' }}
+              />
+              <YAxis stroke="#94A3B8" tick={{ fontSize: 11, fill: '#64748B' }} />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: '#FFFFFF',
+                  border: '1px solid #E2E8F0',
+                  borderRadius: 8,
+                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.07)',
+                  fontSize: 12
+                }}
+              />
+              <Legend wrapperStyle={{ fontSize: 12, paddingTop: 8 }} />
+              <Area type="monotone" dataKey="tank_level_L" stroke="#7C3AED" strokeWidth={2} fillOpacity={1} fill="url(#tankFillLight)" name="Tank Level (L)" />
+              <Area type="monotone" dataKey="flow_rate_L_min" stroke="#0F766E" strokeWidth={2} fillOpacity={1} fill="url(#flowFillLight)" name="Inflow Rate (L/min)" />
             </AreaChart>
           </ResponsiveContainer>
         </div>

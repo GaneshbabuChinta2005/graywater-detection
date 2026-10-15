@@ -2,7 +2,7 @@ import React from 'react';
 import { useSystem } from '../context/SystemContext';
 import MetricCard from '../components/MetricCard';
 import StatusBadge from '../components/StatusBadge';
-import { AlertTriangle, ShieldCheck, Activity, Info } from 'lucide-react';
+import { AlertTriangle, ShieldCheck, Activity, Info, AlertOctagon } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, ReferenceLine } from 'recharts';
 
 export const AnomalyDetectionPage = () => {
@@ -12,7 +12,11 @@ export const AnomalyDetectionPage = () => {
     is_anomaly: summary?.anomalyStatus !== 'NORMAL',
     anomaly_score: summary?.anomalyScore || 0.04,
     status: summary?.anomalyStatus || 'NORMAL',
-    explanation: 'Observation lies within the nominal empirical distribution learned by the Isolation Forest detector.'
+    explanation: 'Observation lies within nominal empirical bounds learned by the Isolation Forest detector.'
+  };
+
+  const routing = latestAnalysis?.routing || {
+    override_applied: false
   };
 
   // Generate trend data with anomaly scores
@@ -25,89 +29,108 @@ export const AnomalyDetectionPage = () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
       {/* Header */}
-      <div>
-        <h1 style={{ fontSize: '1.85rem', fontWeight: 800, color: 'var(--text-primary)' }}>
-          Unsupervised Isolation Forest Anomaly Screening
-        </h1>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginTop: 4 }}>
-          Statistical outlier detection trained on normal domestic greywater distributions to detect sensor faults and contamination shocks.
-        </p>
+      <div className="page-header">
+        <div>
+          <h1 className="page-title">
+            Unsupervised Isolation Forest Anomaly Screening
+          </h1>
+          <p className="page-subtitle">
+            Non-parametric statistical outlier detection isolating unusual multi-sensor vectors from reference domestic greywater baseline distributions.
+          </p>
+        </div>
+        <StatusBadge label={anomaly.status} size="lg" />
       </div>
 
       {/* KPI Cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 16 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16 }}>
         <MetricCard
           title="Anomaly Detector Status"
           value={anomaly.status}
-          subtitle={anomaly.is_anomaly ? 'Outlier Flagged' : 'Within Reference Range'}
+          subtitle={anomaly.is_anomaly ? 'Statistical Outlier Flagged' : 'Within Reference Manifold'}
           icon={anomaly.is_anomaly ? AlertTriangle : ShieldCheck}
-          accentColor={anomaly.is_anomaly ? '#ef4444' : '#10b981'}
+          accentColor={anomaly.is_anomaly ? 'var(--danger)' : 'var(--success)'}
           badge={<StatusBadge label={anomaly.status} size="lg" />}
         />
 
         <MetricCard
-          title="Current Anomaly Score"
+          title="Isolation Score"
           value={anomaly.anomaly_score.toFixed(4)}
-          subtitle="Decision Threshold: 0.5000"
+          subtitle="Decision Cutoff: 0.5000"
           icon={Activity}
-          accentColor={anomaly.anomaly_score >= 0.5 ? '#f59e0b' : '#06b6d4'}
+          accentColor={anomaly.anomaly_score >= 0.5 ? 'var(--warning)' : 'var(--primary)'}
           badge={<StatusBadge label={anomaly.anomaly_score >= 0.5 ? 'ELEVATED' : 'NOMINAL'} />}
+        />
+
+        <MetricCard
+          title="Safety Override Status"
+          value={routing.override_applied ? 'ACTIVE OVERRIDE' : 'STANDARD EVAL'}
+          subtitle={routing.override_applied ? 'Diverting to sewer bypass' : 'Nominal pipeline execution'}
+          icon={AlertOctagon}
+          accentColor={routing.override_applied ? 'var(--warning)' : 'var(--success)'}
+          badge={<StatusBadge label={routing.override_applied ? 'INTERLOCK ACTIVE' : 'NOMINAL'} />}
         />
       </div>
 
       {/* Scientific Clarification Box */}
       <div
-        className="glass-card"
+        className="card"
         style={{
-          padding: '20px 24px',
-          borderLeft: '4px solid var(--cyan-400)',
+          padding: '18px 22px',
+          borderLeft: '4px solid var(--primary)',
+          backgroundColor: 'var(--primary-subtle)',
           display: 'flex',
           gap: 16,
-          alignItems: 'center'
+          alignItems: 'flex-start'
         }}
       >
-        <Info size={28} color="var(--cyan-400)" style={{ flexShrink: 0 }} />
+        <Info size={22} style={{ color: 'var(--primary)', flexShrink: 0, marginTop: 2 }} />
         <div>
-          <h4 style={{ fontSize: '1rem', fontWeight: 700, color: '#f8fafc', marginBottom: 4 }}>
+          <h4 style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: 4 }}>
             Scientific Clarification on Anomaly Semantics
           </h4>
-          <p style={{ fontSize: '0.86rem', color: '#cbd5e1', lineHeight: 1.5 }}>
-            "An anomaly flag indicates a <strong>statistically unusual observation</strong> relative to the
-            detector's reference training distribution. It does <em>not</em> automatically signify hazardous or
-            toxic water. Similarly, absence of an anomaly does not replace deterministic regulatory safety verification."
+          <p style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
+            An anomaly flag indicates a <strong>statistically unusual multi-dimensional reading</strong> relative to the detector's training distribution. It does <em>not</em> prove biological toxicity or legal non-compliance. Conversely, absence of an anomaly does not replace deterministic threshold verification.
           </p>
         </div>
       </div>
 
       {/* Historical Anomaly Score Trend Chart */}
-      <div className="glass-card" style={{ padding: '24px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+      <div className="card" style={{ padding: '24px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12, marginBottom: 16 }}>
           <div>
-            <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--text-primary)' }}>
-              Historical Anomaly Score Trend vs Decision Threshold
+            <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+              Historical Anomaly Score Trend vs Decision Cutoff
             </h3>
-            <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>
-              Values exceeding the 0.50 cutoff trigger secondary safety reviews and potential sewer bypass.
+            <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', marginTop: 2 }}>
+              Scores exceeding the 0.5000 threshold flag the observation for deterministic safety review and potential diversion.
             </p>
           </div>
           <StatusBadge label="ISOLATION FOREST SCORE" />
         </div>
 
-        <div style={{ width: '100%', height: 320 }}>
+        <div style={{ width: '100%', height: 300 }}>
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={anomalyTrendData} margin={{ top: 10, right: 30, left: 0, bottom: 5 }}>
               <defs>
-                <linearGradient id="scoreFill" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#ef4444" stopOpacity={0.4} />
-                  <stop offset="95%" stopColor="#ef4444" stopOpacity={0.0} />
+                <linearGradient id="scoreFillLight" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#B91C1C" stopOpacity={0.25} />
+                  <stop offset="95%" stopColor="#B91C1C" stopOpacity={0.0} />
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-              <XAxis dataKey="timestamp" stroke="#64748b" />
-              <YAxis domain={[0, 1]} stroke="#64748b" />
-              <Tooltip contentStyle={{ backgroundColor: '#0f172a', border: '1px solid rgba(255, 255, 255, 0.1)', borderRadius: 8 }} />
-              <ReferenceLine y={0.50} stroke="#f59e0b" strokeDasharray="4 4" label={{ value: 'Anomaly Threshold (0.50)', fill: '#f59e0b', fontSize: 12 }} />
-              <Area type="monotone" dataKey="score" stroke="#ef4444" fillOpacity={1} fill="url(#scoreFill)" name="Anomaly Score" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" vertical={false} />
+              <XAxis dataKey="timestamp" stroke="#94A3B8" tick={{ fontSize: 11, fill: '#64748B' }} />
+              <YAxis domain={[0, 1]} stroke="#94A3B8" tick={{ fontSize: 11, fill: '#64748B' }} />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: '#FFFFFF',
+                  border: '1px solid #E2E8F0',
+                  borderRadius: 8,
+                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.07)',
+                  fontSize: 12
+                }}
+              />
+              <ReferenceLine y={0.50} stroke="#B45309" strokeDasharray="4 4" label={{ value: 'Anomaly Cutoff (0.50)', fill: '#B45309', fontSize: 11, position: 'top' }} />
+              <Area type="monotone" dataKey="score" stroke="#B91C1C" strokeWidth={2} fillOpacity={1} fill="url(#scoreFillLight)" name="Anomaly Score" />
             </AreaChart>
           </ResponsiveContainer>
         </div>
