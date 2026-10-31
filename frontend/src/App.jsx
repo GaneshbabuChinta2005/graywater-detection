@@ -17,6 +17,8 @@ import AnomalyDetectionPage from './pages/AnomalyDetectionPage';
 import ShapExplainabilityPage from './pages/ShapExplainabilityPage';
 import ReportsPage from './pages/ReportsPage';
 import SystemHealthPage from './pages/SystemHealthPage';
+import PlacesPage from './pages/PlacesPage';
+import PlaceDetailsPage from './pages/PlaceDetailsPage';
 
 export function App() {
   return (
@@ -38,6 +40,8 @@ export function App() {
               <Route path="/explainability" element={<ShapExplainabilityPage />} />
               <Route path="/reports" element={<ReportsPage />} />
               <Route path="/system" element={<SystemHealthPage />} />
+              <Route path="/places" element={<PlacesPage />} />
+              <Route path="/places/:placeId" element={<PlaceDetailsPage />} />
               <Route path="*" element={<Navigate to="/dashboard" replace />} />
             </Route>
           </Routes>

@@ -17,6 +17,7 @@
 - [Overview](#overview)
 - [System Architecture](#system-architecture)
 - [Key Features](#key-features)
+- [Places Module – Andhra Pradesh Regional Monitoring](#places-module--andhra-pradesh-regional-monitoring)
 - [Project Folder Structure](#project-folder-structure)
 - [Installation & Setup](#installation--setup)
 - [Environment Variables](#environment-variables)
@@ -128,6 +129,46 @@ This project delivers an autonomous, closed-loop decision platform that:
 ---
 
 
+## Places Module – Andhra Pradesh Regional Monitoring
+
+The **Places Module** expands HydroSense AI into regional surface water quality monitoring for municipal water management officers and environmental health regulators across **10 predefined municipal locations in Andhra Pradesh**.
+
+### 🏛️ **10 Predefined Municipal Monitoring Locations**
+The system monitors an immutable network of 10 key Andhra Pradesh cities across 24 official CPCB/APPCB stations:
+1. **Visakhapatnam** (Visakhapatnam District) — Gosthani River, Bay of Bengal Coastal Zone, Meghadrigedda Reservoir
+2. **Vijayawada** (NTR District) — Krishna River at Prakasham Barrage, Downstream Ferry Ghat, Eluru Canal
+3. **Guntur** (Guntur District) — Krishna River Reach at Amaravati Border, Pedakakani Drainage Stream
+4. **Kurnool** (Kurnool District) — Tungabhadra River at Bavapuram & Gondiparla, Hundri River Confluence
+5. **Mantralayam** (Kurnool District) — Tungabhadra River at Temple Bathing Ghats & Downstream
+6. **Rajamahendravaram** (East Godavari) — Godavari River at Kumaradevam, Pushkar Ghat, Dowleswaram Barrage
+7. **Amaravati** (Guntur / Palnadu) — Krishna River Heritage Bathing Ghat, Kondaveeti Vagu Stream
+8. **Rajam** (Vizianagaram District) — Vegavathi River Basin, Pedda Cheruvu Surface Tank
+9. **Tirupati** (Tirupati District) — Swarnamukhi River at Renigunta, Kalyani Reservoir Inflow Catchment
+10. **Srikakulam** (Srikakulam District) — River Nagavali Upstream & Downstream
+
+*(Strict Constraint: Nellore is excluded).*
+
+### 🧪 **5 Mandatory Water Quality Parameters & Regulatory Standards**
+Each sampling station tracks 5 key physicochemical and microbiological indicators evaluated against CPCB Designated Best Use Class C (Drinking Water Source with conventional treatment) and Class B (Outdoor Bathing):
+- **Total Suspended Solids (TSS)**: $\le 100.0\text{ mg/L}$ (CPCB General Environmental Standard)
+- **Biochemical Oxygen Demand (BOD)**: $\le 3.0\text{ mg/L}$ (3-day 27°C organic loading)
+- **Chemical Oxygen Demand (COD)**: $\le 250.0\text{ mg/L}$ (General Effluent / Industrial threshold)
+- **pH**: $6.5 \le \text{pH} \le 8.5$ (Aquatic ecological balance)
+- **Faecal Coliform**: $\le 500\text{ MPN/100mL}$ desirable, $\le 2500\text{ MPN/100mL}$ maximum permissible
+
+### 🔒 **Authentic Missing-Data Handling**
+Missing readings are never masked with zero or synthetic approximations. Stations where specific tests were omitted (e.g. Faecal Coliform at Pedda Cheruvu or COD at Mantralayam downstream) explicitly display `"Data Not Available"`.
+
+### 🗺️ **Module Capabilities**
+- **Interactive Andhra Pradesh Map**: SVG map with accurate geographic projection ($12.6^\circ\text{N}-19.2^\circ\text{N}$, $76.6^\circ\text{E}-84.8^\circ\text{E}$) with clickable station markers and hover details.
+- **Station Independence**: Station measurements are inspected individually; cross-station averaging is strictly prevented.
+- **Historical Analysis**: Time-series Recharts graphs (30D, 90D, 1Y, All) with sampling gap preservation.
+- **Multi-City Comparison**: Side-by-side matrix and comparative bar charts comparing 2 to 5 cities.
+- **Data Export & Import**: Authenticated CSV export and validated CSV import.
+- **AI Separation**: Completely isolated from the domestic greywater XGBoost model and routing pipeline.
+
+---
+
 ## Modern Web Interface Features
 
 The React-based frontend includes a comprehensive operator dashboard with:
@@ -143,18 +184,19 @@ The React-based frontend includes a comprehensive operator dashboard with:
   - Status badges and semantic colors (success/warning/danger)
 - **CSS custom properties** - 20+ theme tokens for backgrounds, borders, text, and status colors
 
-### 📊 **11 Specialized Dashboard Pages**
+### 📊 **12 Specialized Dashboard Pages**
 1. **Executive Dashboard** - Real-time KPIs, trend charts, and SHAP waterfall plots
 2. **Live Monitoring** - Digital twin simulation controls with real-time telemetry visualization
 3. **Water Quality** - 15 physicochemical parameters with interactive trend analysis
-4. **Smart Routing** - ML prediction interface with confidence scoring
-5. **Storage Tank** - Hydraulic kinetics and Arrhenius decay tracking
-6. **Weather Context** - Live meteorological data and irrigation deferral logic
-7. **Anomaly Detection** - Isolation Forest screening with contamination scores
-8. **Manual Analysis** - Single-sample testing and batch CSV upload
-9. **Reports** - Historical analysis logs and audit trails
-10. **Decision Pipeline** - 6-tier routing arbitration flow visualization
-11. **SHAP Explainability** - Global and local feature attribution analysis
+4. **Places (Andhra Pradesh)** - Regional surface water quality monitoring across 10 AP cities (CPCB/APPCB NWMP stations, 5 parameters, interactive map, multi-city comparison)
+5. **Smart Routing** - ML prediction interface with confidence scoring
+6. **Storage Tank** - Hydraulic kinetics and Arrhenius decay tracking
+7. **Weather Context** - Live meteorological data and irrigation deferral logic
+8. **Anomaly Detection** - Isolation Forest screening with contamination scores
+9. **Manual Analysis** - Single-sample testing and batch CSV upload
+10. **Reports** - Historical analysis logs and audit trails
+11. **Decision Pipeline** - 6-tier routing arbitration flow visualization
+12. **SHAP Explainability** - Global and local feature attribution analysis
 
 ### 🎯 **Technical Stack**
 - **React 18** with Vite for fast development and optimized builds
@@ -176,7 +218,7 @@ main project/
 │   ├── vite.config.js
 │   ├── src/
 │   │   ├── components/              # Glassmorphic UI cards, Decision Pipeline, SHAP waterfall
-│   │   ├── pages/                   # 11 Dedicated views (Dashboard, Routing, Twin, SHAP, etc.)
+│   │   ├── pages/                   # 12 Dedicated views (Dashboard, Places AP, Routing, Twin, SHAP, etc.)
 │   │   ├── services/api.js          # Axios API communication layer
 │   │   ├── context/                 # AuthContext & SystemContext (5s auto-polling)
 │   │   └── index.css                # Dark-mode glassmorphic styling system
@@ -297,6 +339,16 @@ pytest -q
 *Expected Output:*
 ```text
 132 passed, 3 warnings in 130.62s (0:02:10)
+```
+
+Run the **Places Module (Andhra Pradesh Regional Monitoring)** test suite:
+```bash
+node tests/test_places_module.js
+```
+*Expected Output:*
+```text
+TOTAL PLACES TESTS: 10 | PASSED: 10 | FAILED: 0
+ALL PLACES MODULE VERIFICATION TESTS PASSED SUCCESSFULLY! (100%)
 ```
 
 ---

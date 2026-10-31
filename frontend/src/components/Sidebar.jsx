@@ -17,7 +17,8 @@ import {
   RotateCcw,
   StepForward,
   X,
-  Radio
+  Radio,
+  MapPin
 } from 'lucide-react';
 import { useSystem } from '../context/SystemContext';
 
@@ -29,6 +30,12 @@ const NAV_GROUPS = [
       { path: '/monitoring', label: 'Live Monitoring', icon: Activity },
       { path: '/analysis', label: 'Manual Analysis', icon: FlaskConical },
       { path: '/water-quality', label: 'Water Quality', icon: Droplet },
+    ]
+  },
+  {
+    title: 'Regional Monitoring',
+    items: [
+      { path: '/places', label: 'Places', icon: MapPin },
     ]
   },
   {

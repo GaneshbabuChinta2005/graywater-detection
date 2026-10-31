@@ -15,6 +15,7 @@ const storageRoutes = require('./routes/storageRoutes');
 const weatherRoutes = require('./routes/weatherRoutes');
 const reportRoutes = require('./routes/reportRoutes');
 const simulationRoutes = require('./routes/simulationRoutes');
+const placesRoutes = require('./routes/placesRoutes');
 
 const app = express();
 
@@ -61,6 +62,7 @@ app.use('/api/storage', storageRoutes);
 app.use('/api/weather', weatherRoutes);
 app.use('/api/reports', reportRoutes);
 app.use('/api/simulation', simulationRoutes);
+app.use('/api/places', placesRoutes);
 
 // Root Health / Info
 app.get('/', (req, res) => {
