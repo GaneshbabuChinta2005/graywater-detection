@@ -3,7 +3,7 @@ import { useSystem } from '../context/SystemContext';
 import { useChartTheme } from '../hooks/useChartTheme';
 import MetricCard from '../components/MetricCard';
 import StatusBadge from '../components/StatusBadge';
-import { Activity, ShieldCheck, HelpCircle } from 'lucide-react';
+import { Activity, ShieldCheck, HelpCircle, Droplet, CheckCircle2 } from 'lucide-react';
 import {
   LineChart,
   Line,
@@ -45,34 +45,34 @@ export const WaterQualityPage = () => {
 
   const getStatus = (key, val) => {
     if (val === undefined || val === null) return 'UNKNOWN';
-    if (key === 'pH') return val >= 6.5 && val <= 8.5 ? 'NORMAL' : 'REVIEW';
-    if (key === 'TUR_NTU') return val < 50 ? 'NORMAL' : val < 100 ? 'ELEVATED' : 'CRITICAL';
-    if (key === 'COD_mg_L') return val < 150 ? 'NORMAL' : val < 300 ? 'ELEVATED' : 'CRITICAL';
-    if (key === 'E_coli_CFU_100mL') return val < 1000 ? 'NORMAL' : val < 10000 ? 'ELEVATED' : 'CRITICAL';
-    return 'NORMAL';
+    if (key === 'pH') return val >= 6.5 && val <= 8.5 ? 'COMPLIANT' : 'DEFERRED - MONSOON';
+    if (key === 'TUR_NTU') return val < 50 ? 'COMPLIANT' : val < 100 ? 'DEFERRED - MONSOON' : 'VIOLATION - SEWER OVERRIDE';
+    if (key === 'COD_mg_L') return val < 150 ? 'COMPLIANT' : val < 250 ? 'DEFERRED - MONSOON' : 'VIOLATION - SEWER OVERRIDE';
+    if (key === 'E_coli_CFU_100mL') return val < 1000 ? 'COMPLIANT' : val < 10000 ? 'DEFERRED - MONSOON' : 'VIOLATION - SEWER OVERRIDE';
+    return 'COMPLIANT';
   };
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-      {/* Header */}
+      {/* ─── Header ──────────────────────────────────────────────────────── */}
       <div className="page-header">
         <div>
           <h1 className="page-title">
             15 Physicochemical & Microbial Telemetry Parameters
           </h1>
           <p className="page-subtitle">
-            Continuous multi-sensor telemetry benchmarked against EPA & WHO non-potable reuse safety thresholds. Click any metric to visualize historical telemetry.
+            Continuous multi-sensor telemetry benchmarked against CPCB Schedule VI & EPA non-potable reuse safety thresholds. Click any metric card below to focus the statutory trend analysis.
           </p>
         </div>
       </div>
 
-      {/* Physical Parameters Group */}
+      {/* ─── Physical Parameters Group ────────────────────────────────────── */}
       <div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
-          <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--primary)' }}>
+          <h3 style={{ fontSize: '1rem', fontWeight: 800, color: '#0F2942' }}>
             A. Physical Parameters (Sediments, Solids & Electrochemistry)
           </h3>
-          <span style={{ fontSize: '0.72rem', backgroundColor: 'var(--primary-subtle)', color: 'var(--primary)', padding: '2px 8px', borderRadius: 'var(--radius-sm)', fontWeight: 600 }}>
+          <span style={{ fontSize: '0.7rem', backgroundColor: '#EFF6FF', color: '#0F2942', border: '1px solid #BFDBFE', padding: '2px 8px', borderRadius: '4px', fontWeight: 700 }}>
             7 Parameters
           </span>
         </div>
@@ -85,17 +85,17 @@ export const WaterQualityPage = () => {
               <div
                 key={p.key}
                 style={{
-                  outline: isSelected ? '2px solid var(--primary)' : 'none',
-                  borderRadius: 'var(--radius-lg)'
+                  outline: isSelected ? '2px solid #0F2942' : 'none',
+                  borderRadius: '8px'
                 }}
               >
                 <MetricCard
                   title={p.label}
                   value={val !== undefined ? `${val} ${p.unit}` : '--'}
-                  subtitle={`Limit: ${p.safeRange}`}
+                  subtitle={`Statutory Limit: ${p.safeRange}`}
                   badge={<StatusBadge label={status} />}
                   onClick={() => setSelectedParam(p.key)}
-                  accentColor={isSelected ? 'var(--primary)' : 'var(--text-muted)'}
+                  accentColor={isSelected ? '#0F2942' : '#CBD5E1'}
                 />
               </div>
             );
@@ -103,13 +103,13 @@ export const WaterQualityPage = () => {
         </div>
       </div>
 
-      {/* Chemical Parameters Group */}
+      {/* ─── Chemical Parameters Group ────────────────────────────────────── */}
       <div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
-          <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--info)' }}>
+          <h3 style={{ fontSize: '1rem', fontWeight: 800, color: '#1D4ED8' }}>
             B. Chemical Parameters (Organics, Nutrients & Salinity)
           </h3>
-          <span style={{ fontSize: '0.72rem', backgroundColor: 'var(--info-bg)', color: 'var(--info)', padding: '2px 8px', borderRadius: 'var(--radius-sm)', fontWeight: 600 }}>
+          <span style={{ fontSize: '0.7rem', backgroundColor: '#EFF6FF', color: '#1D4ED8', border: '1px solid #BFDBFE', padding: '2px 8px', borderRadius: '4px', fontWeight: 700 }}>
             7 Parameters
           </span>
         </div>
@@ -122,18 +122,18 @@ export const WaterQualityPage = () => {
               <div
                 key={p.key}
                 style={{
-                  outline: isSelected ? '2px solid var(--info)' : 'none',
-                  borderRadius: 'var(--radius-lg)'
+                  outline: isSelected ? '2px solid #1D4ED8' : 'none',
+                  borderRadius: '8px'
                 }}
               >
                 <MetricCard
                   key={p.key}
                   title={p.label}
                   value={val !== undefined ? `${val} ${p.unit}` : '--'}
-                  subtitle={`Limit: ${p.safeRange}`}
+                  subtitle={`Statutory Limit: ${p.safeRange}`}
                   badge={<StatusBadge label={status} />}
                   onClick={() => setSelectedParam(p.key)}
-                  accentColor={isSelected ? 'var(--info)' : 'var(--text-muted)'}
+                  accentColor={isSelected ? '#1D4ED8' : '#CBD5E1'}
                 />
               </div>
             );
@@ -141,13 +141,13 @@ export const WaterQualityPage = () => {
         </div>
       </div>
 
-      {/* Microbiological Parameters Group */}
+      {/* ─── Microbiological Parameters Group ─────────────────────────────── */}
       <div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
-          <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--danger)' }}>
-            C. Microbiological Parameters (Pathogen Load)
+          <h3 style={{ fontSize: '1rem', fontWeight: 800, color: '#B91C1C' }}>
+            C. Microbiological Parameters (Pathogen Density)
           </h3>
-          <span style={{ fontSize: '0.72rem', backgroundColor: 'var(--danger-bg)', color: 'var(--danger)', padding: '2px 8px', borderRadius: 'var(--radius-sm)', fontWeight: 600 }}>
+          <span style={{ fontSize: '0.7rem', backgroundColor: '#FEF2F2', color: '#B91C1C', border: '1px solid #FECACA', padding: '2px 8px', borderRadius: '4px', fontWeight: 700 }}>
             1 Parameter
           </span>
         </div>
@@ -160,8 +160,8 @@ export const WaterQualityPage = () => {
               <div
                 key={p.key}
                 style={{
-                  outline: isSelected ? '2px solid var(--danger)' : 'none',
-                  borderRadius: 'var(--radius-lg)'
+                  outline: isSelected ? '2px solid #B91C1C' : 'none',
+                  borderRadius: '8px'
                 }}
               >
                 <MetricCard
@@ -171,7 +171,7 @@ export const WaterQualityPage = () => {
                   subtitle={`Threshold: ${p.safeRange}`}
                   badge={<StatusBadge label={status} />}
                   onClick={() => setSelectedParam(p.key)}
-                  accentColor={isSelected ? 'var(--danger)' : 'var(--text-muted)'}
+                  accentColor={isSelected ? '#B91C1C' : '#CBD5E1'}
                 />
               </div>
             );
@@ -179,21 +179,21 @@ export const WaterQualityPage = () => {
         </div>
       </div>
 
-      {/* Interactive Trend Chart for Selected Parameter */}
-      <div className="card" style={{ padding: '24px' }}>
+      {/* ─── Interactive Trend Chart for Selected Parameter ────────────────── */}
+      <div className="card" style={{ padding: '24px', backgroundColor: '#FFFFFF', border: '1px solid #CBD5E1' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12, marginBottom: 16 }}>
           <div>
-            <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--text-primary)' }}>
-              Historical Telemetry Trend: <span style={{ color: 'var(--primary)' }}>{selectedParam}</span>
+            <h3 style={{ fontSize: '1.05rem', fontWeight: 800, color: '#0F2942', margin: 0 }}>
+              Historical Statutory Telemetry Trend: <span style={{ color: '#0F2942' }}>{selectedParam}</span>
             </h3>
-            <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', marginTop: 2 }}>
-              Temporal progression across active simulation steps. Click any card above to focus.
+            <p style={{ fontSize: '0.8125rem', color: '#64748B', marginTop: 2 }}>
+              Temporal progression across active monitoring steps. Click any parameter card above to focus.
             </p>
           </div>
           <StatusBadge label={`FOCUS: ${selectedParam}`} />
         </div>
 
-        <div style={{ width: '100%', height: 280 }}>
+        <div style={{ width: '100%', height: 280, backgroundColor: '#FFFFFF' }}>
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={telemetryTrends} margin={{ top: 10, right: 30, left: 0, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke={ct.gridStroke} vertical={false} />
@@ -206,14 +206,15 @@ export const WaterQualityPage = () => {
               <YAxis stroke={ct.axisStroke} tick={{ fontSize: 11, fill: ct.tickFill }} />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: ct.tooltipBg,
-                  border: '1px solid ' + ct.tooltipBorder,
-                  borderRadius: 8,
-                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.07)',
-                  fontSize: 12
+                  backgroundColor: '#FFFFFF',
+                  border: '1px solid #CBD5E1',
+                  borderRadius: 6,
+                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.08)',
+                  fontSize: 12,
+                  color: '#0F172A'
                 }}
               />
-              <Line type="monotone" dataKey={selectedParam} stroke={ct.colorPrimary} strokeWidth={2.5} dot={{ r: 3, fill: ct.colorPrimary }} name={selectedParam} />
+              <Line type="monotone" dataKey={selectedParam} stroke="#0F2942" strokeWidth={2.5} dot={{ r: 3, fill: '#0F2942' }} name={selectedParam} />
             </LineChart>
           </ResponsiveContainer>
         </div>

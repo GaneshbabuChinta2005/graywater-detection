@@ -2,33 +2,33 @@ import { useTheme } from '../context/ThemeContext';
 
 /**
  * Returns resolved color values for Recharts SVG props that cannot read CSS vars.
- * All chart components should use this hook instead of hardcoded hex values.
+ * Calibrated specifically for Government Portal institutional light readability.
  */
 export const useChartTheme = () => {
   const { isDark } = useTheme();
 
   return {
-    // Grid & axis lines
-    gridStroke:      isDark ? '#2A2F3E' : '#E2E8F0',
-    axisStroke:      isDark ? '#2A2F3E' : '#E2E8F0',
-    // Tick labels
-    tickFill:        isDark ? '#8B95A6' : '#64748B',
-    tickFillPrimary: isDark ? '#E8EDF3' : '#17212F',
-    // Tooltip popup
-    tooltipBg:       isDark ? '#1A1D27' : '#FFFFFF',
-    tooltipBorder:   isDark ? '#2A2F3E' : '#E2E8F0',
-    tooltipText:     isDark ? '#E8EDF3' : '#17212F',
+    // Grid & axis lines — Crisp Slate Gridlines
+    gridStroke:      isDark ? '#334155' : '#E2E8F0',
+    axisStroke:      isDark ? '#475569' : '#94A3B8',
+    // Tick labels — High-contrast slate charcoal
+    tickFill:        isDark ? '#CBD5E1' : '#475569',
+    tickFillPrimary: isDark ? '#F8FAFC' : '#0F172A',
+    // Tooltip popup — Clean solid container
+    tooltipBg:       isDark ? '#1E293B' : '#FFFFFF',
+    tooltipBorder:   isDark ? '#475569' : '#CBD5E1',
+    tooltipText:     isDark ? '#F8FAFC' : '#0F172A',
     // Reference lines / annotations
-    refLineStroke:   isDark ? '#FBBF24' : '#B45309',
-    refLabelFill:    isDark ? '#FBBF24' : '#B45309',
-    // Data line colors (semantic)
-    colorPrimary:    isDark ? '#2DD4BF' : '#0F766E',   // pH
-    colorWarning:    isDark ? '#FBBF24' : '#B45309',   // Turbidity
-    colorDanger:     isDark ? '#F87171' : '#B91C1C',   // COD / anomaly
-    colorPurple:     isDark ? '#A78BFA' : '#7C3AED',   // Tank
-    colorInfo:       isDark ? '#60A5FA' : '#2563EB',   // Flow
-    colorSuccess:    isDark ? '#34D399' : '#15803D',   // safe
+    refLineStroke:   isDark ? '#F59E0B' : '#D97706',
+    refLabelFill:    isDark ? '#F59E0B' : '#B45309',
+    // Data line colors (Official Government & CPCB palette)
+    colorPrimary:    isDark ? '#38BDF8' : '#0F2942',   // Navy Blue / Primary
+    colorWarning:    isDark ? '#F59E0B' : '#D97706',   // Saffron / Turbidity
+    colorDanger:     isDark ? '#EF4444' : '#B91C1C',   // CPCB Red / COD Violation
+    colorPurple:     isDark ? '#818CF8' : '#4338CA',   // Indigo / Tank Level
+    colorInfo:       isDark ? '#60A5FA' : '#1D4ED8',   // Royal Blue / Flow
+    colorSuccess:    isDark ? '#22C55E' : '#15803D',   // Forest Green / Verified Compliance
     // Gradient fill opacities (area charts)
-    gradientOpacity: isDark ? 0.18 : 0.25,
+    gradientOpacity: isDark ? 0.22 : 0.18,
   };
 };
