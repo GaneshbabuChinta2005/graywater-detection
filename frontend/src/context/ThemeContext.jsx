@@ -3,20 +3,11 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
-<<<<<<< HEAD
-  const [theme, setTheme] = useState(() => {
-    const saved = localStorage.getItem('hydrosense_theme');
-    if (saved) return saved;
-    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
-      ? 'dark'
-      : 'light';
-=======
   // Institutional default: Government Light Theme
   const [theme, setTheme] = useState(() => {
     const saved = localStorage.getItem('hydrosense_theme');
     if (saved && (saved === 'light' || saved === 'dark')) return saved;
     return 'light'; // Clean Government Light Theme by default
->>>>>>> myrepo/main
   });
 
   useEffect(() => {

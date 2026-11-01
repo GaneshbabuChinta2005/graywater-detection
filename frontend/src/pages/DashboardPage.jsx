@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import React from 'react';
-=======
-import React, { useState } from 'react';
->>>>>>> myrepo/main
+﻿import React, { useState } from 'react';
 import {
   Droplet,
   GitFork,
@@ -11,27 +7,19 @@ import {
   CloudSun,
   Activity,
   CheckCircle2,
-<<<<<<< HEAD
-  TrendingUp,
-  Sliders
-=======
   ShieldCheck,
   Scale,
   Zap,
   MapPin,
   Waves,
   AlertOctagon
->>>>>>> myrepo/main
 } from 'lucide-react';
 import { useSystem } from '../context/SystemContext';
 import MetricCard from '../components/MetricCard';
 import StatusBadge from '../components/StatusBadge';
 import DecisionPipelineVisualizer from '../components/DecisionPipelineVisualizer';
 import ShapWaterfallChart from '../components/ShapWaterfallChart';
-<<<<<<< HEAD
-=======
 import RegulatoryChallanModal from '../components/RegulatoryChallanModal';
->>>>>>> myrepo/main
 import { useChartTheme } from '../hooks/useChartTheme';
 import {
   LineChart,
@@ -48,28 +36,6 @@ export const DashboardPage = () => {
   const { summary, latestTelemetry, telemetryTrends, latestAnalysis } = useSystem();
   const ct = useChartTheme();
 
-<<<<<<< HEAD
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-      {/* Page Header */}
-      <div className="page-header">
-        <div>
-          <h1 className="page-title">
-            System Overview & Real-Time Telemetry
-          </h1>
-          <p className="page-subtitle">
-            Continuous multi-context greywater quality monitoring, XGBoost routing classification, and deterministic safety arbitration.
-          </p>
-        </div>
-        <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-          <StatusBadge label={`SOURCE: ${summary?.source || 'Bathroom'}`} size="lg" />
-          <StatusBadge label={summary?.finalAction || 'ALLOW_ROUTE'} size="lg" />
-        </div>
-      </div>
-
-      {/* KPI Grid (Top 6 Operational Metric Cards) */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))', gap: 16 }}>
-=======
   const [isChallanModalOpen, setIsChallanModalOpen] = useState(false);
   const [challanScenario, setChallanScenario] = useState('auto');
 
@@ -225,66 +191,39 @@ export const DashboardPage = () => {
 
       {/* ─── 4. Top 6 Key Metric Cards ─────────────────────────────────────── */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 14 }}>
->>>>>>> myrepo/main
         <MetricCard
           title="Current Water Quality"
           value={latestTelemetry ? `${latestTelemetry.pH.toFixed(2)} pH` : '7.40 pH'}
           subtitle={`Turbidity: ${latestTelemetry?.TUR_NTU || 28.5} NTU`}
           icon={Droplet}
-<<<<<<< HEAD
-          accentColor="var(--primary)"
-=======
           accentColor="#0F2942"
->>>>>>> myrepo/main
           badge={<StatusBadge label={summary?.source || 'Bathroom'} />}
         />
 
         <MetricCard
-<<<<<<< HEAD
-          title="ML Predicted Route"
-          value={summary?.predictedRoute || 'Restricted Irrigation'}
-          subtitle={`Confidence: ${((summary?.confidence || 0.94) * 100).toFixed(1)}%`}
-          icon={GitFork}
-          accentColor="var(--info)"
-          badge={<StatusBadge label={summary?.predictedRoute || 'Irrigation'} />}
-=======
           title="AI Predicted Route"
           value={summary?.predictedRoute || 'Restricted Irrigation'}
           subtitle={`Confidence: ${((summary?.confidence || 0.94) * 100).toFixed(0)}%`}
           icon={GitFork}
           accentColor="#1D4ED8"
           badge={<StatusBadge label={summary?.predictedRoute || 'PERMITTED REUSE'} />}
->>>>>>> myrepo/main
         />
 
         <MetricCard
           title="Final Arbitrated Route"
           value={summary?.finalRoute || 'Restricted Irrigation'}
-<<<<<<< HEAD
-          subtitle={`Action: ${summary?.finalAction || 'ALLOW_ROUTE'}`}
-          icon={CheckCircle2}
-          accentColor="var(--success)"
-          badge={<StatusBadge label={summary?.finalAction || 'ALLOW_ROUTE'} />}
-=======
           subtitle={`Action: ${summary?.finalAction || 'COMPLIANT'}`}
           icon={CheckCircle2}
           accentColor={isViolation ? '#B91C1C' : '#15803D'}
           badge={<StatusBadge label={isViolation ? 'VIOLATION - SEWER OVERRIDE' : (summary?.finalAction || 'COMPLIANT')} />}
->>>>>>> myrepo/main
         />
 
         <MetricCard
           title="Anomaly Screening"
           value={summary?.anomalyStatus || 'NORMAL'}
-<<<<<<< HEAD
-          subtitle={`Isolation Score: ${(summary?.anomalyScore || 0.04).toFixed(4)}`}
-          icon={AlertTriangle}
-          accentColor={summary?.anomalyStatus === 'NORMAL' ? 'var(--success)' : 'var(--danger)'}
-=======
           subtitle={`Isolation Score: ${(summary?.anomalyScore || 0.04).toFixed(3)}`}
           icon={AlertTriangle}
           accentColor={summary?.anomalyStatus === 'NORMAL' ? '#15803D' : '#D97706'}
->>>>>>> myrepo/main
           badge={<StatusBadge label={summary?.anomalyStatus || 'NORMAL'} />}
         />
 
@@ -293,53 +232,13 @@ export const DashboardPage = () => {
           value={`${summary?.tankLevelLiters || 250.0} L`}
           subtitle={`Capacity: ${summary?.tankCapacityLiters || 1000} L (${summary?.fillPercentage || 25}%)`}
           icon={Database}
-<<<<<<< HEAD
-          accentColor="var(--purple)"
-=======
           accentColor="#4338CA"
->>>>>>> myrepo/main
           badge={<StatusBadge label={`${summary?.fillPercentage || 25}% Full`} />}
         />
 
         <MetricCard
           title="Weather Context"
           value={summary?.weatherCondition || 'Clear'}
-<<<<<<< HEAD
-          subtitle={`Rainfall: ${summary?.rainfallMm || 0} mm (${summary?.irrigationAction || 'ALLOW_ROUTE'})`}
-          icon={CloudSun}
-          accentColor="var(--warning)"
-          badge={<StatusBadge label={summary?.irrigationAction || 'ALLOW_ROUTE'} />}
-        />
-      </div>
-
-      {/* Decision Pipeline Visualizer */}
-      <DecisionPipelineVisualizer analysis={latestAnalysis} />
-
-      {/* Analytics & SHAP Attribution Split */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(460px, 1fr))', gap: 20 }}>
-        {/* Telemetry Trend Graph */}
-        <div className="card" style={{ padding: '24px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--text-primary)' }}>
-                  Water Quality Telemetry History
-                </h3>
-                <span style={{ fontSize: '0.72rem', fontWeight: 600, color: 'var(--text-secondary)', backgroundColor: 'var(--bg-surface-subtle)', padding: '2px 8px', borderRadius: 'var(--radius-sm)' }}>
-                  Last 24 Steps
-                </span>
-              </div>
-              <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', marginTop: 2 }}>
-                Real-time tracking of pH, Turbidity (NTU), and Chemical Oxygen Demand (COD mg/L).
-              </p>
-            </div>
-            <Activity size={18} style={{ color: 'var(--primary)' }} />
-          </div>
-
-          <div style={{ width: '100%', height: 300 }}>
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={telemetryTrends} margin={{ top: 10, right: 20, left: 0, bottom: 5 }}>
-=======
           subtitle={`Rainfall: ${summary?.rainfallMm || 0} mm`}
           icon={CloudSun}
           accentColor="#D97706"
@@ -369,7 +268,6 @@ export const DashboardPage = () => {
           <div style={{ width: '100%', height: 260, backgroundColor: '#FFFFFF' }}>
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={telemetryTrends} margin={{ top: 10, right: 15, left: -10, bottom: 5 }}>
->>>>>>> myrepo/main
                 <CartesianGrid strokeDasharray="3 3" stroke={ct.gridStroke} vertical={false} />
                 <XAxis
                   dataKey="timestamp"
@@ -380,17 +278,6 @@ export const DashboardPage = () => {
                 <YAxis stroke={ct.axisStroke} tick={{ fontSize: 11, fill: ct.tickFill }} />
                 <Tooltip
                   contentStyle={{
-<<<<<<< HEAD
-                    backgroundColor: ct.tooltipBg,
-                    border: '1px solid ' + ct.tooltipBorder + ',',
-                    borderRadius: 8,
-                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.07)',
-                    fontSize: 12
-                  }}
-                />
-                <Legend wrapperStyle={{ fontSize: 12, paddingTop: 8 }} />
-                <Line type="monotone" dataKey="pH" stroke={ct.colorPrimary} strokeWidth={2.5} dot={false} name="pH" />
-=======
                     backgroundColor: '#FFFFFF',
                     border: '1px solid #CBD5E1',
                     borderRadius: 4,
@@ -399,7 +286,6 @@ export const DashboardPage = () => {
                 />
                 <Legend wrapperStyle={{ fontSize: 12, paddingTop: 4 }} />
                 <Line type="monotone" dataKey="pH" stroke={ct.colorPrimary} strokeWidth={2} dot={false} name="pH" />
->>>>>>> myrepo/main
                 <Line type="monotone" dataKey="TUR_NTU" stroke={ct.colorWarning} strokeWidth={2} dot={false} name="Turbidity (NTU)" />
                 <Line type="monotone" dataKey="COD_mg_L" stroke={ct.colorDanger} strokeWidth={2} dot={false} name="COD (mg/L)" />
               </LineChart>
@@ -414,8 +300,6 @@ export const DashboardPage = () => {
           confidence={latestAnalysis?.prediction?.confidence}
         />
       </div>
-<<<<<<< HEAD
-=======
 
       {/* ─── 7. Auto-Challan Regulatory Modal ───────────────────────────────── */}
       <RegulatoryChallanModal
@@ -425,7 +309,6 @@ export const DashboardPage = () => {
         analysis={latestAnalysis}
         initialScenario={challanScenario}
       />
->>>>>>> myrepo/main
     </div>
   );
 };

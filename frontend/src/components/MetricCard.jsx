@@ -7,35 +7,20 @@ export const MetricCard = ({
   subtitle = '',
   icon: Icon,
   badge = null,
-<<<<<<< HEAD
-  accentColor = 'var(--primary)',
-=======
   accentColor = '#0F2942',
->>>>>>> myrepo/main
   onClick = null
 }) => {
   return (
     <div
       className="card"
       style={{
-<<<<<<< HEAD
-        padding: '20px',
-=======
         padding: '18px 20px',
->>>>>>> myrepo/main
         position: 'relative',
         overflow: 'hidden',
         cursor: onClick ? 'pointer' : 'default',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
-<<<<<<< HEAD
-        minHeight: 140
-      }}
-      onClick={onClick}
-    >
-      {/* Subtle Top Accent Line */}
-=======
         minHeight: 135,
         backgroundColor: '#FFFFFF',
         border: '1px solid #CBD5E1',
@@ -45,7 +30,6 @@ export const MetricCard = ({
       onClick={onClick}
     >
       {/* Top Government Accent Border Strip */}
->>>>>>> myrepo/main
       <div
         style={{
           position: 'absolute',
@@ -57,12 +41,6 @@ export const MetricCard = ({
         }}
       />
 
-<<<<<<< HEAD
-      {/* Card Header: Title & Icon */}
-      <div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
-          <span style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-=======
       {/* Card Header: Title & Official Icon */}
       <div>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
@@ -76,23 +54,15 @@ export const MetricCard = ({
               lineHeight: 1.2
             }}
           >
->>>>>>> myrepo/main
             {title}
           </span>
           {Icon && (
             <div
               style={{
-<<<<<<< HEAD
-                width: 32,
-                height: 32,
-                borderRadius: 'var(--radius-md)',
-                backgroundColor: 'var(--bg-surface-subtle)',
-=======
                 width: 30,
                 height: 30,
                 borderRadius: '6px',
                 backgroundColor: '#F1F5F9',
->>>>>>> myrepo/main
                 color: accentColor,
                 display: 'flex',
                 alignItems: 'center',
@@ -106,15 +76,6 @@ export const MetricCard = ({
         </div>
 
         {/* Primary Value Display */}
-<<<<<<< HEAD
-        <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, marginBottom: 8, minWidth: 0 }}>
-          <span
-            style={{
-              fontSize: String(value || '').length > 15 ? '1.15rem' : String(value || '').length > 11 ? '1.35rem' : '1.65rem',
-              fontWeight: 800,
-              fontFamily: 'var(--font-heading)',
-              color: 'var(--text-primary)',
-=======
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, marginBottom: 6, minWidth: 0 }}>
           <span
             style={{
@@ -122,7 +83,6 @@ export const MetricCard = ({
               fontWeight: 800,
               fontFamily: 'var(--font-heading)',
               color: '#0F172A',
->>>>>>> myrepo/main
               letterSpacing: '-0.02em',
               lineHeight: 1.2,
               wordBreak: 'break-word',
@@ -132,11 +92,7 @@ export const MetricCard = ({
             {value !== undefined && value !== null ? value : '--'}
           </span>
           {unit && (
-<<<<<<< HEAD
-            <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontWeight: 500, flexShrink: 0 }}>
-=======
             <span style={{ fontSize: '0.85rem', color: '#475569', fontWeight: 600, flexShrink: 0 }}>
->>>>>>> myrepo/main
               {unit}
             </span>
           )}
@@ -144,10 +100,6 @@ export const MetricCard = ({
       </div>
 
       {/* Footer / Subtitle & Badge */}
-<<<<<<< HEAD
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8, marginTop: 'auto', paddingTop: 8, borderTop: '1px solid var(--border-subtle)' }}>
-        <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-=======
       <div
         style={{
           display: 'flex',
@@ -168,7 +120,6 @@ export const MetricCard = ({
             whiteSpace: 'nowrap'
           }}
         >
->>>>>>> myrepo/main
           {subtitle || '—'}
         </span>
         {badge && <div style={{ flexShrink: 0 }}>{badge}</div>}
