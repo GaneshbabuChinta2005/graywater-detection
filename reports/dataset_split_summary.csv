@@ -1,0 +1,4 @@
+split_name,row_count,feature_count,class_0_sewer_bypass,class_1_bio_filtration,class_2_restricted_irrigation,class_3_indoor_reuse,class_0_pct,class_1_pct,class_2_pct,class_3_pct,missing_values,duplicate_rows
+Train (70%),1050,19,312,505,229,4,29.71,48.1,21.81,0.38,0,0
+Validation (15%),225,19,67,108,49,1,29.78,48.0,21.78,0.44,0,0
+Test (15%),225,19,67,109,48,1,29.78,48.44,21.33,0.44,0,0

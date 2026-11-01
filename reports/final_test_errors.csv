@@ -1,0 +1,6 @@
+Sample_ID,actual_class,actual_class_name,predicted_class,predicted_class_name,prediction_confidence
+183,0,Sewer Bypass,1,Bio-filtration,0.5495
+731,1,Bio-filtration,0,Sewer Bypass,0.8895
+324,0,Sewer Bypass,1,Bio-filtration,0.9499
+116,2,Restricted Irrigation,1,Bio-filtration,0.8697
+855,3,Indoor Reuse,2,Restricted Irrigation,0.8175

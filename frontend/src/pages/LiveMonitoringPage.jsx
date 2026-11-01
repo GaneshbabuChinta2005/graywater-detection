@@ -1,0 +1,359 @@
+import React, { useState } from 'react';
+import {
+  Play,
+  Pause,
+  RotateCcw,
+  StepForward,
+  Activity,
+  Droplet,
+  Layers,
+  Gauge,
+  Zap,
+  FlaskConical
+} from 'lucide-react';
+import { useSystem } from '../context/SystemContext';
+import { useChartTheme } from '../hooks/useChartTheme';
+import MetricCard from '../components/MetricCard';
+import StatusBadge from '../components/StatusBadge';
+import {
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  CartesianGrid,
+  Legend
+} from 'recharts';
+
+const SYNTHETIC_EVENTS = [
+  { id: 'normal', name: 'Nominal Baseline', desc: 'Typical domestic greywater profile' },
+  { id: 'high_turbidity', name: 'Sediment Shock', desc: 'Turbidity & TSS suspension spike' },
+  { id: 'high_tds', name: 'Saline Shock', desc: 'TDS & Salinity surge' },
+  { id: 'high_organic_load', name: 'Kitchen Food Load', desc: 'Severe COD/BOD organic surge' },
+  { id: 'abnormal_ph', name: 'Detergent Surge', desc: 'Alkaline detergent spike (pH 9.8)' },
+  { id: 'microbial_spike', name: 'Cross-Contamination', desc: 'E. coli pathogen surge' },
+  { id: 'sensor_fault_stuck', name: 'Sensor Stuck Fault', desc: 'Turbidity sensor frozen at 75 NTU' },
+  { id: 'sensor_fault_drift', name: 'Calibration Drift', desc: 'Electrochemical pH sensor drift' }
+];
+
+export const LiveMonitoringPage = () => {
+  const {
+    latestTelemetry,
+    telemetryTrends,
+    isSimulating,
+    handleStartSimulation,
+    handleStopSimulation,
+    handleResetSimulation,
+    handleStepSimulation
+  } = useSystem();
+
+  const ct = useChartTheme();
+  const [selectedSource, setSelectedSource] = useState('Bathroom');
+  const [selectedEvent, setSelectedEvent] = useState('normal');
+
+  const onStepClick = () => {
+    handleStepSimulation({
+      source: selectedSource,
+      event_name: selectedEvent
+    });
+  };
+
+  const computeComplianceStatus = (item) => {
+    const cod = item.COD_mg_L ?? 82.0;
+    const tss = item.TSS_mg_L ?? 34.0;
+    const tur = item.TUR_NTU ?? 28.5;
+    const event = item.event_name || 'normal';
+
+    if (cod > 250 || tss > 100 || event === 'high_organic_load' || event === 'microbial_spike') {
+      return 'VIOLATION - SEWER OVERRIDE';
+    }
+    if (tur > 60 || event === 'abnormal_ph' || event === 'high_turbidity') {
+      return 'DEFERRED - MONSOON';
+    }
+    if (item.greywater_source === 'Bathroom' && tur < 30) {
+      return 'PERMITTED REUSE';
+    }
+    return 'COMPLIANT';
+  };
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+      {/* ─── Simulation Runtime Banner ────────────────────────────────────── */}
+      <div
+        className="card"
+        style={{
+          backgroundColor: '#FFFFFF',
+          border: '1px solid #CBD5E1',
+          borderLeft: '4px solid #0F2942',
+          borderRadius: '6px',
+          padding: '16px 20px',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: 12
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <div
+            style={{
+              width: 38,
+              height: 38,
+              borderRadius: '6px',
+              backgroundColor: '#F1F5F9',
+              color: '#0F2942',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexShrink: 0
+            }}
+          >
+            <FlaskConical size={20} />
+          </div>
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <h2 style={{ fontSize: '1rem', fontWeight: 800, color: '#0F2942', margin: 0 }}>
+                Digital Twin Simulation Stream
+              </h2>
+              <span
+                style={{
+                  fontSize: '0.68rem',
+                  fontWeight: 700,
+                  padding: '1px 6px',
+                  borderRadius: '3px',
+                  backgroundColor: isSimulating ? '#F0FDF4' : '#F1F5F9',
+                  color: isSimulating ? '#15803D' : '#64748B',
+                  border: `1px solid ${isSimulating ? '#BBF7D0' : '#CBD5E1'}`
+                }}
+              >
+                {isSimulating ? 'SIM ACTIVE' : 'IDLE'}
+              </span>
+            </div>
+            <p style={{ fontSize: '0.78rem', color: '#64748B', margin: '2px 0 0 0' }}>
+              Diurnal inflow rates, contaminant pulses, and CPCB valve actuation.
+            </p>
+          </div>
+        </div>
+
+        {/* Master Controls */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+          <button
+            className={isSimulating ? 'btn-secondary' : 'btn-primary'}
+            onClick={isSimulating ? handleStopSimulation : handleStartSimulation}
+            style={{ padding: '7px 12px', fontSize: '0.8rem' }}
+          >
+            {isSimulating ? <Pause size={13} /> : <Play size={13} />}
+            <span>{isSimulating ? 'Pause Stream' : 'Run Continuous'}</span>
+          </button>
+
+          <button className="btn-secondary" onClick={onStepClick} style={{ padding: '7px 12px', fontSize: '0.8rem' }}>
+            <StepForward size={13} /> <span>Step (+1 Cycle)</span>
+          </button>
+
+          <button className="btn-secondary" onClick={handleResetSimulation} style={{ padding: '7px 10px', fontSize: '0.8rem' }}>
+            <RotateCcw size={13} />
+          </button>
+        </div>
+      </div>
+
+      {/* ─── Stream Source & Shock Profiles ────────────────────────────────── */}
+      <div className="card" style={{ padding: '20px', backgroundColor: '#FFFFFF', border: '1px solid #CBD5E1' }}>
+        <h3 style={{ fontSize: '0.95rem', fontWeight: 800, color: '#0F2942', marginBottom: 12 }}>
+          Stream Source & Shock Scenario Injection
+        </h3>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(200px, 1fr) 3fr', gap: 16, alignItems: 'start' }}>
+          {/* Source Tabs */}
+          <div>
+            <label className="form-label">Effluent Source</label>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+              {['Bathroom', 'Kitchen', 'Laundry', 'Mixed'].map((src) => (
+                <button
+                  key={src}
+                  type="button"
+                  style={{
+                    padding: '8px 12px',
+                    borderRadius: '4px',
+                    fontSize: '0.8rem',
+                    fontWeight: selectedSource === src ? 700 : 500,
+                    textAlign: 'left',
+                    cursor: 'pointer',
+                    border: selectedSource === src ? '2px solid #0F2942' : '1px solid #CBD5E1',
+                    backgroundColor: selectedSource === src ? '#EFF6FF' : '#FFFFFF',
+                    color: selectedSource === src ? '#0F2942' : '#334155'
+                  }}
+                  onClick={() => setSelectedSource(src)}
+                >
+                  {src} Stream
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Scenarios Grid */}
+          <div>
+            <label className="form-label">Shock Scenarios</label>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))', gap: 6 }}>
+              {SYNTHETIC_EVENTS.map((evt) => {
+                const isSelected = selectedEvent === evt.id;
+                return (
+                  <button
+                    key={evt.id}
+                    type="button"
+                    style={{
+                      padding: '8px 10px',
+                      borderRadius: '4px',
+                      textAlign: 'left',
+                      cursor: 'pointer',
+                      border: isSelected ? '2px solid #0F2942' : '1px solid #CBD5E1',
+                      backgroundColor: isSelected ? '#EFF6FF' : '#FFFFFF',
+                      color: isSelected ? '#0F2942' : '#0F172A'
+                    }}
+                    onClick={() => setSelectedEvent(evt.id)}
+                  >
+                    <div style={{ fontSize: '0.78rem', fontWeight: 700 }}>{evt.name}</div>
+                    <div style={{ fontSize: '0.68rem', color: '#64748B', marginTop: 1 }}>{evt.desc}</div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ─── Live State KPI Cards ─────────────────────────────────────────── */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 14 }}>
+        <MetricCard
+          title="Current Cycle"
+          value={latestTelemetry?.step !== undefined ? `Step #${latestTelemetry.step}` : 'Step #0'}
+          subtitle={latestTelemetry?.timestamp || '2026-10-31 06:00:00'}
+          icon={Activity}
+          accentColor="#0F2942"
+        />
+
+        <MetricCard
+          title="Inflow Rate"
+          value={`${latestTelemetry?.flow_rate_L_min || 14.5} L/min`}
+          subtitle={`Source: ${latestTelemetry?.greywater_source || 'Bathroom'}`}
+          icon={Gauge}
+          accentColor="#1D4ED8"
+        />
+
+        <MetricCard
+          title="Storage Balance"
+          value={`${latestTelemetry?.tank_level_L || 250.0} L`}
+          subtitle={`Capacity: ${latestTelemetry?.tank_capacity_L || 1000} L`}
+          icon={Layers}
+          accentColor="#4338CA"
+        />
+
+        <MetricCard
+          title="Sensor Status"
+          value={latestTelemetry?.sensor_status || 'OK'}
+          subtitle={`Profile: ${latestTelemetry?.event_name || 'normal'}`}
+          icon={Zap}
+          accentColor={latestTelemetry?.sensor_status === 'OK' ? '#15803D' : '#B91C1C'}
+          badge={<StatusBadge label={latestTelemetry?.sensor_status || 'OK'} />}
+        />
+      </div>
+
+      {/* ─── Simulation Charts ────────────────────────────────────────────── */}
+      <div className="card" style={{ padding: '20px', backgroundColor: '#FFFFFF', border: '1px solid #CBD5E1' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+          <div>
+            <h3 style={{ fontSize: '1rem', fontWeight: 800, color: '#0F2942', margin: 0 }}>
+              Dynamic Fluid Mass Balance & Inflow Rate Trajectory
+            </h3>
+            <p style={{ fontSize: '0.78rem', color: '#64748B', marginTop: 2 }}>
+              Numerical integration of tank storage: V(t) = V(t-1) + (Q_in - Q_out) * dt.
+            </p>
+          </div>
+          <StatusBadge label="MASS BALANCE" />
+        </div>
+
+        <div style={{ width: '100%', height: 260, backgroundColor: '#FFFFFF' }}>
+          <ResponsiveContainer width="100%" height="100%">
+            <AreaChart data={telemetryTrends} margin={{ top: 10, right: 20, left: -10, bottom: 5 }}>
+              <defs>
+                <linearGradient id="tankGradSimple" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor={ct.colorPurple} stopOpacity={0.2} />
+                  <stop offset="95%" stopColor={ct.colorPurple} stopOpacity={0.02} />
+                </linearGradient>
+                <linearGradient id="flowGradSimple" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor={ct.colorPrimary} stopOpacity={0.2} />
+                  <stop offset="95%" stopColor={ct.colorPrimary} stopOpacity={0.02} />
+                </linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" stroke={ct.gridStroke} vertical={false} />
+              <XAxis dataKey="timestamp" stroke={ct.axisStroke} tickFormatter={(t) => (t ? t.split(' ')[1] || t.slice(11, 16) : '')} tick={{ fontSize: 11, fill: ct.tickFill }} />
+              <YAxis stroke={ct.axisStroke} tick={{ fontSize: 11, fill: ct.tickFill }} />
+              <Tooltip contentStyle={{ backgroundColor: '#FFFFFF', border: '1px solid #CBD5E1', borderRadius: 4, fontSize: 12 }} />
+              <Legend wrapperStyle={{ fontSize: 12, paddingTop: 4 }} />
+              <Area type="monotone" dataKey="tank_level_L" stroke={ct.colorPurple} strokeWidth={2} fillOpacity={1} fill="url(#tankGradSimple)" name="Tank Volume (L)" />
+              <Area type="monotone" dataKey="flow_rate_L_min" stroke={ct.colorPrimary} strokeWidth={2} fillOpacity={1} fill="url(#flowGradSimple)" name="Inflow Rate (L/min)" />
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+
+      {/* ─── Real-Time Telemetry Grid ─────────────────────────────────────── */}
+      <div className="card" style={{ padding: '20px', backgroundColor: '#FFFFFF', border: '1px solid #CBD5E1' }}>
+        <h3 style={{ fontSize: '1rem', fontWeight: 800, color: '#0F2942', marginBottom: 12 }}>
+          Official Real-Time Sampling Grid
+        </h3>
+
+        <div className="gov-table-container">
+          <table className="gov-table">
+            <thead>
+              <tr>
+                <th>Step</th>
+                <th>Time (IST)</th>
+                <th>Source</th>
+                <th>pH</th>
+                <th>Turbidity</th>
+                <th>COD (mg/L)</th>
+                <th>Flow</th>
+                <th>Tank (L)</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {telemetryTrends && telemetryTrends.length > 0 ? (
+                telemetryTrends.slice(-8).reverse().map((t, idx) => (
+                  <tr key={idx}>
+                    <td style={{ fontFamily: 'var(--font-mono)', fontWeight: 600, color: '#64748B' }}>
+                      #{t.step !== undefined ? t.step : idx + 1}
+                    </td>
+                    <td style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)', color: '#475569' }}>
+                      {t.timestamp || '--'}
+                    </td>
+                    <td style={{ fontWeight: 700, color: '#0F172A' }}>
+                      {t.greywater_source || 'Bathroom'}
+                    </td>
+                    <td style={{ fontFamily: 'var(--font-mono)' }}>{t.pH ? t.pH.toFixed(2) : '7.40'}</td>
+                    <td style={{ fontFamily: 'var(--font-mono)' }}>{t.TUR_NTU ? t.TUR_NTU.toFixed(1) : '28.5'}</td>
+                    <td style={{ fontFamily: 'var(--font-mono)', fontWeight: 600, color: (t.COD_mg_L || 0) > 250 ? '#B91C1C' : '#0F172A' }}>
+                      {t.COD_mg_L ? t.COD_mg_L.toFixed(1) : '82.0'}
+                    </td>
+                    <td style={{ fontFamily: 'var(--font-mono)' }}>{t.flow_rate_L_min ? t.flow_rate_L_min.toFixed(1) : '14.5'}</td>
+                    <td style={{ fontFamily: 'var(--font-mono)' }}>{t.tank_level_L ? t.tank_level_L.toFixed(1) : '250.0'}</td>
+                    <td><StatusBadge label={computeComplianceStatus(t)} /></td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={9} style={{ textAlign: 'center', padding: '16px', color: '#64748B' }}>
+                    No telemetry steps yet. Click "Execute Step" to generate samples.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default LiveMonitoringPage;

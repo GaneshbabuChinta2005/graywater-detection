@@ -1,0 +1,81 @@
+{
+  "system_name": "Intelligent Greywater Storage Tank Monitoring and Decay Subsystem",
+  "phase": "Phase 10 — Storage Monitoring & Deterioration Estimation",
+  "scientific_disclaimer": "The project dataset is cross-sectional and does not contain longitudinal storage experiments. Kinetic parameters are unvalidated operational simulation configurations.",
+  "tank_specifications": {
+    "default_tank_id": "TANK_PRIMARY_01",
+    "capacity_liters": 1000.0,
+    "initial_level_liters": 200.0,
+    "minimum_level_liters": 0.0,
+    "tracking_mode": "batch_fifo",
+    "max_batch_history": 100
+  },
+  "temperature_reference": {
+    "reference_temperature_C": 20.0,
+    "reference_temperature_K": 293.15,
+    "gas_constant_R_J_mol_K": 8.314,
+    "allowed_sources": [
+      "DIGITAL_TWIN",
+      "WEATHER",
+      "USER_CONFIGURED",
+      "SIMULATION_DEFAULT",
+      "UNAVAILABLE"
+    ]
+  },
+  "decay_kinetics": {
+    "BOD_mg_L": {
+      "model_category": "SUPPORTED_KINETIC_MODEL",
+      "parameter_status": "UNVALIDATED",
+      "k_ref_per_hour": 0.025,
+      "activation_energy_J_mol": 45000.0,
+      "theta_temp_coeff": 1.047
+    },
+    "COD_mg_L": {
+      "model_category": "SUPPORTED_KINETIC_MODEL",
+      "parameter_status": "UNVALIDATED",
+      "k_ref_per_hour": 0.012,
+      "activation_energy_J_mol": 35000.0,
+      "theta_temp_coeff": 1.035
+    },
+    "DO_mg_L": {
+      "model_category": "RELATIVE_RISK_PROXY",
+      "parameter_status": "UNVALIDATED",
+      "depletion_rate_per_hour": 0.08
+    },
+    "TUR_NTU": {
+      "model_category": "RELATIVE_RISK_PROXY",
+      "parameter_status": "UNVALIDATED",
+      "settling_rate_per_hour": 0.015
+    },
+    "E_coli_CFU_100mL": {
+      "model_category": "NOT_MODELED",
+      "parameter_status": "UNVALIDATED",
+      "microbial_risk_status": "NOT_EMPIRICALLY_VALIDATED"
+    }
+  },
+  "deterioration_index": {
+    "bands": {
+      "LOW_DETERIORATION": [0.0, 0.25],
+      "MODERATE_DETERIORATION": [0.25, 0.50],
+      "HIGH_DETERIORATION": [0.50, 0.75],
+      "CRITICAL_REVIEW": [0.75, 1.00]
+    },
+    "factor_weights": {
+      "storage_age_factor": 0.35,
+      "temperature_factor": 0.20,
+      "organic_decay_factor": 0.20,
+      "oxygen_depletion_factor": 0.15,
+      "stagnation_factor": 0.10
+    }
+  },
+  "stagnation_thresholds": {
+    "max_idle_hours": 12.0,
+    "high_stagnation_hours": 24.0,
+    "low_turnover_ratio": 0.15
+  },
+  "shelf_life_estimation": {
+    "supports_exact_shelf_life": false,
+    "default_shelf_life_status": "NOT_VALIDATED_FOR_EXACT_SHELF_LIFE",
+    "estimated_remaining_time_hours": null
+  }
+}

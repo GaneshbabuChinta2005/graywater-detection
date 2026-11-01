@@ -1,0 +1,42 @@
+component,metric,value,source_phase,notes
+Optimized XGBoost,Accuracy,0.9778,Phase 6,Evaluated on independent holdout test set (n=225)
+Optimized XGBoost,Macro Precision,0.7329,Phase 6,Evaluated on independent holdout test set
+Optimized XGBoost,Macro Recall,0.7365,Phase 6,Evaluated on independent holdout test set
+Optimized XGBoost,Macro F1,0.7346,Phase 6,Evaluated on independent holdout test set
+Optimized XGBoost,Weighted F1,0.9756,Phase 6,Evaluated on independent holdout test set
+Optimized XGBoost,Sewer Bypass Recall,0.9701,Phase 6,Class 0 safety detection recall on test set
+Baseline XGBoost,Accuracy,0.9733,Phase 5,Evaluated on independent holdout test set
+Baseline XGBoost,Macro Precision,0.7294,Phase 5,Evaluated on independent holdout test set
+Baseline XGBoost,Macro Recall,0.7342,Phase 5,Evaluated on independent holdout test set
+Baseline XGBoost,Macro F1,0.7317,Phase 5,Evaluated on independent holdout test set
+Baseline XGBoost,Weighted F1,0.9712,Phase 5,Evaluated on independent holdout test set
+Baseline XGBoost,Sewer Bypass Recall,0.9851,Phase 5,Class 0 recall on validation set
+Optimized Random Forest,Accuracy,0.9600,Phase 6,Evaluated on independent holdout test set
+Optimized Random Forest,Macro Precision,0.7200,Phase 6,Evaluated on independent holdout test set
+Optimized Random Forest,Macro Recall,0.7259,Phase 6,Evaluated on independent holdout test set
+Optimized Random Forest,Macro F1,0.7228,Phase 6,Evaluated on independent holdout test set
+Optimized Random Forest,Weighted F1,0.9580,Phase 6,Evaluated on independent holdout test set
+Optimized Random Forest,Sewer Bypass Recall,0.9701,Phase 6,Class 0 recall on test set
+Baseline Random Forest,Accuracy,0.9511,Phase 5,Evaluated on independent holdout test set
+Baseline Random Forest,Macro Precision,0.7111,Phase 5,Evaluated on independent holdout test set
+Baseline Random Forest,Macro Recall,0.7226,Phase 5,Evaluated on independent holdout test set
+Baseline Random Forest,Macro F1,0.7162,Phase 5,Evaluated on independent holdout test set
+Baseline Random Forest,Weighted F1,0.9491,Phase 5,Evaluated on independent holdout test set
+Baseline Random Forest,Sewer Bypass Recall,0.9851,Phase 5,Class 0 recall on validation set
+Isolation Forest,Contamination Rate,0.05,Phase 7,Configured training contamination parameter
+Isolation Forest,Normal Data Anomaly Rate,0.0490,Phase 7,Observed false alarm rate on nominal reference samples
+Isolation Forest,Synthetic Contamination Sensitivity,1.0000,Phase 7,Detection rate on acute contamination spikes
+Dataset,Total Rows,1500,Phase 2,Original records preserved in dataset/main.csv
+Dataset,Total Columns,18,Phase 2,Original schema preserved without modification
+Dataset,SHA-256 Hash,091b288d98aa9e5952d9a0d3a49580c7f9a5654176409141c76ae40346ae6b0f,Phase 14,Integrity checksum verified before and after Phase 14
+Digital Twin,Simulation Timestep,15 min,Phase 8,Telemetry resolution for physics-constrained simulator
+Digital Twin,Diurnal Profiles,4,Phase 8,Bathroom, Laundry, Kitchen, and Mixed diurnal variations
+Weather Context,Cache TTL,1800 s,Phase 9,In-memory caching interval for Open-Meteo REST calls
+Weather Context,Precipitation Cutoff,5.0 mm,Phase 9,Rainfall threshold triggering irrigation deferral
+Storage Monitor,Tank Nominal Capacity,1000.0 L,Phase 10,Physical storage tank volume
+Storage Monitor,Critical Deterioration Index,0.70,Phase 10,Biochemical decay threshold triggering operational review
+Smart Routing Engine,Arbitration Tiers,6,Phase 11,Strict deterministic hierarchical decision levels
+Smart Routing Engine,Safety Override Precedence,100%,Phase 11,Critical hazards supersede ML predictions in all test cases
+SHAP Explainer,Feature Alignment Dimension,19,Phase 12,TreeExplainer input dimensionality matching XGBoost
+System Integration,Unit Test Suite Count,132,Phase 14,Total automated tests across all test suites
+System Integration,Test Pass Rate,100%,Phase 14,132 of 132 automated tests passing

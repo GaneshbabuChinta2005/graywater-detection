@@ -1,0 +1,5 @@
+routing_class,routing_destination,total_samples,normal_samples,anomaly_samples,anomaly_rate_pct
+0,Sewer Bypass,134,127,7,5.22
+1,Bio-filtration,217,217,0,0.0
+2,Restricted Irrigation,97,97,0,0.0
+3,Indoor Reuse,2,2,0,0.0

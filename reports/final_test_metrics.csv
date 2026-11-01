@@ -1,0 +1,2 @@
+model,accuracy,macro_precision,macro_recall,macro_f1,weighted_precision,weighted_recall,weighted_f1,sewer_bypass_precision,sewer_bypass_recall,sewer_bypass_f1,sewer_bypass_false_negatives
+Optimized XGBoost (Test),0.9778,0.7342,0.735,0.7346,0.9735,0.9778,0.9756,0.9848,0.9701,0.9774,2

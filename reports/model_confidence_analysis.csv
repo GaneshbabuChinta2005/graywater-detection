@@ -1,0 +1,5 @@
+model,split,total_samples,mean_confidence,median_confidence,min_confidence,low_confidence_samples_count,low_confidence_pct,accuracy_on_low_confidence
+XGBoost,Validation,225,0.9676,0.9953,0.5392,7,3.11,0.5714
+Random Forest,Validation,225,0.851,0.8967,0.5167,31,13.78,0.7419
+XGBoost,Test,225,0.9775,0.9943,0.6796,1,0.44,0.0
+Random Forest,Test,225,0.8509,0.9,0.5033,32,14.22,0.8125

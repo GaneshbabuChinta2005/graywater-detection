@@ -1,0 +1,4 @@
+Threshold_Scenario,Sewer_Bypass_Count,Sewer_Bypass_Pct,Bio_Filtration_Count,Bio_Filtration_Pct,Restricted_Irrigation_Count,Restricted_Irrigation_Pct,Indoor_Reuse_Count,Indoor_Reuse_Pct
+Stringent (Narrow Safety Margins),613,40.9,649,43.3,238,15.9,0,0.0
+Baseline (Standard Scientific Limits),446,29.7,722,48.1,326,21.7,6,0.4
+Lenient (Expanded Reuse Envelope),301,20.1,809,53.9,374,24.9,16,1.1

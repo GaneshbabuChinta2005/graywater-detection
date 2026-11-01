@@ -1,0 +1,24 @@
+column,role,used_for_training,reason,leakage_risk
+Sample_ID,Identifier,No,Arbitrary sequential integer key; provides zero physical predictive signal and causes spurious memorization,High (Identity Memorization)
+Greywater_Source,Categorical Predictor,Yes (One-Hot Encoded),"Physical effluent origin (Bathroom, Kitchen, Laundry, Mixed) governing chemical/organic composition",None (Valid Baseline Predictor)
+pH,Numerical Predictor,Yes (Raw Units),Primary chemical indicator of acidity/alkalinity,None (Sensor Telemetry)
+TEMP_C,Numerical Predictor,Yes (Raw Units),Physical temperature influencing gas solubility and kinetic reaction rates,None (Sensor Telemetry)
+SAL_ppt,Numerical Predictor,Yes (Raw Units),Salinity concentration impacting osmotic potential,None (Sensor Telemetry)
+TUR_NTU,Numerical Predictor,Yes (Raw Units),Optical turbidity measuring suspended particulate scatter,None (Sensor Telemetry)
+DS_mg_L,Numerical Predictor,Yes (Raw Units),Dissolved solids concentration; retained for baseline tree models,None (Sensor Telemetry)
+TDS_mg_L,Numerical Predictor,Yes (Raw Units),Total dissolved solids; critical for salinity and irrigation compliance,None (Sensor Telemetry)
+TSS_mg_L,Numerical Predictor,Yes (Raw Units),Total suspended particulate mass; governs clogging and settling,None (Sensor Telemetry)
+COND_uS_cm,Numerical Predictor,Yes (Raw Units),Electrical conductivity tracking ionic mobility and dissolved minerals,None (Sensor Telemetry)
+DO_mg_L,Numerical Predictor,Yes (Raw Units),Dissolved oxygen indicating aerobic freshness vs septic decay,None (Sensor Telemetry)
+BOD_mg_L,Numerical Predictor,Yes (Raw Units),Biochemical oxygen demand quantifying biodegradable organic loading,None (Sensor Telemetry)
+COD_mg_L,Numerical Predictor,Yes (Raw Units),Chemical oxygen demand quantifying total oxidizable carbon,None (Sensor Telemetry)
+NH4F_mg_L,Numerical Predictor,Yes (Raw Units),Ammonium/fluoride compound indicator,None (Sensor Telemetry)
+NO3_mg_L,Numerical Predictor,Yes (Raw Units),Nitrate concentration (agronomic nutrient),None (Sensor Telemetry)
+K_mg_L,Numerical Predictor,Yes (Raw Units),Potassium concentration (agronomic nutrient),None (Sensor Telemetry)
+E_coli_CFU_100mL,Numerical Predictor,Yes (Raw Units),Biological pathogen count defining microbiological infection hazard,None (Sensor Telemetry)
+Routing_Class,Target Label,Target (y),"Ground-truth multi-tier routing integer label (0, 1, 2, 3)",Target Variable (Must be isolated in y)
+Routing_Class_Name,Post-Decision Metadata,No,Human-readable target string; redundant with Routing_Class,Direct Target Leakage
+Primary_Routing_Reason,Post-Decision Metadata,No,Generated text explaining why the routing decision was assigned,Direct Decision Leakage
+Triggered_Parameters,Post-Decision Metadata,No,List of specific rule conditions triggered during classification,Direct Decision Leakage
+Treatment_Required,Post-Decision Metadata,No,Treatment mandate string derived directly from the decision,Direct Decision Leakage
+Safety_Flag,Post-Decision Metadata,No,Safety indicator flag derived directly from the decision,Direct Decision Leakage

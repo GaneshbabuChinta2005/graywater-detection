@@ -1,0 +1,226 @@
+Sample_ID,actual_Routing_Class,actual_Routing_Class_Name,anomaly_prediction,is_anomaly,anomaly_score
+355,0,Sewer Bypass,1,False,0.0974
+1405,2,Restricted Irrigation,1,False,0.09
+262,1,Bio-filtration,1,False,0.1199
+1124,2,Restricted Irrigation,1,False,0.1149
+353,1,Bio-filtration,1,False,0.1022
+1185,2,Restricted Irrigation,1,False,0.127
+636,2,Restricted Irrigation,1,False,0.0875
+298,1,Bio-filtration,1,False,0.117
+1435,2,Restricted Irrigation,1,False,0.1209
+1019,2,Restricted Irrigation,1,False,0.0735
+673,1,Bio-filtration,1,False,0.0975
+890,0,Sewer Bypass,1,False,0.045
+419,2,Restricted Irrigation,1,False,0.123
+1265,0,Sewer Bypass,1,False,0.1122
+35,0,Sewer Bypass,1,False,0.1004
+699,0,Sewer Bypass,1,False,0.0411
+874,0,Sewer Bypass,1,False,0.0796
+284,2,Restricted Irrigation,1,False,0.1244
+1170,1,Bio-filtration,1,False,0.0709
+68,1,Bio-filtration,1,False,0.1032
+706,1,Bio-filtration,1,False,0.0942
+1340,0,Sewer Bypass,1,False,0.0579
+1295,1,Bio-filtration,1,False,0.0978
+1049,1,Bio-filtration,1,False,0.1212
+408,1,Bio-filtration,1,False,0.1242
+544,1,Bio-filtration,1,False,0.1074
+392,2,Restricted Irrigation,1,False,0.0884
+41,1,Bio-filtration,1,False,0.1007
+963,2,Restricted Irrigation,1,False,0.132
+871,1,Bio-filtration,1,False,0.0719
+351,1,Bio-filtration,1,False,0.0513
+12,1,Bio-filtration,1,False,0.0925
+1079,0,Sewer Bypass,1,False,0.0408
+1156,2,Restricted Irrigation,1,False,0.151
+213,2,Restricted Irrigation,1,False,0.1494
+1478,1,Bio-filtration,1,False,0.1154
+163,2,Restricted Irrigation,1,False,0.0594
+975,1,Bio-filtration,1,False,0.0652
+832,1,Bio-filtration,1,False,0.1096
+390,1,Bio-filtration,1,False,0.1421
+340,1,Bio-filtration,1,False,0.0805
+723,2,Restricted Irrigation,1,False,0.1173
+1103,1,Bio-filtration,1,False,0.1204
+485,2,Restricted Irrigation,1,False,0.1129
+46,1,Bio-filtration,1,False,0.1241
+72,1,Bio-filtration,1,False,0.1109
+360,1,Bio-filtration,1,False,0.0399
+559,0,Sewer Bypass,1,False,0.1291
+343,1,Bio-filtration,1,False,0.1285
+885,1,Bio-filtration,1,False,0.1089
+50,2,Restricted Irrigation,1,False,0.1427
+1090,1,Bio-filtration,1,False,0.1137
+1132,1,Bio-filtration,1,False,0.1075
+430,1,Bio-filtration,1,False,0.099
+1012,1,Bio-filtration,1,False,0.0905
+1207,0,Sewer Bypass,1,False,0.062
+560,0,Sewer Bypass,1,False,0.1149
+965,1,Bio-filtration,1,False,0.0538
+927,2,Restricted Irrigation,1,False,0.1213
+416,2,Restricted Irrigation,1,False,0.1419
+984,0,Sewer Bypass,1,False,0.0651
+1273,1,Bio-filtration,1,False,0.0987
+464,0,Sewer Bypass,1,False,0.1104
+102,0,Sewer Bypass,1,False,0.0373
+1077,1,Bio-filtration,1,False,0.0944
+300,0,Sewer Bypass,1,False,0.0288
+1163,1,Bio-filtration,1,False,0.0908
+770,0,Sewer Bypass,1,False,0.0639
+159,0,Sewer Bypass,1,False,0.0533
+3,1,Bio-filtration,1,False,0.1284
+779,1,Bio-filtration,1,False,0.1206
+1070,1,Bio-filtration,1,False,0.1208
+182,0,Sewer Bypass,1,False,0.0707
+909,1,Bio-filtration,1,False,0.1194
+525,2,Restricted Irrigation,1,False,0.1231
+830,2,Restricted Irrigation,1,False,0.1087
+1078,0,Sewer Bypass,1,False,0.0664
+222,0,Sewer Bypass,1,False,0.0987
+534,0,Sewer Bypass,1,False,0.0268
+478,0,Sewer Bypass,1,False,0.0045
+1128,0,Sewer Bypass,1,False,0.014
+369,1,Bio-filtration,1,False,0.1208
+765,1,Bio-filtration,1,False,0.0755
+139,1,Bio-filtration,1,False,0.1286
+1024,0,Sewer Bypass,1,False,0.1004
+964,2,Restricted Irrigation,1,False,0.1325
+1199,2,Restricted Irrigation,1,False,0.0962
+1446,1,Bio-filtration,1,False,0.0891
+1292,0,Sewer Bypass,1,False,0.0686
+477,1,Bio-filtration,1,False,0.105
+1061,1,Bio-filtration,1,False,0.1001
+761,1,Bio-filtration,1,False,0.0192
+491,1,Bio-filtration,1,False,0.0557
+487,0,Sewer Bypass,1,False,0.0554
+1107,2,Restricted Irrigation,1,False,0.1414
+204,2,Restricted Irrigation,1,False,0.13
+1312,1,Bio-filtration,1,False,0.1088
+1232,0,Sewer Bypass,1,False,0.0523
+862,0,Sewer Bypass,-1,True,-0.0087
+869,1,Bio-filtration,1,False,0.0834
+1005,0,Sewer Bypass,-1,True,-0.0216
+1175,1,Bio-filtration,1,False,0.1317
+1335,1,Bio-filtration,1,False,0.073
+1319,1,Bio-filtration,1,False,0.0699
+377,1,Bio-filtration,1,False,0.1114
+1471,1,Bio-filtration,1,False,0.0963
+1193,1,Bio-filtration,1,False,0.1057
+280,1,Bio-filtration,1,False,0.0729
+479,1,Bio-filtration,1,False,0.0389
+152,1,Bio-filtration,1,False,0.0964
+149,0,Sewer Bypass,1,False,0.0499
+1326,1,Bio-filtration,1,False,0.0993
+381,0,Sewer Bypass,1,False,0.1013
+875,0,Sewer Bypass,1,False,0.0511
+1401,1,Bio-filtration,1,False,0.0898
+337,1,Bio-filtration,1,False,0.1264
+1017,0,Sewer Bypass,1,False,0.0356
+712,0,Sewer Bypass,1,False,0.0841
+728,2,Restricted Irrigation,1,False,0.1072
+48,2,Restricted Irrigation,1,False,0.093
+1270,0,Sewer Bypass,1,False,0.0863
+223,0,Sewer Bypass,1,False,0.0344
+721,1,Bio-filtration,1,False,0.0986
+562,2,Restricted Irrigation,1,False,0.0978
+226,2,Restricted Irrigation,1,False,0.0893
+14,1,Bio-filtration,1,False,0.1237
+365,0,Sewer Bypass,1,False,0.0186
+1131,1,Bio-filtration,1,False,0.1103
+242,0,Sewer Bypass,1,False,0.1055
+847,1,Bio-filtration,1,False,0.0845
+187,0,Sewer Bypass,1,False,0.0604
+527,1,Bio-filtration,1,False,0.0944
+376,2,Restricted Irrigation,1,False,0.1181
+1028,1,Bio-filtration,1,False,0.1238
+291,1,Bio-filtration,1,False,0.1141
+1313,1,Bio-filtration,1,False,0.0716
+1464,0,Sewer Bypass,1,False,0.0912
+686,0,Sewer Bypass,1,False,0.0437
+347,1,Bio-filtration,1,False,0.0807
+947,0,Sewer Bypass,1,False,0.0308
+179,1,Bio-filtration,1,False,0.0936
+977,0,Sewer Bypass,1,False,0.0743
+315,1,Bio-filtration,1,False,0.0773
+227,1,Bio-filtration,1,False,0.0963
+1003,1,Bio-filtration,1,False,0.0921
+717,0,Sewer Bypass,1,False,0.0608
+568,2,Restricted Irrigation,1,False,0.1418
+1377,0,Sewer Bypass,1,False,0.063
+474,1,Bio-filtration,1,False,0.1439
+999,1,Bio-filtration,1,False,0.131
+799,0,Sewer Bypass,-1,True,-0.0044
+840,1,Bio-filtration,1,False,0.0934
+1250,1,Bio-filtration,1,False,0.1243
+1346,0,Sewer Bypass,1,False,0.0259
+1333,1,Bio-filtration,1,False,0.0997
+900,0,Sewer Bypass,1,False,0.1246
+701,1,Bio-filtration,1,False,0.136
+998,2,Restricted Irrigation,1,False,0.146
+851,2,Restricted Irrigation,1,False,0.096
+1101,2,Restricted Irrigation,1,False,0.1389
+1498,0,Sewer Bypass,1,False,0.0253
+1391,1,Bio-filtration,1,False,0.1027
+57,0,Sewer Bypass,1,False,0.0583
+702,0,Sewer Bypass,1,False,0.0534
+746,1,Bio-filtration,1,False,0.1059
+854,1,Bio-filtration,1,False,0.1001
+793,1,Bio-filtration,1,False,0.0733
+407,2,Restricted Irrigation,1,False,0.1463
+1063,2,Restricted Irrigation,1,False,0.1193
+1311,1,Bio-filtration,1,False,0.138
+580,0,Sewer Bypass,1,False,0.0687
+177,0,Sewer Bypass,1,False,0.0824
+1035,0,Sewer Bypass,1,False,0.0672
+1240,2,Restricted Irrigation,1,False,0.1163
+639,1,Bio-filtration,1,False,0.1027
+665,0,Sewer Bypass,1,False,0.078
+1203,1,Bio-filtration,1,False,0.129
+339,1,Bio-filtration,1,False,0.1218
+1197,2,Restricted Irrigation,1,False,0.1413
+1088,1,Bio-filtration,1,False,0.1032
+727,2,Restricted Irrigation,1,False,0.1194
+225,2,Restricted Irrigation,1,False,0.1143
+4,0,Sewer Bypass,-1,True,-0.0219
+666,0,Sewer Bypass,1,False,0.0208
+386,1,Bio-filtration,1,False,0.0619
+1379,0,Sewer Bypass,1,False,0.0222
+1342,1,Bio-filtration,1,False,0.1174
+488,2,Restricted Irrigation,1,False,0.1383
+1221,2,Restricted Irrigation,1,False,0.117
+1188,1,Bio-filtration,1,False,0.1046
+632,0,Sewer Bypass,1,False,0.1062
+856,0,Sewer Bypass,1,False,0.0903
+648,1,Bio-filtration,1,False,0.1095
+783,0,Sewer Bypass,1,False,0.1228
+719,0,Sewer Bypass,1,False,0.0453
+1439,1,Bio-filtration,1,False,0.1125
+1183,2,Restricted Irrigation,1,False,0.11
+1267,2,Restricted Irrigation,1,False,0.111
+1277,2,Restricted Irrigation,1,False,0.1483
+133,1,Bio-filtration,1,False,0.0928
+1380,0,Sewer Bypass,1,False,0.0533
+432,1,Bio-filtration,1,False,0.0912
+1206,2,Restricted Irrigation,1,False,0.0646
+20,0,Sewer Bypass,1,False,0.0424
+1172,0,Sewer Bypass,1,False,0.0154
+1106,1,Bio-filtration,1,False,0.1059
+279,1,Bio-filtration,1,False,0.0635
+1386,1,Bio-filtration,1,False,0.1293
+238,1,Bio-filtration,1,False,0.1198
+311,1,Bio-filtration,1,False,0.097
+112,1,Bio-filtration,1,False,0.1358
+1118,1,Bio-filtration,1,False,0.1422
+269,2,Restricted Irrigation,1,False,0.1036
+253,1,Bio-filtration,1,False,0.057
+769,2,Restricted Irrigation,1,False,0.1402
+1280,1,Bio-filtration,1,False,0.1094
+870,3,Indoor Reuse,1,False,0.1053
+1496,0,Sewer Bypass,1,False,0.0187
+1050,2,Restricted Irrigation,1,False,0.1125
+1378,1,Bio-filtration,1,False,0.1156
+1082,1,Bio-filtration,1,False,0.12
+118,0,Sewer Bypass,-1,True,-0.0365
+945,1,Bio-filtration,1,False,0.088
+767,2,Restricted Irrigation,1,False,0.1398
+287,1,Bio-filtration,1,False,0.1044

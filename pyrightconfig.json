@@ -1,0 +1,23 @@
+{
+    "pythonVersion": "3.14",
+    "pythonPlatform": "Windows",
+    "pythonPath": "C:\\Users\\Lenovo\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe",
+    "extraPaths": [
+        "c:\\Users\\Lenovo\\OneDrive\\Documents\\main project",
+        "C:\\Users\\Lenovo\\AppData\\Roaming\\Python\\Python314\\site-packages",
+        "C:\\Users\\Lenovo\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages"
+    ],
+    "include": [
+        "."
+    ],
+    "exclude": [],
+    "ignore": [],
+    "reportMissingModuleSource": "none",
+    "reportMissingImports": "none",
+    "reportMissingTypeStubs": "none",
+    "reportUnknownMemberType": "none",
+    "reportUnknownVariableType": "none",
+    "reportUnknownArgumentType": "none",
+    "useLibraryCodeForTypes": true,
+    "autoSearchPaths": true
+}
