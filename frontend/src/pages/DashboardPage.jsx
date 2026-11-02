@@ -77,81 +77,7 @@ export const DashboardPage = () => {
         </div>
       </div>
 
-      {/* ─── 2. Citizen Transparency & Resource Saving Ticker ──────────────── */}
-      <div
-        className="card"
-        style={{
-          padding: '16px 20px',
-          backgroundColor: '#FFFFFF',
-          border: '1px solid #CBD5E1',
-          borderLeft: '4px solid #0F2942',
-          borderRadius: '6px'
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12, flexWrap: 'wrap', gap: 8 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <Waves size={18} style={{ color: '#0F2942' }} />
-            <h2 style={{ fontSize: '0.9rem', fontWeight: 800, color: '#0F2942', margin: 0 }}>
-              State Water Conservation Ledger
-            </h2>
-          </div>
-          <span style={{ fontSize: '0.72rem', color: '#15803D', fontWeight: 700, backgroundColor: '#F0FDF4', padding: '2px 8px', borderRadius: '4px', border: '1px solid #BBF7D0' }}>
-            Prototype Water Reuse Estimate
-          </span>
-        </div>
-
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))', gap: 12 }}>
-          {/* Metric 1 */}
-          <div style={{ padding: '12px 14px', backgroundColor: '#F8FAFC', borderRadius: '6px', border: '1px solid #E2E8F0' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
-              <span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#64748B', textTransform: 'uppercase' }}>Water Conserved</span>
-              <Droplet size={14} style={{ color: '#0F2942' }} />
-            </div>
-            <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#0F2942' }}>
-              48.62 <span style={{ fontSize: '0.82rem', color: '#64748B', fontWeight: 600 }}>ML</span>
-            </div>
-            <div style={{ fontSize: '0.7rem', color: '#15803D', fontWeight: 600, marginTop: 2 }}>48,620 kL municipal savings</div>
-          </div>
-
-          {/* Metric 2 */}
-          <div style={{ padding: '12px 14px', backgroundColor: '#F8FAFC', borderRadius: '6px', border: '1px solid #E2E8F0' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
-              <span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#64748B', textTransform: 'uppercase' }}>Pumping Energy Offset</span>
-              <Zap size={14} style={{ color: '#D97706' }} />
-            </div>
-            <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#0F2942' }}>
-              124,850 <span style={{ fontSize: '0.82rem', color: '#64748B', fontWeight: 600 }}>kWh</span>
-            </div>
-            <div style={{ fontSize: '0.7rem', color: '#D97706', fontWeight: 600, marginTop: 2 }}>Avoided grid pumping energy</div>
-          </div>
-
-          {/* Metric 3 */}
-          <div style={{ padding: '12px 14px', backgroundColor: '#F8FAFC', borderRadius: '6px', border: '1px solid #E2E8F0' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
-              <span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#64748B', textTransform: 'uppercase' }}>Active Basin Stations</span>
-              <MapPin size={14} style={{ color: '#15803D' }} />
-            </div>
-            <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#15803D' }}>
-              6 / 6 <span style={{ fontSize: '0.82rem', color: '#15803D', fontWeight: 600 }}>Online</span>
-            </div>
-            <div style={{ fontSize: '0.7rem', color: '#64748B', marginTop: 2 }}>Srikakulam to Tirupati</div>
-          </div>
-
-          {/* Metric 4 */}
-          <div style={{ padding: '12px 14px', backgroundColor: '#F8FAFC', borderRadius: '6px', border: '1px solid #E2E8F0' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
-              <span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#64748B', textTransform: 'uppercase' }}>Water Quality Index</span>
-              <CheckCircle2 size={14} style={{ color: '#1D4ED8' }} />
-            </div>
-            <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#0F2942' }}>
-              88.4 <span style={{ fontSize: '0.82rem', color: '#15803D', fontWeight: 600 }}>/ 100</span>
-            </div>
-            <div style={{ fontSize: '0.7rem', color: '#15803D', fontWeight: 600, marginTop: 2 }}>Class B Non-Potable Compliant</div>
-          </div>
-        </div>
-      </div>
-
-      {/* ─── 3. Regulatory Violation Notice (Alert when active) ────────────── */}
+      {/* ─── 2. Regulatory Violation Notice (Alert when active) ────────────── */}
       {isViolation && (
         <div
           style={{
@@ -189,7 +115,7 @@ export const DashboardPage = () => {
         </div>
       )}
 
-      {/* ─── 4. Top 6 Key Metric Cards ─────────────────────────────────────── */}
+      {/* ─── 3. Top 6 Key Metric Cards ─────────────────────────────────────── */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 14 }}>
         <MetricCard
           title="Current Water Quality"
@@ -246,10 +172,10 @@ export const DashboardPage = () => {
         />
       </div>
 
-      {/* ─── 5. Decision Pipeline Visualizer ─────────────────────────────────── */}
+      {/* ─── 4. Decision Pipeline Visualizer ─────────────────────────────────── */}
       <DecisionPipelineVisualizer analysis={latestAnalysis} />
 
-      {/* ─── 6. Analytics & Explainability ───────────────────────────────────── */}
+      {/* ─── 5. Analytics & Explainability ───────────────────────────────────── */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(440px, 1fr))', gap: 18 }}>
         {/* Telemetry Trend Graph */}
         <div className="card" style={{ padding: '20px', backgroundColor: '#FFFFFF', border: '1px solid #CBD5E1' }}>
@@ -301,7 +227,7 @@ export const DashboardPage = () => {
         />
       </div>
 
-      {/* ─── 7. Auto-Challan Regulatory Modal ───────────────────────────────── */}
+      {/* ─── 6. Auto-Challan Regulatory Modal ───────────────────────────────── */}
       <RegulatoryChallanModal
         isOpen={isChallanModalOpen}
         onClose={() => setIsChallanModalOpen(false)}

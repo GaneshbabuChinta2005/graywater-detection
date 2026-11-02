@@ -4,13 +4,7 @@ import StatusBadge from './StatusBadge';
 
 export const DecisionPipelineVisualizer = ({ analysis }) => {
   if (!analysis) {
-    return (
-      <div className="card" style={{ padding: '24px', textAlign: 'center', backgroundColor: '#FFFFFF', border: '1px solid #CBD5E1' }}>
-        <Activity size={24} style={{ color: '#94A3B8', marginBottom: 6, margin: '0 auto' }} />
-        <div style={{ fontWeight: 700, color: '#0F172A', fontSize: '0.9rem' }}>Awaiting Pipeline Data</div>
-        <p style={{ fontSize: '0.8rem', color: '#64748B', margin: 0 }}>Advance simulation step to trace real-time arbitration stages.</p>
-      </div>
-    );
+    return null; // Hide component when no data available
   }
 
   const {

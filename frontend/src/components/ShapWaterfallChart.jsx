@@ -7,13 +7,7 @@ export const ShapWaterfallChart = ({ shapData, predictedRoute, confidence }) => 
   const ct = useChartTheme();
 
   if (!shapData || !shapData.predicted_class_contributions) {
-    return (
-      <div className="card" style={{ padding: '24px', textAlign: 'center', backgroundColor: '#FFFFFF', border: '1px solid #CBD5E1' }}>
-        <Info size={24} style={{ color: '#94A3B8', marginBottom: 6, margin: '0 auto' }} />
-        <div style={{ fontWeight: 700, color: '#0F172A', fontSize: '0.9rem' }}>No Attribution Data Available</div>
-        <p style={{ fontSize: '0.8rem', color: '#64748B', margin: 0 }}>Step digital twin to compute feature attributions.</p>
-      </div>
-    );
+    return null; // Hide component when no data available
   }
 
   const rawContribs = shapData.predicted_class_contributions || [];
