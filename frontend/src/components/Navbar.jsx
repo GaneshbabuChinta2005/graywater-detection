@@ -108,88 +108,6 @@ export const Navbar = () => {
 
   return (
     <header style={{ position: 'sticky', top: 0, zIndex: 100, backgroundColor: '#FFFFFF', boxShadow: '0 2px 4px rgba(0,0,0,0.06)' }}>
-      {/* ─── TIER 1: Project utility strip ────────────────────────────────── */}
-      <div
-        style={{
-          height: '30px',
-          backgroundColor: '#0F172A',
-          color: '#E2E8F0',
-          borderBottom: '2px solid #D97706',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          padding: '0 24px',
-          fontSize: '0.72rem',
-          userSelect: 'none'
-        }}
-      >
-        {/* Left: Project identity */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <Droplet size={13} style={{ color: '#38BDF8' }} />
-          <span style={{ fontWeight: 700, color: '#F8FAFC' }}>Student Project</span>
-          <span style={{ color: '#475569' }}>|</span>
-          <span style={{ color: '#CBD5E1' }}>Greywater Quality Monitoring</span>
-        </div>
-
-        {/* Right: Date, Time & Accessibility */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-          {/* Clock */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 4, color: '#CBD5E1', fontFamily: 'var(--font-mono)', fontWeight: 600 }}>
-            <Clock size={11} style={{ color: '#D97706' }} />
-            <span>{currentDateTime || 'Synchronizing Clock...'}</span>
-          </div>
-
-          <span style={{ color: '#334155' }}>|</span>
-
-          {/* Text Size Scalar */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-            <span style={{ color: '#94A3B8' }}>Text Size:</span>
-            <div style={{ display: 'flex', gap: 2 }}>
-              {['small', 'normal', 'large'].map((s) => (
-                <button
-                  key={s}
-                  onClick={() => handleTextSizeChange(s)}
-                  style={{
-                    background: textSize === s ? '#1E3A8A' : 'transparent',
-                    color: '#FFFFFF',
-                    border: '1px solid #334155',
-                    borderRadius: '2px',
-                    padding: '0 4px',
-                    fontSize: '0.68rem',
-                    fontWeight: textSize === s ? 700 : 400,
-                    cursor: 'pointer'
-                  }}
-                >
-                  {s === 'small' ? 'A-' : s === 'large' ? 'A+' : 'A'}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <span style={{ color: '#334155' }}>|</span>
-
-          {/* Language */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-            <Globe size={11} style={{ color: '#94A3B8' }} />
-            <select
-              value={selectedLanguage}
-              onChange={(e) => setSelectedLanguage(e.target.value)}
-              style={{
-                background: 'transparent',
-                color: '#FFFFFF',
-                border: 'none',
-                fontSize: '0.72rem',
-                cursor: 'pointer',
-                outline: 'none'
-              }}
-            >
-              <option value="English" style={{ color: '#0F172A', background: '#FFFFFF' }}>English</option>
-              <option value="Hindi" style={{ color: '#0F172A', background: '#FFFFFF' }}>हिन्दी (Hindi)</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
       {/* ─── TIER 2: Project header ───────────────────────────────────────── */}
       <div
         style={{
@@ -222,18 +140,6 @@ export const Navbar = () => {
 
         {/* Right: Project label */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-          <div className="gov-header-info" style={{ textAlign: 'right', display: 'flex', flexDirection: 'column', gap: 2 }}>
-            <span style={{ fontSize: '0.68rem', fontWeight: 700, color: '#64748B', textTransform: 'uppercase' }}>
-              Academic Demonstration
-            </span>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 4, color: '#0F2942', fontWeight: 800, fontSize: '0.84rem' }}>
-              <Droplet size={13} style={{ color: '#0284C7' }} />
-              <span>Prototype Dashboard</span>
-            </div>
-          </div>
-
-          <div style={{ height: 36, width: 1, backgroundColor: '#E2E8F0' }} className="gov-header-divider" />
-
           {/* Mobile Menu Toggle Button */}
           <button
             onClick={() => setMobileMenuOpen(prev => !prev)}
